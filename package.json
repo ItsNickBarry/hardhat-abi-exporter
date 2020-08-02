@@ -1,0 +1,28 @@
+{
+  "name": "buidler-abi-exporter",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Export Solidity contract ABIs on compilation",
+  "keywords": [
+    "buidler",
+    "abi",
+    "solidity",
+    "solc",
+    "smart-contracts",
+    "ethereum",
+    "blockchain",
+    "version-control",
+    "wow",
+    "dapps"
+  ],
+  "repository": "https://github.com/ItsNickBarry/buidler-abi-exporter",
+  "author": "Nick Barry",
+  "main": "index.js",
+  "peerDependencies": {
+    "@nomiclabs/buidler": "^1.4.0"
+  },
+  "devDependencies": {
+    "@nomiclabs/buidler": "^1.4.0",
+    "eslint": "^7.6.0"
+  }
+}
