@@ -27,7 +27,7 @@ Add configuration under the `abiExporter` key:
 
 ```javascript
 abiExporter: {
-  path: './data/abi'
+  path: './data/abi',
   only: ['ERC20'],
   clear: true,
 }
