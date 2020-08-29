@@ -50,6 +50,6 @@ task(TASK_COMPILE, async function (args, bre, runSuper) {
       continue;
     }
 
-    fs.writeFileSync(`${ path }/${ contract }.json`, JSON.stringify(json.abi), { flag: 'w' });
+    fs.writeFileSync(`${ path }/${ contract }.json`, `${ JSON.stringify(json.abi) }\n`, { flag: 'w' });
   }
 });
