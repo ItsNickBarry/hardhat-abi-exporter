@@ -38,3 +38,7 @@ The `path` directory will be created if it does not exist.
 The `clear` option is set to `false` by default because it represents a destructive action, but should be set to `true` in most cases.
 
 ABIs files are saved in the format `[CONTRACT_NAME].json`.
+
+### TypeScript Support
+
+For TypeScript compatibility, add `'node_modules/buidler-abi-exporter/type-extensions.d.ts'` to the `files` array in `tsconfig.json`.
