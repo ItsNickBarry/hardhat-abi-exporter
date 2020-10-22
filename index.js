@@ -32,7 +32,9 @@ task(TASK_COMPILE, async function (args, bre, runSuper) {
     }
   }
 
-  let artifacts = fs.readdirSync(bre.config.paths.artifacts).filter(a => a.endsWith('.json')).map(a => a.replace('.json', ''));
+  let directories = fs.readdirSync(`${ bre.config.paths.artifacts }/contracts`).filter(a => a.endsWith('.sol'));
+
+  let artifacts = directories.map(a => a.replace('.sol', ''));
 
   let contracts = new Set(config.only.length ? config.only : artifacts);
 
@@ -44,7 +46,7 @@ task(TASK_COMPILE, async function (args, bre, runSuper) {
     let json;
 
     try {
-      json = JSON.parse(fs.readFileSync(`${ bre.config.paths.artifacts }/${ contract }.json`, 'utf8'));
+      json = JSON.parse(fs.readFileSync(`${ bre.config.paths.artifacts }/contracts/${ contract }.sol/${ contract }.json`, 'utf8'));
     } catch (e) {
       console.log(`Artifact not found for contract: ${ contract }`);
       continue;
