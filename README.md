@@ -15,7 +15,7 @@ yarn add --dev hardhat-abi-exporter
 Load plugin in Hardhat config:
 
 ```javascript
-usePlugin('hardhat-abi-exporter');
+require('hardhat-abi-exporter');
 ```
 
 Add configuration under the `abiExporter` key:
