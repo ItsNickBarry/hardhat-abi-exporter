@@ -1,6 +1,6 @@
 const {
   TASK_COMPILE,
-} = require('@nomiclabs/buidler/builtin-tasks/task-names');
+} = require('hardhat/builtin-tasks/task-names');
 
 const fs = require('fs');
 

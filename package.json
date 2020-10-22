@@ -1,9 +1,10 @@
 {
-  "name": "buidler-abi-exporter",
-  "version": "1.0.1",
+  "name": "hardhat-abi-exporter",
+  "version": "2.0.0",
   "license": "MIT",
   "description": "Export Solidity contract ABIs on compilation",
   "keywords": [
+    "hardhat",
     "buidler",
     "abi",
     "solidity",
@@ -15,14 +16,14 @@
     "wow",
     "dapps"
   ],
-  "repository": "https://github.com/ItsNickBarry/buidler-abi-exporter",
+  "repository": "https://github.com/ItsNickBarry/hardhat-abi-exporter",
   "author": "Nick Barry",
   "main": "index.js",
   "peerDependencies": {
-    "@nomiclabs/buidler": "^1.4.0"
+    "hardhat": "^2.0.0"
   },
   "devDependencies": {
-    "@nomiclabs/buidler": "^1.4.0",
-    "eslint": "^7.6.0"
+    "eslint": "^7.6.0",
+    "hardhat": "^2.0.0"
   }
 }
