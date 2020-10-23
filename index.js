@@ -7,10 +7,10 @@ const {
 
 const CONFIG = {
   path: './abi',
+  clear: false,
   flat: false,
   only: [],
   except: [],
-  clear: false,
 };
 
 task(TASK_COMPILE, async function (args, hre, runSuper) {

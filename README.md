@@ -23,17 +23,17 @@ Add configuration under the `abiExporter` key:
 | option | description | default |
 |-|-|-|
 | `path` | path to ABI export directory (relative to Hardhat root) | `'./abi'`
+| `clear` | whether to delete old files in `path` on  | `false` |
 | `flat` | whether to flatten output directory (may cause name collisions) | `false` |
 | `only` | `Array` of contracts to include (case sensitive), defaults to all contracts if `length` is 0 | `[]` |
 | `except` | `Array` of contracts to exclude (case sensitive) | `[]` |
-| `clear` | whether to delete old files in `path` on  | `false` |
 
 ```javascript
 abiExporter: {
   path: './data/abi',
+  clear: true,
   flat: true,
   only: ['ERC20'],
-  clear: true,
 }
 ```
 
