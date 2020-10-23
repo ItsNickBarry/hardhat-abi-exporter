@@ -1,6 +1,6 @@
 {
   "name": "hardhat-abi-exporter",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "MIT",
   "description": "Export Solidity contract ABIs on compilation",
   "keywords": [

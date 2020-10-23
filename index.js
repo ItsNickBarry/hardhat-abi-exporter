@@ -1,57 +1,68 @@
+const fs = require('fs');
+const path = require('path');
+
 const {
   TASK_COMPILE,
 } = require('hardhat/builtin-tasks/task-names');
 
-const fs = require('fs');
-
 const CONFIG = {
   path: './abi',
+  flat: false,
   only: [],
   except: [],
   clear: false,
 };
 
-task(TASK_COMPILE, async function (args, bre, runSuper) {
-  let config = Object.assign({}, CONFIG, bre.config.abiExporter);
+task(TASK_COMPILE, async function (args, hre, runSuper) {
+  let config = Object.assign({}, CONFIG, hre.config.abiExporter);
 
   await runSuper();
 
-  let path = `${ bre.config.paths.root }/${ config.path }`;
-
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path, { recursive: true });
-  }
+  let outputDirectory = `${ hre.config.paths.root }/${ config.path }`;
 
   if (config.clear) {
-    let files = fs.readdirSync(path);
-
-    for (let file of files) {
-      if (file.endsWith('.json')) {
-        fs.unlinkSync(`${ path }/${ file }`);
-      }
-    }
+    fs.rmdirSync(outputDirectory, { recursive: true });
   }
 
-  let directories = fs.readdirSync(`${ bre.config.paths.artifacts }/contracts`).filter(a => a.endsWith('.sol'));
-
-  let artifacts = directories.map(a => a.replace('.sol', ''));
-
-  let contracts = new Set(config.only.length ? config.only : artifacts);
-
-  for (let contract of config.except) {
-    contracts.delete(contract);
+  if (!fs.existsSync(outputDirectory)) {
+    fs.mkdirSync(outputDirectory, { recursive: true });
   }
 
-  for (let contract of contracts) {
-    let json;
+  let artifactPaths = await hre.artifacts.getArtifactPaths();
 
+  let nameOf = artifactPath => path.basename(artifactPath).replace('.json', '');
+
+  if (config.only.length) {
+    let only = new Set(config.only);
+    artifactPaths = artifactPaths.filter(artifactPath => only.has(nameOf(artifactPath)));
+  }
+
+  if (config.except.length) {
+    let except = new Set(config.except);
+    artifactPaths = artifactPaths.filter(artifactPath => !except.has(nameOf(artifactPath)));
+  }
+
+  for (let artifactPath of artifactPaths) {
     try {
-      json = JSON.parse(fs.readFileSync(`${ bre.config.paths.artifacts }/contracts/${ contract }.sol/${ contract }.json`, 'utf8'));
-    } catch (e) {
-      console.log(`Artifact not found for contract: ${ contract }`);
-      continue;
-    }
+      let { abi } = JSON.parse(fs.readFileSync(artifactPath, 'utf8'));
 
-    fs.writeFileSync(`${ path }/${ contract }.json`, `${ JSON.stringify(json.abi) }\n`, { flag: 'w' });
+      let destination;
+
+      if (config.flat) {
+        destination = `${ nameOf(artifactPath) }.json`;
+      } else {
+        destination = `${ artifactPath.replace(hre.config.paths.artifacts, '') }`;
+      }
+
+      destination = path.resolve(`${ outputDirectory }/${ destination }`);
+
+      if (!fs.existsSync(path.dirname(destination))) {
+        fs.mkdirSync(path.dirname(destination), { recursive: true });
+      }
+
+      fs.writeFileSync(destination, `${ JSON.stringify(abi) }\n`, { flag: 'w' });
+    } catch (e) {
+      console.log(`Artifact not found for contract: ${ nameOf(artifactPath) }`);
+    }
   }
 });
