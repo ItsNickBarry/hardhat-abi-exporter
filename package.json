@@ -1,6 +1,6 @@
 {
   "name": "hardhat-abi-exporter",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "license": "MIT",
   "description": "Export Solidity contract ABIs on compilation",
   "keywords": [
@@ -19,6 +19,7 @@
   "repository": "https://github.com/ItsNickBarry/hardhat-abi-exporter",
   "author": "Nick Barry",
   "main": "index.js",
+  "types": "index.d.ts",
   "peerDependencies": {
     "hardhat": "^2.0.0"
   },

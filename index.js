@@ -1,20 +1,27 @@
 const fs = require('fs');
 const path = require('path');
+const { extendConfig } = require('hardhat/config');
 
 const {
   TASK_COMPILE,
 } = require('hardhat/builtin-tasks/task-names');
 
-const CONFIG = {
-  path: './abi',
-  clear: false,
-  flat: false,
-  only: [],
-  except: [],
-};
+extendConfig(function (config, userConfig) {
+  config.abiExporter = Object.assign(
+    {
+      path: './abi',
+      clear: false,
+      flat: false,
+      only: [],
+      except: [],
+    },
+    userConfig.abiExporter
+  );
+});
+
 
 task(TASK_COMPILE, async function (args, hre, runSuper) {
-  let config = Object.assign({}, CONFIG, hre.config.abiExporter);
+  let config = hre.config.abiExporter;
 
   await runSuper();
 
