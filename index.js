@@ -67,7 +67,7 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
         fs.mkdirSync(path.dirname(destination), { recursive: true });
       }
 
-      fs.writeFileSync(destination, `${ JSON.stringify(abi) }\n`, { flag: 'w' });
+      fs.writeFileSync(destination, `${ JSON.stringify(abi, null, 2) }\n`, { flag: 'w' });
     } catch (e) {
       console.log(`Artifact not found for contract: ${ nameOf(artifactPath) }`);
     }
