@@ -53,6 +53,8 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     try {
       let { abi } = JSON.parse(fs.readFileSync(artifactPath, 'utf8'));
 
+      if (!abi.length) continue;
+
       let destination;
 
       if (config.flat) {
