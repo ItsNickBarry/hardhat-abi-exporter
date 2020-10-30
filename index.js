@@ -19,13 +19,20 @@ extendConfig(function (config, userConfig) {
   );
 });
 
-
 task(TASK_COMPILE, async function (args, hre, runSuper) {
   let config = hre.config.abiExporter;
 
   await runSuper();
 
-  let outputDirectory = `${ hre.config.paths.root }/${ config.path }`;
+  let outputDirectory = path.resolve(hre.config.paths.root, config.path);
+
+  if (!outputDirectory.startsWith(hre.config.paths.root)) {
+    throw 'hardhat-abi-exporter: resolved path must be inside of project directory';
+  }
+
+  if(outputDirectory === hre.config.paths.root) {
+    throw 'hardhat-abi-exporter: resolved path must not be root directory';
+  }
 
   if (config.clear) {
     fs.rmdirSync(outputDirectory, { recursive: true });
