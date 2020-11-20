@@ -51,13 +51,13 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     let nameOf = artifactPath => path.basename(artifactPath).replace('.json', '');
 
     if (config.only.length) {
-        let only = new Set(config.only);
-        artifactPaths = artifactPaths.filter(artifactPath => only.has(nameOf(artifactPath)));
+      let only = new Set(config.only);
+      artifactPaths = artifactPaths.filter(artifactPath => only.has(nameOf(artifactPath)));
     }
 
     if (config.except.length) {
-        let except = new Set(config.except);
-        artifactPaths = artifactPaths.filter(artifactPath => !except.has(nameOf(artifactPath)));
+      let except = new Set(config.except);
+      artifactPaths = artifactPaths.filter(artifactPath => !except.has(nameOf(artifactPath)));
     }
 
     for (let artifactPath of artifactPaths) {
