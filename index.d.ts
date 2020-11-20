@@ -7,6 +7,7 @@ declare module 'hardhat/types/config' {
       clear?: boolean,
       flat?: boolean,
       only?: string[],
+      allowExternalDir?: boolean,
       except?: string[],
     }
   }
@@ -15,6 +16,7 @@ declare module 'hardhat/types/config' {
     abiExporter: {
       path: string,
       clear: boolean,
+      allowExternalDir: boolean,
       flat: boolean,
       only: string[],
       except: string[],

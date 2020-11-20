@@ -12,6 +12,7 @@ extendConfig(function (config, userConfig) {
       path: './abi',
       clear: false,
       flat: false,
+      allowExternalDir: false,
       only: [],
       except: [],
     },
@@ -20,65 +21,70 @@ extendConfig(function (config, userConfig) {
 });
 
 task(TASK_COMPILE, async function (args, hre, runSuper) {
-  let config = hre.config.abiExporter;
+    let config = hre.config.abiExporter;
 
-  await runSuper();
+    await runSuper();
 
-  let outputDirectory = path.resolve(hre.config.paths.root, config.path);
+    const paths = Array.isArray(config.path) ? config.path : [config.path];
 
-  if (!outputDirectory.startsWith(hre.config.paths.root)) {
-    throw 'hardhat-abi-exporter: resolved path must be inside of project directory';
-  }
+    for (_path of paths) {
+        let outputDirectory = config.allowExternalDir ? _path : path.resolve(hre.config.paths.root, _path);
 
-  if(outputDirectory === hre.config.paths.root) {
-    throw 'hardhat-abi-exporter: resolved path must not be root directory';
-  }
+        if (!config.allowExternalDir && !outputDirectory.startsWith(hre.config.paths.root)) {
+            throw 'hardhat-abi-exporter: resolved path must be inside of project directory';
+        }
 
-  if (config.clear) {
-    fs.rmdirSync(outputDirectory, { recursive: true });
-  }
+        if(outputDirectory === hre.config.paths.root) {
+            throw 'hardhat-abi-exporter: resolved path must not be root directory';
+        }
 
-  if (!fs.existsSync(outputDirectory)) {
-    fs.mkdirSync(outputDirectory, { recursive: true });
-  }
+        if (config.clear) {
+            fs.rmdirSync(outputDirectory, { recursive: true });
+        }
 
-  let artifactPaths = await hre.artifacts.getArtifactPaths();
+        if (!fs.existsSync(outputDirectory)) {
+            fs.mkdirSync(outputDirectory, { recursive: true });
+        }
 
-  let nameOf = artifactPath => path.basename(artifactPath).replace('.json', '');
+        let artifactPaths = await hre.artifacts.getArtifactPaths();
 
-  if (config.only.length) {
-    let only = new Set(config.only);
-    artifactPaths = artifactPaths.filter(artifactPath => only.has(nameOf(artifactPath)));
-  }
+        let nameOf = artifactPath => path.basename(artifactPath).replace('.json', '');
 
-  if (config.except.length) {
-    let except = new Set(config.except);
-    artifactPaths = artifactPaths.filter(artifactPath => !except.has(nameOf(artifactPath)));
-  }
+        if (config.only.length) {
+            let only = new Set(config.only);
+            artifactPaths = artifactPaths.filter(artifactPath => only.has(nameOf(artifactPath)));
+        }
 
-  for (let artifactPath of artifactPaths) {
-    try {
-      let { abi } = JSON.parse(fs.readFileSync(artifactPath, 'utf8'));
+        if (config.except.length) {
+            let except = new Set(config.except);
+            artifactPaths = artifactPaths.filter(artifactPath => !except.has(nameOf(artifactPath)));
+        }
 
-      if (!abi.length) continue;
+        for (let artifactPath of artifactPaths) {
+            try {
+                let { abi } = JSON.parse(fs.readFileSync(artifactPath, 'utf8'));
 
-      let destination;
+                if (!abi.length) continue;
 
-      if (config.flat) {
-        destination = `${ nameOf(artifactPath) }.json`;
-      } else {
-        destination = `${ artifactPath.replace(hre.config.paths.artifacts, '') }`;
-      }
+                let destination;
 
-      destination = path.resolve(`${ outputDirectory }/${ destination }`);
+                if (config.flat) {
+                    destination = `${ nameOf(artifactPath) }.json`;
+                } else {
+                    destination = `${ artifactPath.replace(hre.config.paths.artifacts, '') }`;
+                }
 
-      if (!fs.existsSync(path.dirname(destination))) {
-        fs.mkdirSync(path.dirname(destination), { recursive: true });
-      }
+                destination = path.resolve(`${ outputDirectory }/${ destination }`);
 
-      fs.writeFileSync(destination, `${ JSON.stringify(abi, null, 2) }\n`, { flag: 'w' });
-    } catch (e) {
-      console.log(`Artifact not found for contract: ${ nameOf(artifactPath) }`);
+                if (!fs.existsSync(path.dirname(destination))) {
+                    fs.mkdirSync(path.dirname(destination), { recursive: true });
+                }
+
+                fs.writeFileSync(destination, `${ JSON.stringify(abi, null, 2) }\n`, { flag: 'w' });
+            } catch (e) {
+                console.log(`Artifact not found for contract: ${ nameOf(artifactPath) }`);
+            }
+        }
     }
-  }
+
 });
