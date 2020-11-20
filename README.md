@@ -1,6 +1,6 @@
 # Hardhat ABI Exporter
 
-Export Solidity contract ABIs on compilation via Hardhat.
+Export Ethereum smart contract ABIs on compilation via Hardhat.
 
 Versions of this plugin prior to `2.0.0` were released as `buidler-abi-exporter`.
 
