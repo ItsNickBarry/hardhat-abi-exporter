@@ -22,7 +22,7 @@ Add configuration under the `abiExporter` key:
 
 | option | description | default |
 |-|-|-|
-| `path` | path(s) to ABI export directory (relative to Hardhat root or external dir if `allowExternalDir` is true) | `'./abi'` or `['./abi', './abi2']`
+| `path` | `string` path or `Array` of paths to ABI export directory (relative to Hardhat root or external dir if `allowExternalDir` is true) | `'./abi'`
 | `clear` | whether to delete old files in `path` on  | `false` |
 | `flat` | whether to flatten output directory (may cause name collisions) | `false` |
 | `only` | `Array` of contracts to include (case sensitive), defaults to all contracts if `length` is 0 | `[]` |

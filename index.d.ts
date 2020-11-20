@@ -3,7 +3,7 @@ import 'hardhat/types/config';
 declare module 'hardhat/types/config' {
   interface HardhatUserConfig {
     abiExporter?: {
-      path?: string,
+      path?: string | string[],
       clear?: boolean,
       flat?: boolean,
       only?: string[],
@@ -14,7 +14,7 @@ declare module 'hardhat/types/config' {
 
   interface HardhatConfig {
     abiExporter: {
-      path: string,
+      path: string | string[],
       clear: boolean,
       allowExternalDir: boolean,
       flat: boolean,
