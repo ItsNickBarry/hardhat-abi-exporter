@@ -2,7 +2,7 @@
   "name": "hardhat-abi-exporter",
   "version": "2.0.6",
   "license": "MIT",
-  "description": "Export Solidity contract ABIs on compilation",
+  "description": "Export Ethereum smart contract ABIs on compilation",
   "keywords": [
     "hardhat",
     "buidler",
