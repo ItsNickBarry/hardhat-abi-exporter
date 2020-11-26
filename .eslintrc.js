@@ -1,7 +1,6 @@
 module.exports = {
   'env': {
-    'browser': true,
-    'commonjs': true,
+    'node': true,
     'es6': true,
   },
   'extends': [
@@ -58,7 +57,5 @@ module.exports = {
         'mode': 'minimum',
       },
     ],
-    // override
-    'vue/max-attributes-per-line': 0,
   },
 };
