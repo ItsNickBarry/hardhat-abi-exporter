@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const { extendConfig } = require('hardhat/config');
 
+const { HardhatPluginError } = require('hardhat/plugins');
+
 const {
   TASK_COMPILE,
 } = require('hardhat/builtin-tasks/task-names');
@@ -27,11 +29,11 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
   let outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
   if (!outputDirectory.startsWith(hre.config.paths.root)) {
-    throw 'hardhat-abi-exporter: resolved path must be inside of project directory';
+    throw new HardhatPluginError('resolved path must be inside of project directory');
   }
 
   if(outputDirectory === hre.config.paths.root) {
-    throw 'hardhat-abi-exporter: resolved path must not be root directory';
+    throw new HardhatPluginError('resolved path must not be root directory');
   }
 
   if (config.clear) {
