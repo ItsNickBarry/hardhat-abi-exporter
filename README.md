@@ -2,7 +2,7 @@
 
 Export Ethereum smart contract ABIs on compilation via Hardhat.
 
-Versions of this plugin prior to `2.0.0` were released as `buidler-abi-exporter`.
+> Versions of this plugin prior to `2.0.0` were released as `buidler-abi-exporter`.
 
 ## Installation
 
