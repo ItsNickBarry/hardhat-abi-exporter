@@ -48,13 +48,14 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     if (config.only.length && !config.only.some(m => fullName.match(m))) continue;
     if (config.except.length && config.except.some(m => fullName.match(m))) continue;
 
-    const { abi } = await hre.artifacts.readArtifact(fullName);
+    const { abi, sourceName, contractName } = await hre.artifacts.readArtifact(fullName);
 
     if (!abi.length) continue;
 
     const destination = path.resolve(
       outputDirectory,
-      config.flat ? fullName.split(':').pop() : fullName
+      config.flat ? '' : sourceName,
+      contractName
     ) + '.json';
 
     if (!fs.existsSync(path.dirname(destination))) {
