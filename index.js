@@ -44,20 +44,18 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     fs.mkdirSync(outputDirectory, { recursive: true });
   }
 
-  for (let absolutePath of await hre.artifacts.getArtifactPaths()) {
-    const relativePath = absolutePath.replace(`${ hre.config.paths.artifacts }/`, '');
+  for (let fullName of await hre.artifacts.getAllFullyQualifiedNames()) {
+    if (config.only.length && !config.only.some(m => fullName.match(m))) continue;
+    if (config.except.length && config.except.some(m => fullName.match(m))) continue;
 
-    if (config.only.length && !config.only.some(m => relativePath.match(m))) continue;
-    if (config.except.length && config.except.some(m => relativePath.match(m))) continue;
-
-    const { abi } = JSON.parse(fs.readFileSync(absolutePath, 'utf8'));
+    const { abi } = await hre.artifacts.readArtifact(fullName);
 
     if (!abi.length) continue;
 
     const destination = path.resolve(
       outputDirectory,
-      config.flat ? path.basename(relativePath) : relativePath
-    );
+      config.flat ? fullName.split(':').pop() : fullName
+    ) + '.json';
 
     if (!fs.existsSync(path.dirname(destination))) {
       fs.mkdirSync(path.dirname(destination), { recursive: true });

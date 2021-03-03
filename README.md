@@ -33,7 +33,7 @@ abiExporter: {
   path: './data/abi',
   clear: true,
   flat: true,
-  only: ['ERC20.json'],
+  only: [':ERC20$'],
 }
 ```
 
