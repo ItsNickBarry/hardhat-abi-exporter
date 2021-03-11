@@ -16,6 +16,7 @@ extendConfig(function (config, userConfig) {
       flat: false,
       only: [],
       except: [],
+      spacing: 2
     },
     userConfig.abiExporter
   );
@@ -62,6 +63,6 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
       fs.mkdirSync(path.dirname(destination), { recursive: true });
     }
 
-    fs.writeFileSync(destination, `${ JSON.stringify(abi, null, 2) }\n`, { flag: 'w' });
+    fs.writeFileSync(destination, `${ JSON.stringify(abi, null, config.spacing) }\n`, { flag: 'w' });
   }
 });

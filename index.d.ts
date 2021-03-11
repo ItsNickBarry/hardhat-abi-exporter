@@ -8,6 +8,7 @@ declare module 'hardhat/types/config' {
       flat?: boolean,
       only?: string[],
       except?: string[],
+      spacing?: number,
     }
   }
 
@@ -18,6 +19,7 @@ declare module 'hardhat/types/config' {
       flat: boolean,
       only: string[],
       except: string[],
+      spacing: number
     }
   }
 }
