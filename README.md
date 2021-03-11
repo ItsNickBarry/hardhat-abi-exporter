@@ -27,6 +27,7 @@ Add configuration under the `abiExporter` key:
 | `flat` | whether to flatten output directory (may cause name collisions) | `false` |
 | `only` | `Array` of `String` matchers used to select included contracts, defaults to all contracts if `length` is 0 | `[]` |
 | `except` | `Array` of `String` matchers used to exclude contracts | `[]` |
+| `spacing` | spacing to apply in each ABI file | 2 |
 
 ```javascript
 abiExporter: {
@@ -34,6 +35,7 @@ abiExporter: {
   clear: true,
   flat: true,
   only: [':ERC20$'],
+  spacing: 2
 }
 ```
 
