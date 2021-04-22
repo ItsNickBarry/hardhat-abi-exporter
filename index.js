@@ -38,7 +38,9 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
   }
 
   if (config.clear) {
-    fs.rmdirSync(outputDirectory, { recursive: true });
+    if (fs.existsSync(outputDirectory)) {
+      fs.rmdirSync(outputDirectory, { recursive: true });
+    }
   }
 
   if (!fs.existsSync(outputDirectory)) {
