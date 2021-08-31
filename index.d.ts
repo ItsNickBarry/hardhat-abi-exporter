@@ -21,7 +21,7 @@ declare module 'hardhat/types/config' {
       only: string[],
       except: string[],
       spacing: number,
-      pretty: boolean
+      pretty: boolean,
     }
   }
 }
