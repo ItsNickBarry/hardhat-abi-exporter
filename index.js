@@ -16,11 +16,54 @@ extendConfig(function (config, userConfig) {
       flat: false,
       only: [],
       except: [],
-      spacing: 2
+      spacing: 2,
+      pretty: false,
     },
     userConfig.abiExporter
   );
 });
+
+const prettifyArgs = (args) => {
+  if (!args || args.length === 0) {
+    return '';
+  }
+
+  return args.reduce((array, arg) => {
+    if (arg.type === 'tuple') {
+      return [
+        ...array,
+        `tuple(${prettifyArgs(arg.components)})${arg.indexed ? ' indexed' : ''} ${arg.name}`,
+      ];
+    }
+
+    return [
+      ...array,
+      `${arg.type}${arg.indexed ? ' indexed' : ''} ${arg.name}`.trim(),
+    ];
+  }, []).join(', ');
+};
+
+const prettify = (abi) => {
+  return abi.reduce((array, node) => {
+    if (node.type !== 'function' && node.type !== 'event') {
+      return array;
+    }
+
+    let prettyNode = `${node.type} ${node.name}(${prettifyArgs(node.inputs)})`;
+    if (node.stateMutability && node.stateMutability !== 'nonpayable') {
+      prettyNode += ` ${node.stateMutability}`;
+    }
+
+    if (node.outputs && node.outputs.length > 0) {
+      prettyNode += ` returns (${prettifyArgs(node.outputs)})`;
+    }
+
+    return [
+      ...array,
+      prettyNode,
+    ];
+  }, []);
+};
 
 task(TASK_COMPILE, async function (args, hre, runSuper) {
   const config = hre.config.abiExporter;
@@ -51,7 +94,7 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     if (config.only.length && !config.only.some(m => fullName.match(m))) continue;
     if (config.except.length && config.except.some(m => fullName.match(m))) continue;
 
-    const { abi, sourceName, contractName } = await hre.artifacts.readArtifact(fullName);
+    let { abi, sourceName, contractName } = await hre.artifacts.readArtifact(fullName);
 
     if (!abi.length) continue;
 
@@ -65,6 +108,10 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
       fs.mkdirSync(path.dirname(destination), { recursive: true });
     }
 
-    fs.writeFileSync(destination, `${ JSON.stringify(abi, null, config.spacing) }\n`, { flag: 'w' });
+    if (config.pretty) {
+      abi = prettify(abi);
+    }
+
+    fs.writeFileSync(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
   }
 });
