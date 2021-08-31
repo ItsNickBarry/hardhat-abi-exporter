@@ -16,7 +16,8 @@ extendConfig(function (config, userConfig) {
       flat: false,
       only: [],
       except: [],
-      spacing: 2
+      spacing: 2,
+      pretty: false,
     },
     userConfig.abiExporter
   );
