@@ -32,7 +32,7 @@ const prettifyArgs = (args) => {
     if (arg.type === 'tuple') {
       return [
         ...array,
-        prettifyArgs(arg.components),
+        `tuple(${prettifyArgs(arg.components)})${arg.indexed ? ' indexed' : ''} ${arg.name}`,
       ];
     }
 
