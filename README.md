@@ -28,6 +28,7 @@ Add configuration under the `abiExporter` key:
 | `only` | `Array` of `String` matchers used to select included contracts, defaults to all contracts if `length` is 0 | `[]` |
 | `except` | `Array` of `String` matchers used to exclude contracts | `[]` |
 | `spacing` | number of spaces per indentation level of formatted output | `2` |
+| `pretty` | whether to use interface-style formatting of output for better readability | `false` |
 
 ```javascript
 abiExporter: {
@@ -35,7 +36,8 @@ abiExporter: {
   clear: true,
   flat: true,
   only: [':ERC20$'],
-  spacing: 2
+  spacing: 2,
+  pretty: true,
 }
 ```
 
