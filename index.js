@@ -82,7 +82,7 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
 
   if (config.clear) {
     if (fs.existsSync(outputDirectory)) {
-      fs.rmdirSync(outputDirectory, { recursive: true });
+      fs.rmSync(outputDirectory, { recursive: true });
     }
   }
 
