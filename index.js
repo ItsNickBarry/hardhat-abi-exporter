@@ -72,10 +72,6 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
-  if (!outputDirectory.startsWith(hre.config.paths.root)) {
-    throw new HardhatPluginError('resolved path must be inside of project directory');
-  }
-
   if (outputDirectory === hre.config.paths.root) {
     throw new HardhatPluginError('resolved path must not be root directory');
   }
