@@ -13,6 +13,7 @@ extendConfig(function (config, userConfig) {
   config.abiExporter = Object.assign(
     {
       path: './abi',
+      runOnCompile: false,
       clear: false,
       flat: false,
       only: [],
@@ -107,5 +108,7 @@ task('clear-abi', async function (args, hre) {
 task(TASK_COMPILE, async function (args, hre, runSuper) {
   await runSuper();
 
-  await hre.run('export-abi');
+  if (hre.config.abiExporter.runOnCompile) {
+    await hre.run('export-abi');
+  }
 });

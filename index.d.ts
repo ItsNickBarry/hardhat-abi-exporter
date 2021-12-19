@@ -4,6 +4,7 @@ declare module 'hardhat/types/config' {
   interface HardhatUserConfig {
     abiExporter?: {
       path?: string,
+      runOnCompile?: boolean,
       clear?: boolean,
       flat?: boolean,
       only?: string[],
@@ -16,6 +17,7 @@ declare module 'hardhat/types/config' {
   interface HardhatConfig {
     abiExporter: {
       path: string,
+      runOnCompile: boolean,
       clear: boolean,
       flat: boolean,
       only: string[],

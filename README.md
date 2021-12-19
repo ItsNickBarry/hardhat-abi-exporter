@@ -23,6 +23,7 @@ Add configuration under the `abiExporter` key:
 | option | description | default |
 |-|-|-|
 | `path` | path to ABI export directory (relative to Hardhat root) | `'./abi'` |
+| `runOnCompile` | whether to automatically export ABIs during compilation | `false` |
 | `clear` | whether to delete old ABI files in `path` on compilation | `false` |
 | `flat` | whether to flatten output directory (may cause name collisions) | `false` |
 | `only` | `Array` of `String` matchers used to select included contracts, defaults to all contracts if `length` is 0 | `[]` |
@@ -33,6 +34,7 @@ Add configuration under the `abiExporter` key:
 ```javascript
 abiExporter: {
   path: './data/abi',
+  runOnCompile: true,
   clear: true,
   flat: true,
   only: [':ERC20$'],
