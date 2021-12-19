@@ -3,7 +3,7 @@ const path = require('path');
 const deleteEmpty = require('delete-empty');
 const { extendConfig } = require('hardhat/config');
 const { HardhatPluginError } = require('hardhat/plugins');
-const { Interface } = require('@ethersproject/abi');
+const { Interface, FormatTypes } = require('@ethersproject/abi');
 
 const {
   TASK_COMPILE,
@@ -38,48 +38,6 @@ const readdirRecursive = function(dirPath, output = []) {
   });
 
   return output;
-};
-
-const prettifyArgs = (args) => {
-  if (!args || args.length === 0) {
-    return '';
-  }
-
-  return args.reduce((array, arg) => {
-    if (arg.type === 'tuple') {
-      return [
-        ...array,
-        `tuple(${prettifyArgs(arg.components)})${arg.indexed ? ' indexed' : ''} ${arg.name}`,
-      ];
-    }
-
-    return [
-      ...array,
-      `${arg.type}${arg.indexed ? ' indexed' : ''} ${arg.name}`.trim(),
-    ];
-  }, []).join(', ');
-};
-
-const prettify = (abi) => {
-  return abi.reduce((array, node) => {
-    if (node.type !== 'function' && node.type !== 'event') {
-      return array;
-    }
-
-    let prettyNode = `${node.type} ${node.name}(${prettifyArgs(node.inputs)})`;
-    if (node.stateMutability && node.stateMutability !== 'nonpayable') {
-      prettyNode += ` ${node.stateMutability}`;
-    }
-
-    if (node.outputs && node.outputs.length > 0) {
-      prettyNode += ` returns (${prettifyArgs(node.outputs)})`;
-    }
-
-    return [
-      ...array,
-      prettyNode,
-    ];
-  }, []);
 };
 
 task(TASK_COMPILE, async function (args, hre, runSuper) {
@@ -133,7 +91,7 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     }
 
     if (config.pretty) {
-      abi = prettify(abi);
+      abi = new Interface(abi).format(FormatTypes.minimal);
     }
 
     fs.writeFileSync(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
