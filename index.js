@@ -40,36 +40,17 @@ const readdirRecursive = function(dirPath, output = []) {
   return output;
 };
 
-task(TASK_COMPILE, async function (args, hre, runSuper) {
+task('export-abi', async function (args, hre) {
   const config = hre.config.abiExporter;
 
-  await runSuper();
+  if (config.clear) {
+    await hre.run('clear-abi');
+  }
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
   if (outputDirectory === hre.config.paths.root) {
     throw new HardhatPluginError('resolved path must not be root directory');
-  }
-
-  if (!fs.existsSync(outputDirectory)) {
-    fs.mkdirSync(outputDirectory, { recursive: true });
-  }
-
-  if (config.clear) {
-    const files = readdirRecursive(outputDirectory).filter(f => path.extname(f) === '.json');
-
-    for (let file of files) {
-      try {
-        const filepath = path.resolve(outputDirectory, file);
-        const contents = fs.readFileSync(filepath).toString();
-        new Interface(contents);
-        fs.rmSync(filepath);
-      } catch (e) {
-        continue;
-      }
-    }
-
-    await deleteEmpty(outputDirectory);
   }
 
   for (let fullName of await hre.artifacts.getAllFullyQualifiedNames()) {
@@ -96,4 +77,35 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
 
     fs.writeFileSync(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
   }
+});
+
+task('clear-abi', async function (args, hre) {
+  const config = hre.config.abiExporter;
+
+  const outputDirectory = path.resolve(hre.config.paths.root, config.path);
+
+  if (!fs.existsSync(outputDirectory)) {
+    return;
+  }
+
+  const files = readdirRecursive(outputDirectory).filter(f => path.extname(f) === '.json');
+
+  for (let file of files) {
+    try {
+      const filepath = path.resolve(outputDirectory, file);
+      const contents = fs.readFileSync(filepath).toString();
+      new Interface(contents);
+      fs.rmSync(filepath);
+    } catch (e) {
+      continue;
+    }
+  }
+
+  await deleteEmpty(outputDirectory);
+});
+
+task(TASK_COMPILE, async function (args, hre, runSuper) {
+  await runSuper();
+
+  await hre.run('export-abi');
 });
