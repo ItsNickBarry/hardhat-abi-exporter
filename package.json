@@ -23,6 +23,9 @@
   "peerDependencies": {
     "hardhat": "^2.0.0"
   },
+  "dependencies": {
+    "@ethersproject/abi": "^5.5.0"
+  },
   "devDependencies": {
     "eslint": "^7.6.0",
     "hardhat": "^2.0.0"
