@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const deleteEmpty = require('delete-empty');
 const { extendConfig } = require('hardhat/config');
-
 const { HardhatPluginError } = require('hardhat/plugins');
+const { Interface, FormatTypes } = require('@ethersproject/abi');
 
 const {
   TASK_COMPILE,
@@ -23,46 +24,20 @@ extendConfig(function (config, userConfig) {
   );
 });
 
-const prettifyArgs = (args) => {
-  if (!args || args.length === 0) {
-    return '';
-  }
+const readdirRecursive = function(dirPath, output = []) {
+  const files = fs.readdirSync(dirPath);
 
-  return args.reduce((array, arg) => {
-    if (arg.type === 'tuple') {
-      return [
-        ...array,
-        `tuple(${prettifyArgs(arg.components)})${arg.indexed ? ' indexed' : ''} ${arg.name}`,
-      ];
+  files.forEach(function(file) {
+    file = path.join(dirPath, file);
+
+    if (fs.statSync(file).isDirectory()) {
+      output = readdirRecursive(file, output);
+    } else {
+      output.push(file);
     }
+  });
 
-    return [
-      ...array,
-      `${arg.type}${arg.indexed ? ' indexed' : ''} ${arg.name}`.trim(),
-    ];
-  }, []).join(', ');
-};
-
-const prettify = (abi) => {
-  return abi.reduce((array, node) => {
-    if (node.type !== 'function' && node.type !== 'event') {
-      return array;
-    }
-
-    let prettyNode = `${node.type} ${node.name}(${prettifyArgs(node.inputs)})`;
-    if (node.stateMutability && node.stateMutability !== 'nonpayable') {
-      prettyNode += ` ${node.stateMutability}`;
-    }
-
-    if (node.outputs && node.outputs.length > 0) {
-      prettyNode += ` returns (${prettifyArgs(node.outputs)})`;
-    }
-
-    return [
-      ...array,
-      prettyNode,
-    ];
-  }, []);
+  return output;
 };
 
 task(TASK_COMPILE, async function (args, hre, runSuper) {
@@ -72,22 +47,29 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
-  if (!outputDirectory.startsWith(hre.config.paths.root)) {
-    throw new HardhatPluginError('resolved path must be inside of project directory');
-  }
-
   if (outputDirectory === hre.config.paths.root) {
     throw new HardhatPluginError('resolved path must not be root directory');
   }
 
-  if (config.clear) {
-    if (fs.existsSync(outputDirectory)) {
-      fs.rmSync(outputDirectory, { recursive: true });
-    }
-  }
-
   if (!fs.existsSync(outputDirectory)) {
     fs.mkdirSync(outputDirectory, { recursive: true });
+  }
+
+  if (config.clear) {
+    const files = readdirRecursive(outputDirectory).filter(f => path.extname(f) === '.json');
+
+    for (let file of files) {
+      try {
+        const filepath = path.resolve(outputDirectory, file);
+        const contents = fs.readFileSync(filepath).toString();
+        new Interface(contents);
+        fs.rmSync(filepath);
+      } catch (e) {
+        continue;
+      }
+    }
+
+    await deleteEmpty(outputDirectory);
   }
 
   for (let fullName of await hre.artifacts.getAllFullyQualifiedNames()) {
@@ -109,7 +91,7 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     }
 
     if (config.pretty) {
-      abi = prettify(abi);
+      abi = new Interface(abi).format(FormatTypes.minimal);
     }
 
     fs.writeFileSync(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
