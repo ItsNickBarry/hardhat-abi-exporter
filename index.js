@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const deleteEmpty = require('delete-empty');
 const { extendConfig } = require('hardhat/config');
-
 const { HardhatPluginError } = require('hardhat/plugins');
+const { Interface } = require('@ethersproject/abi');
 
 const {
   TASK_COMPILE,
@@ -22,6 +23,22 @@ extendConfig(function (config, userConfig) {
     userConfig.abiExporter
   );
 });
+
+const readdirRecursive = function(dirPath, output = []) {
+  const files = fs.readdirSync(dirPath);
+
+  files.forEach(function(file) {
+    file = path.join(dirPath, file);
+
+    if (fs.statSync(file).isDirectory()) {
+      output = readdirRecursive(file, output);
+    } else {
+      output.push(file);
+    }
+  });
+
+  return output;
+};
 
 const prettifyArgs = (args) => {
   if (!args || args.length === 0) {
@@ -76,14 +93,25 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     throw new HardhatPluginError('resolved path must not be root directory');
   }
 
-  if (config.clear) {
-    if (fs.existsSync(outputDirectory)) {
-      fs.rmSync(outputDirectory, { recursive: true });
-    }
-  }
-
   if (!fs.existsSync(outputDirectory)) {
     fs.mkdirSync(outputDirectory, { recursive: true });
+  }
+
+  if (config.clear) {
+    const files = readdirRecursive(outputDirectory).filter(f => path.extname(f) === '.json');
+
+    for (let file of files) {
+      try {
+        const filepath = path.resolve(outputDirectory, file);
+        const contents = fs.readFileSync(filepath).toString();
+        new Interface(contents);
+        fs.rmSync(filepath);
+      } catch (e) {
+        continue;
+      }
+    }
+
+    await deleteEmpty(outputDirectory);
   }
 
   for (let fullName of await hre.artifacts.getAllFullyQualifiedNames()) {
