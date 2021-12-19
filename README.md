@@ -43,6 +43,13 @@ abiExporter: {
 }
 ```
 
+The included Hardhat tasks may be run manually:
+
+```bash
+yarn run hardhat export-abi
+yarn run hardhat clear-abi
+```
+
 The `path` directory will be created if it does not exist.
 
 The `clear` option is set to `false` by default because it represents a destructive action, but should be set to `true` in most cases.
