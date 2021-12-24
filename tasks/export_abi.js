@@ -24,6 +24,10 @@ task('export-abi', async function (args, hre) {
 
     if (!abi.length) continue;
 
+    if (config.pretty) {
+      abi = new Interface(abi).format(FormatTypes.minimal);
+    }
+
     const destination = path.resolve(
       outputDirectory,
       config.flat ? '' : sourceName,
@@ -32,10 +36,6 @@ task('export-abi', async function (args, hre) {
 
     if (!fs.existsSync(path.dirname(destination))) {
       await fs.promises.mkdir(path.dirname(destination), { recursive: true });
-    }
-
-    if (config.pretty) {
-      abi = new Interface(abi).format(FormatTypes.minimal);
     }
 
     await fs.promises.writeFile(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
