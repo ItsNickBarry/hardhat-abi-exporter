@@ -36,9 +36,7 @@ task('export-abi', async function (args, hre) {
       contractName
     ) + '.json';
 
-    if (!fs.existsSync(path.dirname(destination))) {
-      await fs.promises.mkdir(path.dirname(destination), { recursive: true });
-    }
+    await fs.promises.mkdir(path.dirname(destination), { recursive: true });
 
     await fs.promises.writeFile(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
   }));
