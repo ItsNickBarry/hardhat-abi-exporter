@@ -16,13 +16,15 @@ task('export-abi', async function (args, hre) {
     throw new HardhatPluginError('resolved path must not be root directory');
   }
 
-  for (let fullName of await hre.artifacts.getAllFullyQualifiedNames()) {
-    if (config.only.length && !config.only.some(m => fullName.match(m))) continue;
-    if (config.except.length && config.except.some(m => fullName.match(m))) continue;
+  const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
+
+  await Promise.all(fullNames.map(async function (fullName) {
+    if (config.only.length && !config.only.some(m => fullName.match(m))) return;
+    if (config.except.length && config.except.some(m => fullName.match(m))) return;
 
     let { abi, sourceName, contractName } = await hre.artifacts.readArtifact(fullName);
 
-    if (!abi.length) continue;
+    if (!abi.length) return;
 
     if (config.pretty) {
       abi = new Interface(abi).format(FormatTypes.minimal);
@@ -39,5 +41,5 @@ task('export-abi', async function (args, hre) {
     }
 
     await fs.promises.writeFile(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
-  }
+  }));
 });
