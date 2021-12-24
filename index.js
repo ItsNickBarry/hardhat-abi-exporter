@@ -10,12 +10,12 @@ const DEFAULT_CONFIG = {
   path: './abi',
   runOnCompile: false,
   clear: false,
-  flat: false,
   only: [],
   except: [],
   spacing: 2,
   pretty: false,
   filter: () => true,
+  // `flat` and `rename` are not defaulted so they can be validated for mutual exclusion
 };
 
 function validate(config, key, type) {
@@ -36,12 +36,27 @@ extendConfig(function (config, userConfig) {
     validate(conf, 'path', 'string');
     validate(conf, 'runOnCompile', 'boolean');
     validate(conf, 'clear', 'boolean');
-    validate(conf, 'flat', 'boolean');
     validate(conf, 'only', 'array');
     validate(conf, 'except', 'array');
     validate(conf, 'spacing', 'number');
     validate(conf, 'pretty', 'boolean');
     validate(conf, 'filter', 'function');
+
+    if (typeof conf.flat !== 'undefined') {
+      validate(conf, 'flat', 'boolean');
+
+      if (typeof conf.rename !== 'undefined') {
+        throw new HardhatPluginError(PLUGIN_NAME, '`flat` & `rename` config cannot be specified together');
+      }
+
+      if (conf.flat) {
+        conf.rename = (_sourceName, contractName) => contractName;
+      } else {
+        conf.rename = (sourceName, contractName) => path.join(sourceName, contractName);
+      }
+    }
+
+    validate(conf, 'rename', 'function');
     return conf;
   });
 });

@@ -56,8 +56,7 @@ subtask(
 
     const destination = path.resolve(
       outputDirectory,
-      config.flat ? '' : sourceName,
-      contractName
+      config.rename(sourceName, contractName)
     ) + '.json';
 
     outputData.push({ abi, destination });
