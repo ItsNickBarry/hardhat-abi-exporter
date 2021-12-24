@@ -31,13 +31,13 @@ task('export-abi', async function (args, hre) {
     ) + '.json';
 
     if (!fs.existsSync(path.dirname(destination))) {
-      fs.mkdirSync(path.dirname(destination), { recursive: true });
+      await fs.promises.mkdir(path.dirname(destination), { recursive: true });
     }
 
     if (config.pretty) {
       abi = new Interface(abi).format(FormatTypes.minimal);
     }
 
-    fs.writeFileSync(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
+    await fs.promises.writeFile(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
   }
 });
