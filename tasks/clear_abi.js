@@ -28,16 +28,25 @@ task('clear-abi', async function (args, hre) {
     return;
   }
 
-  const files = readdirRecursive(outputDirectory).filter(f => path.extname(f) === '.json');
+  const files = readdirRecursive(outputDirectory);
 
   await Promise.all(files.map(async function (file) {
-    try {
-      const contents = await fs.promises.readFile(file);
-      new Interface(contents.toString());
-      await fs.promises.rm(file);
-    } catch (e) {
-      // file is not an ABI; do nothing
+    if (path.extname(file) !== '.json') {
+      // ABIs must be stored as JSON
+      return;
     }
+
+    const contents = await fs.promises.readFile(file);
+
+    try {
+      // attempt to parse ABI from file contents
+      new Interface(contents.toString());
+    } catch (e) {
+      // file is not an ABI - do not delete
+      return;
+    }
+
+    await fs.promises.rm(file);
   }));
 
   await deleteEmpty(outputDirectory);
