@@ -6,10 +6,6 @@ const { Interface, FormatTypes } = require('@ethersproject/abi');
 task('export-abi', async function (args, hre) {
   const config = hre.config.abiExporter;
 
-  if (config.clear) {
-    await hre.run('clear-abi');
-  }
-
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
   if (outputDirectory === hre.config.paths.root) {
@@ -49,6 +45,10 @@ task('export-abi', async function (args, hre) {
     acc.add(destination);
     return acc;
   }, new Set());
+
+  if (config.clear) {
+    await hre.run('clear-abi');
+  }
 
   await Promise.all(outputData.map(async function ({ abi, destination }) {
     await fs.promises.mkdir(path.dirname(destination), { recursive: true });
