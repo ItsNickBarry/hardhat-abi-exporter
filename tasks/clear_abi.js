@@ -40,10 +40,9 @@ subtask(
 
   await Promise.all(files.map(async function (file) {
     try {
-      const filepath = path.resolve(outputDirectory, file);
-      const contents = await fs.promises.readFile(filepath);
+      const contents = await fs.promises.readFile(file);
       new Interface(contents.toString());
-      await fs.promises.rm(filepath);
+      await fs.promises.rm(file);
     } catch (e) {
       // file is not an ABI; do nothing
     }
