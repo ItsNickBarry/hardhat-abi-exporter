@@ -24,7 +24,7 @@ task('export-abi', async function (args, hre) {
 
     if (!abi.length) return;
 
-    abi = abi.filter(config.filter);
+    abi = abi.filter((element, index, array) => config.filter(element, index, array, fullName));
 
     if (config.pretty) {
       abi = new Interface(abi).format(FormatTypes.minimal);

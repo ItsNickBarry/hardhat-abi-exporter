@@ -11,7 +11,7 @@ declare module 'hardhat/types/config' {
       except?: string[],
       spacing?: number,
       pretty?: boolean,
-      filter?: (abiElement: any) => boolean,
+      filter?: (abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean,
     }
   }
 
@@ -25,7 +25,7 @@ declare module 'hardhat/types/config' {
       except: string[],
       spacing: number,
       pretty: boolean,
-      filter: (abiElement: any) => boolean,
+      filter: (abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean,
     }
   }
 }
