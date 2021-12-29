@@ -4,11 +4,17 @@ const { HardhatPluginError } = require('hardhat/plugins');
 const { Interface, FormatTypes } = require('@ethersproject/abi');
 
 task('export-abi', async function (args, hre) {
-  await hre.run('export-abi-group');
+  const config = hre.config.abiExporter;
+
+  await hre.run('export-abi-group', { abiGroupConfig: config });
 });
 
-subtask('export-abi-group', async function (args, hre) {
-  const config = hre.config.abiExporter;
+subtask(
+  'export-abi-group'
+).addParam(
+  'abiGroupConfig', undefined, undefined, Object
+).setAction(async function (args, hre) {
+  const { abiGroupConfig: config } = args;
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
