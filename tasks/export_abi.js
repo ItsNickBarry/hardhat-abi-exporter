@@ -16,6 +16,8 @@ task('export-abi', async function (args, hre) {
     throw new HardhatPluginError('resolved path must not be root directory');
   }
 
+  const outputData = [];
+
   const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
 
   await Promise.all(fullNames.map(async function (fullName) {
@@ -36,8 +38,20 @@ task('export-abi', async function (args, hre) {
       contractName
     ) + '.json';
 
-    await fs.promises.mkdir(path.dirname(destination), { recursive: true });
+    outputData.push({ abi, destination });
+  }));
 
+  outputData.reduce(function (acc, { destination }) {
+    if (acc.has(destination)) {
+      throw new HardhatPluginError(`duplicate output destination: ${ destination }`);
+    }
+
+    acc.add(destination);
+    return acc;
+  }, new Set());
+
+  await Promise.all(outputData.map(async function ({ abi, destination }) {
+    await fs.promises.mkdir(path.dirname(destination), { recursive: true });
     await fs.promises.writeFile(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
   }));
 });
