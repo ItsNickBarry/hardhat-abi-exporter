@@ -4,6 +4,10 @@ const { HardhatPluginError } = require('hardhat/plugins');
 const { Interface, FormatTypes } = require('@ethersproject/abi');
 
 task('export-abi', async function (args, hre) {
+  await hre.run('export-abi-group');
+});
+
+subtask('export-abi-group', async function (args, hre) {
   const config = hre.config.abiExporter;
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);

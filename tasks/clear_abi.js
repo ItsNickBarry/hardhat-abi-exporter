@@ -20,6 +20,10 @@ const readdirRecursive = function(dirPath, output = []) {
 };
 
 task('clear-abi', async function (args, hre) {
+  await hre.run('clear-abi-group');
+});
+
+subtask('clear-abi-group', async function (args, hre) {
   const config = hre.config.abiExporter;
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
