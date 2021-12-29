@@ -30,6 +30,7 @@ Add configuration under the `abiExporter` key:
 | `except` | `Array` of `String` matchers used to exclude contracts | `[]` |
 | `spacing` | number of spaces per indentation level of formatted output | `2` |
 | `pretty` | whether to use interface-style formatting of output for better readability | `false` |
+| `filter` | `Function` used to filter elements from each exported ABI | `() => true` |
 
 ```javascript
 abiExporter: {

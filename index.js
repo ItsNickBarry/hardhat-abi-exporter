@@ -15,6 +15,7 @@ extendConfig(function (config, userConfig) {
       except: [],
       spacing: 2,
       pretty: false,
+      filter: () => true,
     },
     userConfig.abiExporter
   );
