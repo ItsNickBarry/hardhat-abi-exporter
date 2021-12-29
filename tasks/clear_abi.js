@@ -30,16 +30,16 @@ task('clear-abi', async function (args, hre) {
 
   const files = readdirRecursive(outputDirectory).filter(f => path.extname(f) === '.json');
 
-  for (let file of files) {
+  await Promise.all(files.map(async function (file) {
     try {
       const filepath = path.resolve(outputDirectory, file);
-      const contents = fs.readFileSync(filepath).toString();
-      new Interface(contents);
-      fs.rmSync(filepath);
+      const contents = await fs.promises.readFile(filepath);
+      new Interface(contents.toString());
+      await fs.promises.rm(filepath);
     } catch (e) {
-      continue;
+      // file is not an ABI; do nothing
     }
-  }
+  }));
 
   await deleteEmpty(outputDirectory);
 });
