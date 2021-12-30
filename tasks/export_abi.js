@@ -2,8 +2,19 @@ const fs = require('fs');
 const path = require('path');
 const { HardhatPluginError } = require('hardhat/plugins');
 const { Interface, FormatTypes } = require('@ethersproject/abi');
+const {
+  TASK_COMPILE,
+} = require('hardhat/builtin-tasks/task-names');
 
-task('export-abi', async function (args, hre) {
+task(
+  'export-abi'
+).addFlag(
+  'noCompile', 'Don\'t compile before running this task'
+).setAction(async function (args, hre) {
+  if (!args.noCompile) {
+    await hre.run(TASK_COMPILE, { noSizeContracts: true });
+  }
+
   const config = hre.config.abiExporter;
 
   await hre.run('export-abi-group', { abiGroupConfig: config });
