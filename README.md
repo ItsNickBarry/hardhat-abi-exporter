@@ -50,6 +50,13 @@ yarn run hardhat export-abi
 yarn run hardhat clear-abi
 ```
 
+By default, the hardhat `compile` task is run before exporting ABIs.  This behavior can be disabled with the `--no-compile` flag:
+
+```bash
+yarn run hardhat export-abi --no-compile
+```
+
+
 The `path` directory will be created if it does not exist.
 
 The `clear` option is set to `false` by default because it represents a destructive action, but should be set to `true` in most cases.
