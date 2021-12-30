@@ -45,6 +45,8 @@ subtask(
 
     if (!abi.length) return;
 
+    abi = abi.filter((element, index, array) => config.filter(element, index, array, fullName));
+
     if (config.pretty) {
       abi = new Interface(abi).format(FormatTypes.minimal);
     }
