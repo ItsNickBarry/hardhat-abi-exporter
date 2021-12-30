@@ -3,8 +3,16 @@ const path = require('path');
 const { HardhatPluginError } = require('hardhat/plugins');
 const { Interface, FormatTypes } = require('@ethersproject/abi');
 
-task('export-abi', async function (args, hre) {
+task(
+  'export-abi'
+).addFlag(
+  'noCompile', 'Don\'t compile before running this task'
+).setAction(async function sizeContracts(args, hre) {
   const config = hre.config.abiExporter;
+
+  if (!args.noCompile) {
+    await hre.run('compile', { noSizeContracts: true });
+  }
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
