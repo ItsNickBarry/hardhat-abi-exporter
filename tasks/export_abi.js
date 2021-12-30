@@ -7,7 +7,7 @@ task(
   'export-abi'
 ).addFlag(
   'noCompile', 'Don\'t compile before running this task'
-).setAction(async function sizeContracts(args, hre) {
+).setAction(async function (args, hre) {
   const config = hre.config.abiExporter;
 
   if (!args.noCompile) {
