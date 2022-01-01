@@ -12,7 +12,7 @@ task(
   'noCompile', 'Don\'t compile before running this task'
 ).setAction(async function (args, hre) {
   if (!args.noCompile) {
-    await hre.run(TASK_COMPILE, { noSizeContracts: true });
+    await hre.run(TASK_COMPILE, { noExportAbi: true });
   }
 
   const config = hre.config.abiExporter;
