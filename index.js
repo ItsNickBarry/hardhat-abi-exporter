@@ -17,7 +17,7 @@ const DEFAULT_CONFIG = {
 };
 
 extendConfig(function (config, userConfig) {
-  config.abiExporter = [userConfig.abiExporter].flatten().map(function (el) {
+  config.abiExporter = [userConfig.abiExporter].flat().map(function (el) {
     return Object.assign({}, DEFAULT_CONFIG, el);
   });
 });
