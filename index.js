@@ -4,8 +4,8 @@ require('./tasks/clear_abi.js');
 require('./tasks/export_abi.js');
 require('./tasks/compile.js');
 
-extendConfig(function (config, userConfig) {
-  config.abiExporter = Object.assign(
+function withDefaults(abiExporterConfig) {
+  return Object.assign(
     {
       path: './abi',
       runOnCompile: false,
@@ -17,6 +17,15 @@ extendConfig(function (config, userConfig) {
       pretty: false,
       filter: () => true,
     },
-    userConfig.abiExporter
+    abiExporterConfig
   );
+}
+
+extendConfig(function (config, userConfig) {
+  let abiExporterConfig = userConfig.abiExporter;
+  if (!Array.isArray(abiExporterConfig)) {
+    abiExporterConfig = [abiExporterConfig];
+  }
+
+  config.abiExporter = abiExporterConfig.map(withDefaults);
 });
