@@ -7,8 +7,13 @@ task(TASK_COMPILE).addFlag(
 ).setAction(async function (args, hre, runSuper) {
   await runSuper();
 
-  if (hre.config.abiExporter.runOnCompile && !args.noExportAbi) {
-    // Disable compile to avoid an infinite loop
-    await hre.run('export-abi', { noCompile: true });
+  if (!args.noExportAbi) {
+    const configs = hre.config.abiExporter;
+
+    await Promise.all(configs.map(abiGroupConfig => {
+      if (abiGroupConfig.runOnCompile) {
+        return hre.run('export-abi-group', { abiGroupConfig });
+      }
+    }));
   }
 });

@@ -32,6 +32,8 @@ Add configuration under the `abiExporter` key:
 | `pretty` | whether to use interface-style formatting of output for better readability | `false` |
 | `filter` | `Function` with signature `(abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean` used to filter elements from each exported ABI | `() => true` |
 
+ Note that the configuration formatted as either a single `Object`, or an `Array` of objects.  An `Array` may be used to specify multiple outputs.
+
 ```javascript
 abiExporter: {
   path: './data/abi',
@@ -42,6 +44,19 @@ abiExporter: {
   spacing: 2,
   pretty: true,
 }
+
+// or
+
+abiExporter: [
+  {
+    path: './abi/pretty',
+    pretty: true,
+  },
+  {
+    path: './abi/ugly',
+    pretty: false,
+  },
+]
 ```
 
 The included Hardhat tasks may be run manually:

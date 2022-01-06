@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { HardhatPluginError } = require('hardhat/plugins');
 const { Interface, FormatTypes } = require('@ethersproject/abi');
+const { types } = require('hardhat/config');
 const {
   TASK_COMPILE,
 } = require('hardhat/builtin-tasks/task-names');
@@ -15,7 +16,19 @@ task(
     await hre.run(TASK_COMPILE, { noExportAbi: true });
   }
 
-  const config = hre.config.abiExporter;
+  const configs = hre.config.abiExporter;
+
+  await Promise.all(configs.map(abiGroupConfig => {
+    return hre.run('export-abi-group', { abiGroupConfig })
+  }));
+});
+
+subtask(
+  'export-abi-group'
+).addParam(
+  'abiGroupConfig', 'a single abi-exporter config object', undefined, types.any
+).setAction(async function (args, hre) {
+  const { abiGroupConfig: config } = args;
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
@@ -60,7 +73,7 @@ task(
   }, new Set());
 
   if (config.clear) {
-    await hre.run('clear-abi');
+    await hre.run('clear-abi-group', { path: config.path });
   }
 
   await Promise.all(outputData.map(async function ({ abi, destination }) {

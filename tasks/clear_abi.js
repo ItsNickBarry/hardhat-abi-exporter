@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const deleteEmpty = require('delete-empty');
+const { types } = require('hardhat/config');
 const { Interface } = require('@ethersproject/abi');
 
 const readdirRecursive = function(dirPath, output = []) {
@@ -20,9 +21,19 @@ const readdirRecursive = function(dirPath, output = []) {
 };
 
 task('clear-abi', async function (args, hre) {
-  const config = hre.config.abiExporter;
+  const configs = hre.config.abiExporter;
 
-  const outputDirectory = path.resolve(hre.config.paths.root, config.path);
+  await Promise.all(configs.map((abiExporterConfig) => {
+    return hre.run('clear-abi-group', { path: abiExporterConfig.path });
+  }));
+});
+
+subtask(
+  'clear-abi-group'
+).addParam(
+  'path', 'path to look for ABIs', undefined, types.string
+).setAction(async function (args, hre) {
+  const outputDirectory = path.resolve(hre.config.paths.root, args.path);
 
   if (!fs.existsSync(outputDirectory)) {
     return;

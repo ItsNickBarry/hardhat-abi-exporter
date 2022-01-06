@@ -8,6 +8,7 @@ module.exports = {
   ],
   'globals': {
     'task': 'readonly',
+    'subtask': 'readonly',
   },
   'parserOptions': {
     'ecmaVersion': 2018,
