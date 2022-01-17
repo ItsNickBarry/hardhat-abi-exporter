@@ -7,7 +7,7 @@ task(TASK_COMPILE).addFlag(
 ).setAction(async function (args, hre, runSuper) {
   await runSuper();
 
-  if (!args.noExportAbi) {
+  if (!args.noExportAbi && !hre.__SOLIDITY_COVERAGE_RUNNING) {
     const configs = hre.config.abiExporter;
 
     await Promise.all(configs.map(abiGroupConfig => {
