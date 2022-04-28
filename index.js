@@ -43,18 +43,16 @@ extendConfig(function (config, userConfig) {
     validate(conf, 'pretty', 'boolean');
     validate(conf, 'filter', 'function');
 
-    if (typeof conf.flat !== 'undefined') {
-      validate(conf, 'flat', 'boolean');
+    if (conf.flat && typeof conf.rename !== 'undefined') {
+      throw new HardhatPluginError(PLUGIN_NAME, '`flat` & `rename` config cannot be specified together');
+    }
 
-      if (typeof conf.rename !== 'undefined') {
-        throw new HardhatPluginError(PLUGIN_NAME, '`flat` & `rename` config cannot be specified together');
-      }
+    if (conf.flat) {
+      conf.rename = (sourceName, contractName) => contractName;
+    }
 
-      if (conf.flat) {
-        conf.rename = (_sourceName, contractName) => contractName;
-      } else {
-        conf.rename = (sourceName, contractName) => path.join(sourceName, contractName);
-      }
+    if (!conf.rename) {
+      conf.rename = (sourceName, contractName) => path.join(sourceName, contractName);
     }
 
     validate(conf, 'rename', 'function');
