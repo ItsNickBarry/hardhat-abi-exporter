@@ -38,6 +38,7 @@ extendConfig(function (config, userConfig) {
     validate(conf, 'path', 'string');
     validate(conf, 'runOnCompile', 'boolean');
     validate(conf, 'clear', 'boolean');
+    validate(conf, 'flat', 'boolean');
     validate(conf, 'only', 'array');
     validate(conf, 'except', 'array');
     validate(conf, 'spacing', 'number');
