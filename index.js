@@ -11,12 +11,13 @@ const DEFAULT_CONFIG = {
   path: './abi',
   runOnCompile: false,
   clear: false,
+  flat: false,
   only: [],
   except: [],
   spacing: 2,
   pretty: false,
   filter: () => true,
-  // `flat` and `rename` are not defaulted so they can be validated for mutual exclusion
+  // `rename` is not defaulted as it may depend on `flat` option
 };
 
 function validate(config, key, type) {
