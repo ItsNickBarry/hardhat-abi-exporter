@@ -10,6 +10,7 @@ interface AbiExporterUserConfig {
   spacing?: number,
   pretty?: boolean,
   filter?: (abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean,
+  rename?: (sourceName: string, contractName: string) => string,
 }
 
 declare module 'hardhat/types/config' {
@@ -28,6 +29,7 @@ declare module 'hardhat/types/config' {
       spacing: number,
       pretty: boolean,
       filter: (abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean,
+      rename: (sourceName: string, contractName: string) => string,
     }[]
   }
 }

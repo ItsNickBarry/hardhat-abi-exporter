@@ -31,6 +31,7 @@ Add configuration under the `abiExporter` key:
 | `spacing` | number of spaces per indentation level of formatted output | `2` |
 | `pretty` | whether to use interface-style formatting of output for better readability | `false` |
 | `filter` | `Function` with signature `(abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean` used to filter elements from each exported ABI | `() => true` |
+| `rename` | `Function` with signature `(sourceName: string, contractName: string) => string` used to rename an exported ABI (incompatible with `flat` option) | `undefined` |
 
  Note that the configuration formatted as either a single `Object`, or an `Array` of objects.  An `Array` may be used to specify multiple outputs.
 
