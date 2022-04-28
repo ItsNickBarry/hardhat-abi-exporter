@@ -23,6 +23,7 @@ declare module 'hardhat/types/config' {
       path: string,
       runOnCompile: boolean,
       clear: boolean,
+      flat: boolean,
       only: string[],
       except: string[],
       spacing: number,
