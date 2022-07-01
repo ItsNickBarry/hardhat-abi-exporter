@@ -15,7 +15,7 @@ const DEFAULT_CONFIG = {
   only: [],
   except: [],
   spacing: 2,
-  pretty: false,
+  format: "json",
   filter: () => true,
   // `rename` is not defaulted as it may depend on `flat` option
 };
@@ -42,7 +42,7 @@ extendConfig(function (config, userConfig) {
     validate(conf, 'only', 'array');
     validate(conf, 'except', 'array');
     validate(conf, 'spacing', 'number');
-    validate(conf, 'pretty', 'boolean');
+    validate(conf, 'format', 'string');
     validate(conf, 'filter', 'function');
 
     if (conf.flat && typeof conf.rename !== 'undefined') {

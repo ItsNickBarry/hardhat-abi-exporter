@@ -29,7 +29,7 @@ Add configuration under the `abiExporter` key:
 | `only` | `Array` of `String` matchers used to select included contracts, defaults to all contracts if `length` is 0 | `[]` |
 | `except` | `Array` of `String` matchers used to exclude contracts | `[]` |
 | `spacing` | number of spaces per indentation level of formatted output | `2` |
-| `pretty` | whether to use interface-style formatting of output for better readability | `false` |
+| `format` | format type ("json", "minimal", "humanReadable") | `json` |
 | `filter` | `Function` with signature `(abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean` used to filter elements from each exported ABI | `() => true` |
 | `rename` | `Function` with signature `(sourceName: string, contractName: string) => string` used to rename an exported ABI (incompatible with `flat` option) | `undefined` |
 
@@ -43,19 +43,23 @@ abiExporter: {
   flat: true,
   only: [':ERC20$'],
   spacing: 2,
-  pretty: true,
+  format: "minimal",
 }
 
 // or
 
 abiExporter: [
   {
-    path: './abi/pretty',
-    pretty: true,
+    path: './abi/json',
+    format: "json",
   },
   {
-    path: './abi/ugly',
-    pretty: false,
+    path: './abi/minimal',
+    format: "minimal",
+  },
+  {
+    path: './abi/fullName',
+    format: "fullName",
   },
 ]
 ```
