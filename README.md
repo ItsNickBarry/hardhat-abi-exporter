@@ -48,7 +48,7 @@ abiExporter: {
   format: "minimal",
 }
 
-// or 
+// or
 
 abiExporter: [
   {
@@ -57,7 +57,7 @@ abiExporter: [
   },
   {
     path: './abi/ugly',
-     pretty: false,
+    pretty: false,
   },
 ]
 
