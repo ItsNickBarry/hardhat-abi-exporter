@@ -48,12 +48,14 @@ subtask(
 
     if (!abi.length) return;
 
-    abi = abi.filter((element, index, array) => config.filter(element, index, array, fullName));
-
-    if (config.format == "minimal") {
+    if (config.format == "json") {
+      abi = abi.filter((element, index, array) => config.filter(element, index, array, fullName));
+    } else if (config.format == "minimal") {
       abi = new Interface(abi).format(FormatTypes.minimal);
     } else if (config.format == "fullName") {
       abi = new Interface(abi).format(FormatTypes.fullName);
+    } else {
+      throw new HardhatPluginError(`Unknown format: ${config.format}`);
     }
 
     const destination = path.resolve(

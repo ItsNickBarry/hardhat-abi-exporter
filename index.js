@@ -15,9 +15,10 @@ const DEFAULT_CONFIG = {
   only: [],
   except: [],
   spacing: 2,
-  format: "json",
+  pretty: false,
   filter: () => true,
   // `rename` is not defaulted as it may depend on `flat` option
+  // `format` is not defaulted as it may depend on `pretty` option
 };
 
 function validate(config, key, type) {
@@ -42,11 +43,15 @@ extendConfig(function (config, userConfig) {
     validate(conf, 'only', 'array');
     validate(conf, 'except', 'array');
     validate(conf, 'spacing', 'number');
-    validate(conf, 'format', 'string');
+    validate(conf, 'pretty', 'boolean');
     validate(conf, 'filter', 'function');
 
     if (conf.flat && typeof conf.rename !== 'undefined') {
       throw new HardhatPluginError(PLUGIN_NAME, '`flat` & `rename` config cannot be specified together');
+    }
+
+    if (conf.pretty && typeof conf.format !== 'undefined') {
+      throw new HardhatPluginError(PLUGIN_NAME, '`pretty` & `format` config cannot be specified together');
     }
 
     if (conf.flat) {
@@ -58,6 +63,13 @@ extendConfig(function (config, userConfig) {
     }
 
     validate(conf, 'rename', 'function');
+
+    if (!config.format) {
+      conf.format = conf.pretty ? "minimal": "json";
+    }
+
+    validate(conf, 'format', 'string');
+
     return conf;
   });
 });
