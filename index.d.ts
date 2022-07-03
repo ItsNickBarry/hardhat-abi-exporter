@@ -9,6 +9,7 @@ interface AbiExporterUserConfig {
   except?: string[],
   spacing?: number,
   pretty?: boolean,
+  format?: string,
   filter?: (abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean,
   rename?: (sourceName: string, contractName: string) => string,
 }
@@ -27,7 +28,8 @@ declare module 'hardhat/types/config' {
       only: string[],
       except: string[],
       spacing: number,
-      pretty: boolean,
+      pretty?: boolean,
+      format?: string,
       filter: (abiElement: any, index: number, abi: any, fullyQualifiedName: string) => boolean,
       rename: (sourceName: string, contractName: string) => string,
     }[]
