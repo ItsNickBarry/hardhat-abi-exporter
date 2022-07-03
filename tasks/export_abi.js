@@ -19,7 +19,7 @@ task(
   const configs = hre.config.abiExporter;
 
   await Promise.all(configs.map(abiGroupConfig => {
-    return hre.run('export-abi-group', { abiGroupConfig })
+    return hre.run('export-abi-group', { abiGroupConfig });
   }));
 });
 
@@ -50,11 +50,11 @@ subtask(
 
     abi = abi.filter((element, index, array) => config.filter(element, index, array, fullName));
 
-    if (config.format == "minimal") {
+    if (config.format == 'minimal') {
       abi = new Interface(abi).format(FormatTypes.minimal);
-    } else if (config.format == "fullName") {
+    } else if (config.format == 'fullName') {
       abi = new Interface(abi).format(FormatTypes.fullName);
-    } else if (config.format != "json") {
+    } else if (config.format != 'json') {
       throw new HardhatPluginError(`Unknown format: ${config.format}`);
     }
 

@@ -64,8 +64,8 @@ extendConfig(function (config, userConfig) {
 
     validate(conf, 'rename', 'function');
 
-    if (!config.format) {
-      conf.format = conf.pretty ? "minimal": "json";
+    if (!conf.format) {
+      conf.format = conf.pretty ? 'minimal': 'json';
     }
 
     validate(conf, 'format', 'string');
