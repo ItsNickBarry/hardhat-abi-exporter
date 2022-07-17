@@ -7,6 +7,8 @@ Export Ethereum smart contract ABIs on compilation via Hardhat.
 ## Installation
 
 ```bash
+npm install --save-dev hardhat-abi-exporter
+# or
 yarn add --dev hardhat-abi-exporter
 ```
 
@@ -82,6 +84,9 @@ abiExporter: [
 The included Hardhat tasks may be run manually:
 
 ```bash
+npx hardhat export-abi
+npx hardhat clear-abi
+# or
 yarn run hardhat export-abi
 yarn run hardhat clear-abi
 ```
@@ -89,6 +94,8 @@ yarn run hardhat clear-abi
 By default, the hardhat `compile` task is run before exporting ABIs.  This behavior can be disabled with the `--no-compile` flag:
 
 ```bash
+npx hardhat export-abi --no-compile
+# or
 yarn run hardhat export-abi --no-compile
 ```
 
