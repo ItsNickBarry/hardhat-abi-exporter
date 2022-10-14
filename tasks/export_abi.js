@@ -66,14 +66,16 @@ subtask(
     outputData.push({ abi, destination });
   }));
 
-  outputData.reduce(function (acc, { destination }) {
-    if (acc.has(destination)) {
-      throw new HardhatPluginError(`duplicate output destination: ${ destination }`);
+  outputData.reduce(function (acc, { abi, destination }) {
+    const contents = acc[destination];
+
+    if (contents && JSON.stringify(contents) !== JSON.stringify(abi)) {
+      throw new HardhatPluginError(`multiple distinct contracts share same output destination: ${ destination }`);
     }
 
-    acc.add(destination);
+    acc[destination] = abi;
     return acc;
-  }, new Set());
+  }, {});
 
   if (config.clear) {
     await hre.run('clear-abi-group', { path: config.path });
