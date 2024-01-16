@@ -61,7 +61,7 @@ subtask(
     const destination = path.resolve(
       outputDirectory,
       config.rename(sourceName, contractName)
-    ) + '.json';
+    );
 
     outputData.push({ abi, destination });
   }));
@@ -83,6 +83,11 @@ subtask(
 
   await Promise.all(outputData.map(async function ({ abi, destination }) {
     await fs.promises.mkdir(path.dirname(destination), { recursive: true });
-    await fs.promises.writeFile(destination, `${JSON.stringify(abi, null, config.spacing)}\n`, { flag: 'w' });
+    const outputJson = JSON.stringify(abi, null, config.spacing);
+    await fs.promises.writeFile(`${destination}.json`, `${outputJson}\n`, { flag: 'w' });
+    if (config.tsWrapper) {
+      const outputTs = `export default ${outputJson} as const;`;
+      await fs.promises.writeFile(`${destination}.ts`, `${outputTs}\n`, { flag: 'w' });
+    }
   }));
 });
