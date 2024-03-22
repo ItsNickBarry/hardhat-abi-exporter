@@ -33,6 +33,8 @@ subtask(
 ).addParam(
   'path', 'path to look for ABIs', undefined, types.string
 ).setAction(async function (args, hre) {
+  const configForPath = hre.config.abiExporter.find(config => config.path === args.path);
+  if (configForPath == null) return;
   const outputDirectory = path.resolve(hre.config.paths.root, args.path);
 
   if (!fs.existsSync(outputDirectory)) {
@@ -58,6 +60,14 @@ subtask(
     }
 
     await fs.promises.rm(file);
+    if (configForPath.tsWrapper) {
+      const tsWrappedFile = path.format({ ...path.parse(file), base: '', ext: '.ts' });
+      await fs.promises.rm(
+        tsWrappedFile,
+        // do not error if the file doesn't exist
+        { force: true }
+      );
+    }
   }));
 
   await deleteEmpty(outputDirectory);

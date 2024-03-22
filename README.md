@@ -28,6 +28,7 @@ Add configuration under the `abiExporter` key:
 | `runOnCompile` | whether to automatically export ABIs during compilation | `false` |
 | `clear` | whether to delete old ABI files in `path` on compilation | `false` |
 | `flat` | whether to flatten output directory (may cause name collisions) | `false` |
+| `tsWrapper` | wraps the json output in TS for better [viem](https://viem.sh/docs) compatibility (patch for [this](https://github.com/microsoft/TypeScript/issues/32063) missing TS feature) | `false` |
 | `only` | `Array` of `String` matchers used to select included contracts, defaults to all contracts if `length` is 0 | `[]` |
 | `except` | `Array` of `String` matchers used to exclude contracts | `[]` |
 | `spacing` | number of spaces per indentation level of formatted output | `2` |
