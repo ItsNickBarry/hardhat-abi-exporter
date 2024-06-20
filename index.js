@@ -12,6 +12,7 @@ const DEFAULT_CONFIG = {
   runOnCompile: false,
   clear: false,
   flat: false,
+  tsWrapper: false,
   only: [],
   except: [],
   spacing: 2,
@@ -40,6 +41,7 @@ extendConfig(function (config, userConfig) {
     validate(conf, 'runOnCompile', 'boolean');
     validate(conf, 'clear', 'boolean');
     validate(conf, 'flat', 'boolean');
+    validate(conf, 'tsWrapper', 'boolean');
     validate(conf, 'only', 'array');
     validate(conf, 'except', 'array');
     validate(conf, 'spacing', 'number');
