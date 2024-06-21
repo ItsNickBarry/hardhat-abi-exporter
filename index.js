@@ -24,11 +24,17 @@ const DEFAULT_CONFIG = {
 function validate(config, key, type) {
   if (type === 'array') {
     if (!Array.isArray(config[key])) {
-      throw new HardhatPluginError(PLUGIN_NAME, `\`${key}\` config must be an ${type}`);
+      throw new HardhatPluginError(
+        PLUGIN_NAME,
+        `\`${key}\` config must be an ${type}`,
+      );
     }
   } else {
     if (typeof config[key] !== type) {
-      throw new HardhatPluginError(PLUGIN_NAME, `\`${key}\` config must be a ${type}`);
+      throw new HardhatPluginError(
+        PLUGIN_NAME,
+        `\`${key}\` config must be a ${type}`,
+      );
     }
   }
 }
@@ -47,11 +53,17 @@ extendConfig(function (config, userConfig) {
     validate(conf, 'filter', 'function');
 
     if (conf.flat && typeof conf.rename !== 'undefined') {
-      throw new HardhatPluginError(PLUGIN_NAME, '`flat` & `rename` config cannot be specified together');
+      throw new HardhatPluginError(
+        PLUGIN_NAME,
+        '`flat` & `rename` config cannot be specified together',
+      );
     }
 
     if (conf.pretty && typeof conf.format !== 'undefined') {
-      throw new HardhatPluginError(PLUGIN_NAME, '`pretty` & `format` config cannot be specified together');
+      throw new HardhatPluginError(
+        PLUGIN_NAME,
+        '`pretty` & `format` config cannot be specified together',
+      );
     }
 
     if (conf.flat) {
@@ -59,13 +71,14 @@ extendConfig(function (config, userConfig) {
     }
 
     if (!conf.rename) {
-      conf.rename = (sourceName, contractName) => path.join(sourceName, contractName);
+      conf.rename = (sourceName, contractName) =>
+        path.join(sourceName, contractName);
     }
 
     validate(conf, 'rename', 'function');
 
     if (!conf.format) {
-      conf.format = conf.pretty ? 'minimal': 'json';
+      conf.format = conf.pretty ? 'minimal' : 'json';
     }
 
     validate(conf, 'format', 'string');
