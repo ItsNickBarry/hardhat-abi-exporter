@@ -73,14 +73,14 @@ extendConfig(function (config, userConfig) {
   config.abiExporter = [userConfig.abiExporter].flat().map(function (el) {
     const conf = Object.assign({}, DEFAULT_CONFIG, el);
 
-    if (conf.flat && typeof conf.rename !== 'undefined') {
+    if (conf.flat && conf.rename) {
       throw new HardhatPluginError(
         pluginName,
         '`flat` & `rename` config cannot be specified together',
       );
     }
 
-    if (conf.pretty && typeof conf.format !== 'undefined') {
+    if (conf.pretty && conf.format) {
       throw new HardhatPluginError(
         pluginName,
         '`pretty` & `format` config cannot be specified together',
