@@ -69,40 +69,9 @@ const DEFAULT_CONFIG = {
   // `format` is not defaulted as it may depend on `pretty` option
 };
 
-function validate(
-  config: AbiExporterUserConfigEntry,
-  key: keyof AbiExporterUserConfigEntry,
-  type: string,
-) {
-  if (type === 'array') {
-    if (!Array.isArray(config[key])) {
-      throw new HardhatPluginError(
-        pluginName,
-        `\`${key}\` config must be an ${type}`,
-      );
-    }
-  } else {
-    if (typeof config[key] !== type) {
-      throw new HardhatPluginError(
-        pluginName,
-        `\`${key}\` config must be a ${type}`,
-      );
-    }
-  }
-}
-
 extendConfig(function (config, userConfig) {
   config.abiExporter = [userConfig.abiExporter].flat().map(function (el) {
     const conf = Object.assign({}, DEFAULT_CONFIG, el);
-    validate(conf, 'path', 'string');
-    validate(conf, 'runOnCompile', 'boolean');
-    validate(conf, 'clear', 'boolean');
-    validate(conf, 'flat', 'boolean');
-    validate(conf, 'only', 'array');
-    validate(conf, 'except', 'array');
-    validate(conf, 'spacing', 'number');
-    validate(conf, 'pretty', 'boolean');
-    validate(conf, 'filter', 'function');
 
     if (conf.flat && typeof conf.rename !== 'undefined') {
       throw new HardhatPluginError(
@@ -127,13 +96,9 @@ extendConfig(function (config, userConfig) {
         path.join(sourceName, contractName);
     }
 
-    validate(conf, 'rename', 'function');
-
     if (!conf.format) {
       conf.format = conf.pretty ? 'minimal' : 'json';
     }
-
-    validate(conf, 'format', 'string');
 
     return conf as AbiExporterConfigEntry;
   });
