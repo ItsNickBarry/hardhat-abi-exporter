@@ -1,9 +1,29 @@
-const fs = require('fs');
-const path = require('path');
-const { HardhatPluginError } = require('hardhat/plugins');
-const { Interface, FormatTypes } = require('@ethersproject/abi');
-const { types } = require('hardhat/config');
-const { TASK_COMPILE } = require('hardhat/builtin-tasks/task-names');
+import { name as pluginName } from '../../package.json';
+import { Interface, FormatTypes } from '@ethersproject/abi';
+import fs from 'fs';
+import { TASK_COMPILE } from 'hardhat/builtin-tasks/task-names';
+import { task, subtask, types } from 'hardhat/config';
+import { HardhatPluginError } from 'hardhat/plugins';
+import path from 'path';
+
+interface AbiExporterConfigEntry {
+  path: string;
+  runOnCompile: boolean;
+  clear: boolean;
+  flat: boolean;
+  only: string[];
+  except: string[];
+  spacing: number;
+  pretty?: boolean;
+  format?: string;
+  filter: (
+    abiElement: any,
+    index: number,
+    abi: any,
+    fullyQualifiedName: string,
+  ) => boolean;
+  rename: (sourceName: string, contractName: string) => string;
+}
 
 task('export-abi')
   .addFlag('noCompile', "Don't compile before running this task")
@@ -29,15 +49,20 @@ subtask('export-abi-group')
     types.any,
   )
   .setAction(async function (args, hre) {
-    const { abiGroupConfig: config } = args;
+    const { abiGroupConfig: config } = args as {
+      abiGroupConfig: AbiExporterConfigEntry;
+    };
 
     const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
     if (outputDirectory === hre.config.paths.root) {
-      throw new HardhatPluginError('resolved path must not be root directory');
+      throw new HardhatPluginError(
+        pluginName,
+        'resolved path must not be root directory',
+      );
     }
 
-    const outputData = [];
+    const outputData: { abi: string[]; destination: string }[] = [];
 
     const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
 
@@ -61,11 +86,14 @@ subtask('export-abi-group')
         );
 
         if (config.format == 'minimal') {
-          abi = new Interface(abi).format(FormatTypes.minimal);
+          abi = [new Interface(abi).format(FormatTypes.minimal)].flat();
         } else if (config.format == 'fullName') {
-          abi = new Interface(abi).format(FormatTypes.fullName);
+          abi = [new Interface(abi).format(FormatTypes.fullName)].flat();
         } else if (config.format != 'json') {
-          throw new HardhatPluginError(`Unknown format: ${config.format}`);
+          throw new HardhatPluginError(
+            pluginName,
+            `Unknown format: ${config.format}`,
+          );
         }
 
         const destination =
@@ -78,11 +106,15 @@ subtask('export-abi-group')
       }),
     );
 
-    outputData.reduce(function (acc, { abi, destination }) {
+    outputData.reduce(function (
+      acc: { [destination: string]: string[] },
+      { abi, destination },
+    ) {
       const contents = acc[destination];
 
       if (contents && JSON.stringify(contents) !== JSON.stringify(abi)) {
         throw new HardhatPluginError(
+          pluginName,
           `multiple distinct contracts share same output destination: ${destination}`,
         );
       }
