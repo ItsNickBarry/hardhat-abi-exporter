@@ -34,8 +34,8 @@ export interface AbiExporterConfigEntry {
   only: string[];
   except: string[];
   spacing: number;
-  pretty?: boolean;
-  format?: string;
+  pretty: boolean;
+  format: string;
   filter: (
     abiElement: any,
     index: number,
