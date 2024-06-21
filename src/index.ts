@@ -1,11 +1,59 @@
-const path = require('path');
-const { extendConfig } = require('hardhat/config');
-const { HardhatPluginError } = require('hardhat/plugins');
-const { name: PLUGIN_NAME } = require('./package.json');
+import { name as pluginName } from '../package.json';
+import './tasks/clear_abi';
+import './tasks/compile';
+import './tasks/export_abi';
+import { extendConfig } from 'hardhat/config';
+import { HardhatPluginError } from 'hardhat/plugins';
+import 'hardhat/types/config';
+import path from 'path';
 
-require('./tasks/clear_abi.js');
-require('./tasks/export_abi.js');
-require('./tasks/compile.js');
+interface AbiExporterUserConfigEntry {
+  path?: string;
+  runOnCompile?: boolean;
+  clear?: boolean;
+  flat?: boolean;
+  only?: string[];
+  except?: string[];
+  spacing?: number;
+  pretty?: boolean;
+  format?: string;
+  filter?: (
+    abiElement: any,
+    index: number,
+    abi: any,
+    fullyQualifiedName: string,
+  ) => boolean;
+  rename?: (sourceName: string, contractName: string) => string;
+}
+
+interface AbiExporterConfigEntry {
+  path: string;
+  runOnCompile: boolean;
+  clear: boolean;
+  flat: boolean;
+  only: string[];
+  except: string[];
+  spacing: number;
+  pretty?: boolean;
+  format?: string;
+  filter: (
+    abiElement: any,
+    index: number,
+    abi: any,
+    fullyQualifiedName: string,
+  ) => boolean;
+  rename: (sourceName: string, contractName: string) => string;
+}
+
+declare module 'hardhat/types/config' {
+  interface HardhatUserConfig {
+    abiExporter?: AbiExporterUserConfigEntry | AbiExporterUserConfigEntry[];
+  }
+
+  interface HardhatConfig {
+    abiExporter: AbiExporterConfigEntry[];
+  }
+}
 
 const DEFAULT_CONFIG = {
   path: './abi',
@@ -21,18 +69,22 @@ const DEFAULT_CONFIG = {
   // `format` is not defaulted as it may depend on `pretty` option
 };
 
-function validate(config, key, type) {
+function validate(
+  config: AbiExporterUserConfigEntry,
+  key: keyof AbiExporterUserConfigEntry,
+  type: string,
+) {
   if (type === 'array') {
     if (!Array.isArray(config[key])) {
       throw new HardhatPluginError(
-        PLUGIN_NAME,
+        pluginName,
         `\`${key}\` config must be an ${type}`,
       );
     }
   } else {
     if (typeof config[key] !== type) {
       throw new HardhatPluginError(
-        PLUGIN_NAME,
+        pluginName,
         `\`${key}\` config must be a ${type}`,
       );
     }
@@ -54,14 +106,14 @@ extendConfig(function (config, userConfig) {
 
     if (conf.flat && typeof conf.rename !== 'undefined') {
       throw new HardhatPluginError(
-        PLUGIN_NAME,
+        pluginName,
         '`flat` & `rename` config cannot be specified together',
       );
     }
 
     if (conf.pretty && typeof conf.format !== 'undefined') {
       throw new HardhatPluginError(
-        PLUGIN_NAME,
+        pluginName,
         '`pretty` & `format` config cannot be specified together',
       );
     }
@@ -83,6 +135,6 @@ extendConfig(function (config, userConfig) {
 
     validate(conf, 'format', 'string');
 
-    return conf;
+    return conf as AbiExporterConfigEntry;
   });
 });
