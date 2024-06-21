@@ -26,7 +26,7 @@ interface AbiExporterUserConfigEntry {
   rename?: (sourceName: string, contractName: string) => string;
 }
 
-interface AbiExporterConfigEntry {
+export interface AbiExporterConfigEntry {
   path: string;
   runOnCompile: boolean;
   clear: boolean;

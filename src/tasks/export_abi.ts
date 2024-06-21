@@ -1,29 +1,11 @@
 import { name as pluginName } from '../../package.json';
+import { AbiExporterConfigEntry } from '../index';
 import { Interface, FormatTypes } from '@ethersproject/abi';
 import fs from 'fs';
 import { TASK_COMPILE } from 'hardhat/builtin-tasks/task-names';
 import { task, subtask, types } from 'hardhat/config';
 import { HardhatPluginError } from 'hardhat/plugins';
 import path from 'path';
-
-interface AbiExporterConfigEntry {
-  path: string;
-  runOnCompile: boolean;
-  clear: boolean;
-  flat: boolean;
-  only: string[];
-  except: string[];
-  spacing: number;
-  pretty?: boolean;
-  format?: string;
-  filter: (
-    abiElement: any,
-    index: number,
-    abi: any,
-    fullyQualifiedName: string,
-  ) => boolean;
-  rename: (sourceName: string, contractName: string) => string;
-}
 
 task('export-abi')
   .addFlag('noCompile', "Don't compile before running this task")
