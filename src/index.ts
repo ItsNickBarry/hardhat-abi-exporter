@@ -69,8 +69,8 @@ const DEFAULT_CONFIG = {
   // `format` is not defaulted as it may depend on `pretty` option
 };
 
-extendConfig(function (config, userConfig) {
-  config.abiExporter = [userConfig.abiExporter].flat().map(function (el) {
+extendConfig((config, userConfig) => {
+  config.abiExporter = [userConfig.abiExporter].flat().map((el) => {
     const conf = Object.assign({}, DEFAULT_CONFIG, el);
 
     if (conf.flat && conf.rename) {

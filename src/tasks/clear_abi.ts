@@ -4,10 +4,10 @@ import fs from 'fs';
 import { task, subtask, types } from 'hardhat/config';
 import path from 'path';
 
-const readdirRecursive = function (dirPath: string, output: string[] = []) {
+const readdirRecursive = (dirPath: string, output: string[] = []) => {
   const files = fs.readdirSync(dirPath);
 
-  files.forEach(function (file) {
+  files.forEach((file) => {
     file = path.join(dirPath, file);
 
     if (fs.statSync(file).isDirectory()) {
@@ -20,7 +20,7 @@ const readdirRecursive = function (dirPath: string, output: string[] = []) {
   return output;
 };
 
-task('clear-abi', async function (args, hre) {
+task('clear-abi', async (args, hre) => {
   const configs = hre.config.abiExporter;
 
   await Promise.all(
@@ -32,7 +32,7 @@ task('clear-abi', async function (args, hre) {
 
 subtask('clear-abi-group')
   .addParam('path', 'path to look for ABIs', undefined, types.string)
-  .setAction(async function (args, hre) {
+  .setAction(async (args, hre) => {
     const outputDirectory = path.resolve(hre.config.paths.root, args.path);
 
     if (!fs.existsSync(outputDirectory)) {
@@ -42,7 +42,7 @@ subtask('clear-abi-group')
     const files = readdirRecursive(outputDirectory);
 
     await Promise.all(
-      files.map(async function (file) {
+      files.map(async (file) => {
         if (path.extname(file) !== '.json') {
           // ABIs must be stored as JSON
           return;

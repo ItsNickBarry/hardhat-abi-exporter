@@ -9,7 +9,7 @@ import path from 'path';
 
 task('export-abi')
   .addFlag('noCompile', "Don't compile before running this task")
-  .setAction(async function (args, hre) {
+  .setAction(async (args, hre) => {
     if (!args.noCompile) {
       await hre.run(TASK_COMPILE, { noExportAbi: true });
     }
@@ -30,7 +30,7 @@ subtask('export-abi-group')
     undefined,
     types.any,
   )
-  .setAction(async function (args, hre) {
+  .setAction(async (args, hre) => {
     const { abiGroupConfig: config } = args as {
       abiGroupConfig: AbiExporterConfigEntry;
     };
@@ -49,7 +49,7 @@ subtask('export-abi-group')
     const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
 
     await Promise.all(
-      fullNames.map(async function (fullName) {
+      fullNames.map(async (fullName) => {
         if (config.only.length && !config.only.some((m) => fullName.match(m)))
           return;
         if (
@@ -88,29 +88,29 @@ subtask('export-abi-group')
       }),
     );
 
-    outputData.reduce(function (
-      acc: { [destination: string]: string[] },
-      { abi, destination },
-    ) {
-      const contents = acc[destination];
+    outputData.reduce(
+      (acc: { [destination: string]: string[] }, { abi, destination }) => {
+        const contents = acc[destination];
 
-      if (contents && JSON.stringify(contents) !== JSON.stringify(abi)) {
-        throw new HardhatPluginError(
-          pluginName,
-          `multiple distinct contracts share same output destination: ${destination}`,
-        );
-      }
+        if (contents && JSON.stringify(contents) !== JSON.stringify(abi)) {
+          throw new HardhatPluginError(
+            pluginName,
+            `multiple distinct contracts share same output destination: ${destination}`,
+          );
+        }
 
-      acc[destination] = abi;
-      return acc;
-    }, {});
+        acc[destination] = abi;
+        return acc;
+      },
+      {},
+    );
 
     if (config.clear) {
       await hre.run('clear-abi-group', { path: config.path });
     }
 
     await Promise.all(
-      outputData.map(async function ({ abi, destination }) {
+      outputData.map(async ({ abi, destination }) => {
         await fs.promises.mkdir(path.dirname(destination), { recursive: true });
         await fs.promises.writeFile(
           destination,

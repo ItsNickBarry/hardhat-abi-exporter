@@ -6,7 +6,7 @@ task(TASK_COMPILE)
     'noExportAbi',
     "Don't export ABI after running this task, even if runOnCompile option is enabled",
   )
-  .setAction(async function (args, hre, runSuper) {
+  .setAction(async (args, hre, runSuper) => {
     await runSuper();
 
     if (!args.noExportAbi && !(hre as any).__SOLIDITY_COVERAGE_RUNNING) {
