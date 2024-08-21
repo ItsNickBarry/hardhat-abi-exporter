@@ -44,7 +44,11 @@ subtask('export-abi-group')
       );
     }
 
-    const outputData: { abi: string[]; destination: string }[] = [];
+    const outputData: {
+      abi: string[];
+      destination: string;
+      tsDestination?: string;
+    }[] = [];
 
     const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
 
@@ -84,12 +88,24 @@ subtask('export-abi-group')
             config.rename(sourceName, contractName),
           ) + '.json';
 
-        outputData.push({ abi, destination });
+        if (config.tsFiles) {
+          const tsDestination =
+            path.resolve(
+              outputDirectory + '/ts/',
+              config.rename(sourceName, contractName),
+            ) + '.ts';
+          outputData.push({ abi, destination, tsDestination });
+        } else {
+          outputData.push({ abi, destination });
+        }
       }),
     );
 
     outputData.reduce(
-      (acc: { [destination: string]: string[] }, { abi, destination }) => {
+      (
+        acc: { [destination: string]: string[] },
+        { abi, destination, tsDestination },
+      ) => {
         const contents = acc[destination];
 
         if (contents && JSON.stringify(contents) !== JSON.stringify(abi)) {
@@ -100,6 +116,9 @@ subtask('export-abi-group')
         }
 
         acc[destination] = abi;
+        if (config.tsFiles) {
+          acc[tsDestination as string] = abi;
+        }
         return acc;
       },
       {},
@@ -110,13 +129,25 @@ subtask('export-abi-group')
     }
 
     await Promise.all(
-      outputData.map(async ({ abi, destination }) => {
+      outputData.map(async ({ abi, destination, tsDestination }) => {
         await fs.promises.mkdir(path.dirname(destination), { recursive: true });
+        if (config.tsFiles) {
+          await fs.promises.mkdir(path.dirname(tsDestination as string), {
+            recursive: true,
+          });
+        }
         await fs.promises.writeFile(
           destination,
           `${JSON.stringify(abi, null, config.spacing)}\n`,
           { flag: 'w' },
         );
+        if (config.tsFiles) {
+          await fs.promises.writeFile(
+            tsDestination as string,
+            `export const nfor = ${JSON.stringify(abi, null, config.spacing)} as const\n`,
+            { flag: 'w' },
+          );
+        }
       }),
     );
   });

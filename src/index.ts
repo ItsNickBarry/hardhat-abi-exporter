@@ -35,6 +35,7 @@ export interface AbiExporterConfigEntry {
   except: string[];
   spacing: number;
   pretty: boolean;
+  tsFiles: boolean;
   format: string;
   filter: (
     abiElement: any,
@@ -64,6 +65,7 @@ const DEFAULT_CONFIG = {
   except: [],
   spacing: 2,
   pretty: false,
+  tsFiles: true,
   filter: () => true,
   // `rename` is not defaulted as it may depend on `flat` option
   // `format` is not defaulted as it may depend on `pretty` option

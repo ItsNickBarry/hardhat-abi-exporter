@@ -1,6 +1,6 @@
 {
-  "name": "hardhat-abi-exporter",
-  "version": "2.10.1",
+  "name": "@h3aven-labs/hardhat-abi-exporter",
+  "version": "2.11.0",
   "license": "MIT",
   "description": "Export Ethereum smart contract ABIs on compilation",
   "keywords": [
@@ -23,6 +23,7 @@
   "scripts": {
     "build": "tsc --build",
     "prepare": "husky",
+    "prepublishOnly": "yarn build",
     "prettier": "prettier --write ."
   },
   "files": [
