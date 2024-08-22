@@ -48,6 +48,7 @@ subtask('export-abi-group')
       abi: string[];
       destination: string;
       tsDestination?: string;
+      contractName: string;
     }[] = [];
 
     const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
@@ -94,9 +95,9 @@ subtask('export-abi-group')
               outputDirectory + '/ts/',
               config.rename(sourceName, contractName),
             ) + '.ts';
-          outputData.push({ abi, destination, tsDestination });
+          outputData.push({ abi, destination, tsDestination, contractName });
         } else {
-          outputData.push({ abi, destination });
+          outputData.push({ abi, destination, contractName });
         }
       }),
     );
@@ -104,7 +105,7 @@ subtask('export-abi-group')
     outputData.reduce(
       (
         acc: { [destination: string]: string[] },
-        { abi, destination, tsDestination },
+        { abi, destination, tsDestination, contractName },
       ) => {
         const contents = acc[destination];
 
@@ -129,25 +130,29 @@ subtask('export-abi-group')
     }
 
     await Promise.all(
-      outputData.map(async ({ abi, destination, tsDestination }) => {
-        await fs.promises.mkdir(path.dirname(destination), { recursive: true });
-        if (config.tsFiles) {
-          await fs.promises.mkdir(path.dirname(tsDestination as string), {
+      outputData.map(
+        async ({ abi, destination, tsDestination, contractName }) => {
+          await fs.promises.mkdir(path.dirname(destination), {
             recursive: true,
           });
-        }
-        await fs.promises.writeFile(
-          destination,
-          `${JSON.stringify(abi, null, config.spacing)}\n`,
-          { flag: 'w' },
-        );
-        if (config.tsFiles) {
+          if (config.tsFiles) {
+            await fs.promises.mkdir(path.dirname(tsDestination as string), {
+              recursive: true,
+            });
+          }
           await fs.promises.writeFile(
-            tsDestination as string,
-            `export const nfor = ${JSON.stringify(abi, null, config.spacing)} as const\n`,
+            destination,
+            `${JSON.stringify(abi, null, config.spacing)}\n`,
             { flag: 'w' },
           );
-        }
-      }),
+          if (config.tsFiles) {
+            await fs.promises.writeFile(
+              tsDestination as string,
+              `export const ${contractName} = ${JSON.stringify(abi, null, config.spacing)} as const\n`,
+              { flag: 'w' },
+            );
+          }
+        },
+      ),
     );
   });
