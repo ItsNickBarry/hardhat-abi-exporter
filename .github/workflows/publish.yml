@@ -3,7 +3,7 @@ name: Publish new version
 on:
   push:
     branches:
-      - "main"
+      - 'main'
 
   workflow_dispatch:
 
@@ -12,12 +12,13 @@ jobs:
     runs-on: ubuntu-20.04
     permissions:
       contents: write
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18.18.2
-          cache: "yarn"
+          cache: 'yarn'
 
       - name: Set variables
         run: |
@@ -25,13 +26,13 @@ jobs:
           echo "@h3aven-labs:registry=https://npm.pkg.github.com/" >> .npmrc
           echo "PACKAGE_VERSION=$(cat package.json | jq -r .version)" >> $GITHUB_ENV
 
-      - name: Deploy
+      - name: Publish
+        continue-on-error: true
         run: |
-          yarn install
-          yarn build
+          yarn
           npm publish
 
-      - name: Tags
+      - name: Generate new Tag
         run: |
           git tag v${{ env.PACKAGE_VERSION }}
           git push --tags
