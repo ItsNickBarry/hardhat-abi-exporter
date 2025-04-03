@@ -26,15 +26,15 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
   validateUserConfig: async (userConfig) => {
     const errors: HardhatUserConfigValidationError[] = [];
 
-    for (const conf of toArray(userConfig.abiExporter)) {
-      if (conf.flat && conf.rename) {
+    for (const entry of toArray(userConfig.abiExporter)) {
+      if (entry.flat && entry.rename) {
         errors.push({
           path: ['abiExporter', 'flat'],
           message: '`flat` & `rename` config cannot be specified together',
         });
       }
 
-      if (conf.pretty && conf.format) {
+      if (entry.pretty && entry.format) {
         errors.push({
           path: ['abiExporter', 'pretty'],
           message: '`pretty` & `format` config cannot be specified together',
@@ -52,14 +52,14 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
     const result: AbiExporterConfigEntry[] = [];
 
     for (let i = 0; i < abiExporter.length; i++) {
-      const conf = Object.assign({}, defaultConfig, abiExporter[i]);
+      const entry = Object.assign({}, defaultConfig, abiExporter[i]);
 
       result.push({
-        ...conf,
-        format: (conf.format ?? conf.pretty) ? 'minimal' : 'json',
+        ...entry,
+        format: (entry.format ?? entry.pretty) ? 'minimal' : 'json',
         rename:
-          conf.rename ??
-          (conf.flat
+          entry.rename ??
+          (entry.flat
             ? (sourceName, contractName) => contractName
             : (sourceName, contractName) =>
                 path.join(sourceName, contractName)),
