@@ -15,7 +15,7 @@ const hardhatPlugin: HardhatPlugin = {
     postCompileTask,
   ],
   hookHandlers: {
-    config: import.meta.resolve('./hook-handlers/config.js'),
+    config: import.meta.resolve('./hook_handlers/config.js'),
   },
 };
 
