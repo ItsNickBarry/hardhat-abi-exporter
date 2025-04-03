@@ -1,7 +1,7 @@
 import { abiFromTs, abiToTs } from '../src/actions/utils.js';
 import jsonAbi from './erc20.json';
 import { Interface } from '@ethersproject/abi';
-import * as fs from 'node:fs';
+import fs from 'fs';
 import { expect, test } from 'vitest';
 
 const lintedTs = fs.readFileSync('./test/linted-erc20.ts', 'utf8');

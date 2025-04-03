@@ -13,7 +13,7 @@ import type {
   ConfigHooks,
   HardhatUserConfigValidationError,
 } from 'hardhat/types/hooks';
-import path from 'node:path';
+import path from 'path';
 
 export default async (): Promise<Partial<ConfigHooks>> => ({
   extendUserConfig,

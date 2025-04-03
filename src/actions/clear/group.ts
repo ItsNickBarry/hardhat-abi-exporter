@@ -1,9 +1,9 @@
 import { abiFromTs } from '../utils.js';
 import { Interface } from '@ethersproject/abi';
 import deleteEmpty from 'delete-empty';
+import fs from 'fs';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
-import fs from 'node:fs';
-import path from 'node:path';
+import path from 'path';
 
 interface ClearAbiGroupActionArguments {
   path: string;

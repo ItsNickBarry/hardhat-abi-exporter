@@ -1,11 +1,11 @@
 import pkg from '../../../package.json';
 import { abiToTs } from '../utils.js';
 import { FormatTypes, Interface } from '@ethersproject/abi';
+import fs from 'fs';
 import { HardhatPluginError } from 'hardhat/plugins';
 import type { Abi } from 'hardhat/types/artifacts';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
-import fs from 'node:fs';
-import path from 'node:path';
+import path from 'path';
 
 interface ExportAbiGroupActionArguments {
   path: string;
