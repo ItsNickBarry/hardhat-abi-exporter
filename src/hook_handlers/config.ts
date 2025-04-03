@@ -4,12 +4,6 @@ import type {
   AbiExporterUserConfigEntry,
 } from '../types.js';
 import type {
-  ConfigurationVariable,
-  HardhatConfig,
-  HardhatUserConfig,
-  ResolvedConfigurationVariable,
-} from 'hardhat/types/config';
-import type {
   ConfigHooks,
   HardhatUserConfigValidationError,
 } from 'hardhat/types/hooks';
@@ -29,10 +23,9 @@ function toArray(
 }
 
 export default async (): Promise<Partial<ConfigHooks>> => ({
-  validateUserConfig: async (
-    userConfig: HardhatUserConfig,
-  ): Promise<HardhatUserConfigValidationError[]> => {
+  validateUserConfig: async (userConfig) => {
     const errors: HardhatUserConfigValidationError[] = [];
+
     for (const conf of toArray(userConfig.abiExporter)) {
       if (conf.flat && conf.rename) {
         errors.push({
@@ -48,25 +41,16 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
         });
       }
     }
+
     return errors;
   },
 
-  resolveUserConfig: async (
-    userConfig: HardhatUserConfig,
-    resolveConfigurationVariable: (
-      variableOrString: ConfigurationVariable | string,
-    ) => ResolvedConfigurationVariable,
-    next: (
-      nextUserConfig: HardhatUserConfig,
-      nextResolveConfigurationVariable: (
-        variableOrString: ConfigurationVariable | string,
-      ) => ResolvedConfigurationVariable,
-    ) => Promise<HardhatConfig>,
-  ): Promise<HardhatConfig> => {
+  resolveUserConfig: async (userConfig, resolveConfigurationVariable, next) => {
     const resolvedConfig = await next(userConfig, resolveConfigurationVariable);
     const abiExporter = toArray(userConfig.abiExporter);
 
     const result: AbiExporterConfigEntry[] = [];
+
     for (let i = 0; i < abiExporter.length; i++) {
       const conf = Object.assign({}, defaultConfig, abiExporter[i]);
 
