@@ -29,18 +29,6 @@ function toArray(
 }
 
 export default async (): Promise<Partial<ConfigHooks>> => ({
-  extendUserConfig: async (
-    config: HardhatUserConfig,
-    next: (nextConfig: HardhatUserConfig) => Promise<HardhatUserConfig>,
-  ): Promise<HardhatUserConfig> => {
-    const extendedConfig = await next(config);
-
-    return {
-      ...extendedConfig,
-      abiExporter: toArray(extendedConfig.abiExporter),
-    };
-  },
-
   validateUserConfig: async (
     userConfig: HardhatUserConfig,
   ): Promise<HardhatUserConfigValidationError[]> => {
