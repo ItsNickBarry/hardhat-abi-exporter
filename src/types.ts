@@ -1,26 +1,23 @@
-import { AbiExporterConfigEntry } from './index.js';
+import 'hardhat/types/config';
 
-export interface HardhatAbiExporterConfigEntry {
-  path: string;
-  runOnCompile: boolean;
-  clear: boolean;
-  flat: boolean;
-  only: string[];
-  except: string[];
-  spacing: number;
-  pretty: boolean;
-  format: string;
-  filter: (
+export interface AbiExporterUserConfigEntry {
+  path?: string;
+  runOnCompile?: boolean;
+  clear?: boolean;
+  flat?: boolean;
+  tsWrapper?: boolean;
+  only?: string[];
+  except?: string[];
+  spacing?: number;
+  pretty?: boolean;
+  format?: 'minimal' | 'fullName' | 'json';
+  filter?: (
     abiElement: any,
     index: number,
     abi: any,
     fullyQualifiedName: string,
   ) => boolean;
-  rename: (sourceName: string, contractName: string) => string;
+  rename?: (sourceName: string, contractName: string) => string;
 }
 
-export type HardhatAbiExporterConfig =
-  | AbiExporterConfigEntry
-  | AbiExporterConfigEntry[];
-
-export type HardhatAbiExporterUserConfig = Partial<HardhatAbiExporterConfig>;
+export type AbiExporterConfigEntry = Required<AbiExporterUserConfigEntry>;

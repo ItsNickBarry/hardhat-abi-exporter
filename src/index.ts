@@ -1,59 +1,22 @@
-import { name as pluginName } from '../package.json';
-import './tasks/clear_abi';
-import './tasks/compile';
-import './tasks/export_abi';
+import pkg from '../package.json';
+import { clearAbiGroupTask, clearAbiTask } from './tasks/clear_abi.js';
+import { postCompileTask } from './tasks/compile.js';
+import { exportAbiGroupTask, exportAbiTask } from './tasks/export_abi.js';
 import './type-extensions.js';
-import type { HardhatAbiExporterConfigEntry } from './types.js';
-import { extendConfig } from 'hardhat/config';
-import { HardhatPluginError } from 'hardhat/plugins';
-import 'hardhat/types/config';
-import path from 'path';
+import type { HardhatPlugin } from 'hardhat/types/plugins';
 
-const DEFAULT_CONFIG = {
-  path: './abi',
-  runOnCompile: false,
-  clear: false,
-  flat: false,
-  only: [],
-  except: [],
-  spacing: 2,
-  pretty: false,
-  filter: () => true,
-  // `rename` is not defaulted as it may depend on `flat` option
-  // `format` is not defaulted as it may depend on `pretty` option
+const hardhatPlugin: HardhatPlugin = {
+  id: pkg.name,
+  tasks: [
+    clearAbiTask,
+    clearAbiGroupTask,
+    exportAbiTask,
+    exportAbiGroupTask,
+    postCompileTask,
+  ],
+  hookHandlers: {
+    config: import.meta.resolve('./hook_handlers/config.js'),
+  },
 };
 
-extendConfig((config, userConfig) => {
-  config.abiExporter = [userConfig.abiExporter].flat().map((el) => {
-    const conf = Object.assign({}, DEFAULT_CONFIG, el);
-
-    if (conf.flat && conf.rename) {
-      throw new HardhatPluginError(
-        pluginName,
-        '`flat` & `rename` config cannot be specified together',
-      );
-    }
-
-    if (conf.pretty && conf.format) {
-      throw new HardhatPluginError(
-        pluginName,
-        '`pretty` & `format` config cannot be specified together',
-      );
-    }
-
-    if (conf.flat) {
-      conf.rename = (sourceName, contractName) => contractName;
-    }
-
-    if (!conf.rename) {
-      conf.rename = (sourceName, contractName) =>
-        path.join(sourceName, contractName);
-    }
-
-    if (!conf.format) {
-      conf.format = conf.pretty ? 'minimal' : 'json';
-    }
-
-    return conf as HardhatAbiExporterConfigEntry;
-  });
-});
+export default hardhatPlugin;
