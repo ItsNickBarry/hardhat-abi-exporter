@@ -15,12 +15,6 @@ import type {
 } from 'hardhat/types/hooks';
 import path from 'path';
 
-export default async (): Promise<Partial<ConfigHooks>> => ({
-  extendUserConfig,
-  validateUserConfig,
-  resolveUserConfig,
-});
-
 const DEFAULT_CONFIG: Omit<AbiExporterConfigEntry, 'format' | 'rename'> = {
   path: './abi',
   runOnCompile: false,
@@ -49,72 +43,75 @@ function toArray(
   return [abiExporter];
 }
 
-export async function extendUserConfig(
-  config: HardhatUserConfig,
-  next: (nextConfig: HardhatUserConfig) => Promise<HardhatUserConfig>,
-): Promise<HardhatUserConfig> {
-  const extendedConfig = await next(config);
+export default async (): Promise<Partial<ConfigHooks>> => ({
+  extendUserConfig: async (
+    config: HardhatUserConfig,
+    next: (nextConfig: HardhatUserConfig) => Promise<HardhatUserConfig>,
+  ): Promise<HardhatUserConfig> => {
+    const extendedConfig = await next(config);
 
-  return {
-    ...extendedConfig,
-    abiExporter: toArray(extendedConfig.abiExporter),
-  };
-}
+    return {
+      ...extendedConfig,
+      abiExporter: toArray(extendedConfig.abiExporter),
+    };
+  },
 
-export async function validateUserConfig(
-  userConfig: HardhatUserConfig,
-): Promise<HardhatUserConfigValidationError[]> {
-  const errors: HardhatUserConfigValidationError[] = [];
-  for (const conf of toArray(userConfig.abiExporter)) {
-    if (conf.flat && conf.rename) {
-      errors.push({
-        path: ['abiExporter', 'flat'],
-        message: '`flat` & `rename` config cannot be specified together',
-      });
+  validateUserConfig: async (
+    userConfig: HardhatUserConfig,
+  ): Promise<HardhatUserConfigValidationError[]> => {
+    const errors: HardhatUserConfigValidationError[] = [];
+    for (const conf of toArray(userConfig.abiExporter)) {
+      if (conf.flat && conf.rename) {
+        errors.push({
+          path: ['abiExporter', 'flat'],
+          message: '`flat` & `rename` config cannot be specified together',
+        });
+      }
+
+      if (conf.pretty && conf.format) {
+        errors.push({
+          path: ['abiExporter', 'pretty'],
+          message: '`pretty` & `format` config cannot be specified together',
+        });
+      }
     }
+    return errors;
+  },
 
-    if (conf.pretty && conf.format) {
-      errors.push({
-        path: ['abiExporter', 'pretty'],
-        message: '`pretty` & `format` config cannot be specified together',
-      });
-    }
-  }
-  return errors;
-}
-
-export async function resolveUserConfig(
-  userConfig: HardhatUserConfig,
-  resolveConfigurationVariable: (
-    variableOrString: ConfigurationVariable | string,
-  ) => ResolvedConfigurationVariable,
-  next: (
-    nextUserConfig: HardhatUserConfig,
-    nextResolveConfigurationVariable: (
+  resolveUserConfig: async (
+    userConfig: HardhatUserConfig,
+    resolveConfigurationVariable: (
       variableOrString: ConfigurationVariable | string,
     ) => ResolvedConfigurationVariable,
-  ) => Promise<HardhatConfig>,
-): Promise<HardhatConfig> {
-  const resolvedConfig = await next(userConfig, resolveConfigurationVariable);
-  const abiExporter = toArray(userConfig.abiExporter);
+    next: (
+      nextUserConfig: HardhatUserConfig,
+      nextResolveConfigurationVariable: (
+        variableOrString: ConfigurationVariable | string,
+      ) => ResolvedConfigurationVariable,
+    ) => Promise<HardhatConfig>,
+  ): Promise<HardhatConfig> => {
+    const resolvedConfig = await next(userConfig, resolveConfigurationVariable);
+    const abiExporter = toArray(userConfig.abiExporter);
 
-  const result: AbiExporterConfigEntry[] = [];
-  for (let i = 0; i < abiExporter.length; i++) {
-    const conf = Object.assign({}, DEFAULT_CONFIG, abiExporter[i]);
+    const result: AbiExporterConfigEntry[] = [];
+    for (let i = 0; i < abiExporter.length; i++) {
+      const conf = Object.assign({}, DEFAULT_CONFIG, abiExporter[i]);
 
-    result.push({
-      ...conf,
-      format: (conf.format ?? conf.pretty) ? 'minimal' : 'json',
-      rename:
-        conf.rename ??
-        (conf.flat
-          ? (sourceName, contractName) => contractName
-          : (sourceName, contractName) => path.join(sourceName, contractName)),
-    });
-  }
+      result.push({
+        ...conf,
+        format: (conf.format ?? conf.pretty) ? 'minimal' : 'json',
+        rename:
+          conf.rename ??
+          (conf.flat
+            ? (sourceName, contractName) => contractName
+            : (sourceName, contractName) =>
+                path.join(sourceName, contractName)),
+      });
+    }
 
-  return {
-    ...resolvedConfig,
-    abiExporter: result,
-  };
-}
+    return {
+      ...resolvedConfig,
+      abiExporter: result,
+    };
+  },
+});
