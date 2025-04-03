@@ -31,7 +31,7 @@
     "src/"
   ],
   "peerDependencies": {
-    "hardhat": "^2.0.0"
+    "hardhat": "^3.0.0"
   },
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",
@@ -42,7 +42,7 @@
     "@types/delete-empty": "^3.0.4",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.14.7",
-    "hardhat": "^2.22.5",
+    "hardhat": "^3.0.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
