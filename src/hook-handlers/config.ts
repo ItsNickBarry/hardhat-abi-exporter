@@ -1,8 +1,8 @@
-import '../type-extensions/config.js';
+import '../types.js';
 import type {
   AbiExporterConfigEntry,
   AbiExporterUserConfigEntry,
-} from '../type-extensions/config.js';
+} from '../types.js';
 import type {
   ConfigurationVariable,
   HardhatConfig,

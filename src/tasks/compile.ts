@@ -1,4 +1,4 @@
-import '../type-extensions/config.js';
+import '../types.js';
 import { overrideTask } from 'hardhat/config';
 
 export const postCompileTask = overrideTask('compile')

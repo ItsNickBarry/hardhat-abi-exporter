@@ -21,13 +21,3 @@ export interface AbiExporterUserConfigEntry {
 }
 
 export type AbiExporterConfigEntry = Required<AbiExporterUserConfigEntry>;
-
-declare module 'hardhat/types/config' {
-  interface HardhatUserConfig {
-    abiExporter?: AbiExporterUserConfigEntry | AbiExporterUserConfigEntry[];
-  }
-
-  interface HardhatConfig {
-    abiExporter: AbiExporterConfigEntry[];
-  }
-}
