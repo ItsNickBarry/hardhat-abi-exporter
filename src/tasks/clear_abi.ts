@@ -1,4 +1,3 @@
-import '../types.js';
 import { task } from 'hardhat/config';
 import { ArgumentType } from 'hardhat/types/arguments';
 
