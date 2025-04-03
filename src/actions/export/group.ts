@@ -33,7 +33,7 @@ const exportAbiGroupAction: NewTaskActionFunction<
     destination: string;
   }[] = [];
 
-  const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
+  const fullNames = Array.from(await hre.artifacts.getAllFullyQualifiedNames());
 
   await Promise.all(
     fullNames.map(async (fullName) => {
