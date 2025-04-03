@@ -1,5 +1,4 @@
 import defaultConfig from '../config/default.js';
-import '../types.js';
 import type {
   AbiExporterConfigEntry,
   AbiExporterUserConfigEntry,
