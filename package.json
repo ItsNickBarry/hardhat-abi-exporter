@@ -33,7 +33,7 @@
     "!**/*.tsbuildinfo"
   ],
   "peerDependencies": {
-    "hardhat": "^3.0.0"
+    "hardhat": "3.0.0-next.3"
   },
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",
@@ -45,7 +45,7 @@
     "@types/delete-empty": "^3.0.5",
     "@types/mocha": "^10.0.6",
     "@types/node": "^22.9.3",
-    "hardhat": "^3.0.0",
+    "hardhat": "3.0.0-next.3",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
     "prettier": "^3.4.0",

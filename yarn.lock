@@ -1790,7 +1790,7 @@ globals@^11.1.0:
   resolved "https://registry.yarnpkg.com/globals/-/globals-11.12.0.tgz#ab8795338868a0babd8525758018c2a7eb95c42e"
   integrity sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==
 
-hardhat@^3.0.0:
+hardhat@3.0.0-next.3:
   version "3.0.0-next.3"
   resolved "https://registry.yarnpkg.com/hardhat/-/hardhat-3.0.0-next.3.tgz#93db0e91c12cc550ae642be366a459682e717c3d"
   integrity sha512-do+hXcRslKphXNutUKO0QIdiUwRt+xq61WQsAnVaBlvEYDHEs1xBFE8hNgJNrQfZrKunPQ3SRCQdpUOGp4et6Q==
