@@ -1,4 +1,4 @@
-import pkg from '../../../package.json' with { type: 'json' };
+import pkg from '../../../package.json';
 import { abiToTs } from '../utils.js';
 import { FormatTypes, Interface } from '@ethersproject/abi';
 import { HardhatPluginError } from 'hardhat/plugins';

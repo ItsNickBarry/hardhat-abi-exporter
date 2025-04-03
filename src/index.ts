@@ -1,4 +1,4 @@
-import pkg from '../package.json' with { type: 'json' };
+import pkg from '../package.json';
 import { clearAbiGroupTask, clearAbiTask } from './tasks/clear_abi.js';
 import { postCompileTask } from './tasks/compile.js';
 import { exportAbiGroupTask, exportAbiTask } from './tasks/export_abi.js';
