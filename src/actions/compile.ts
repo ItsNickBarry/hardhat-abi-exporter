@@ -4,9 +4,11 @@ interface CompileActionArguments {
   noExportAbi: boolean;
 }
 
-const clearAbiAction: TaskOverrideActionFunction<
-  CompileActionArguments
-> = async (args, hre, runSuper) => {
+const action: TaskOverrideActionFunction<CompileActionArguments> = async (
+  args,
+  hre,
+  runSuper,
+) => {
   await runSuper(args);
 
   if (!args.noExportAbi && !(hre as any).__SOLIDITY_COVERAGE_RUNNING) {
@@ -24,4 +26,4 @@ const clearAbiAction: TaskOverrideActionFunction<
   }
 };
 
-export default clearAbiAction;
+export default action;

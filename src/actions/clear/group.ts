@@ -9,9 +9,10 @@ interface ClearAbiGroupActionArguments {
   path: string;
 }
 
-const clearAbiGroupAction: NewTaskActionFunction<
-  ClearAbiGroupActionArguments
-> = async (args, hre) => {
+const action: NewTaskActionFunction<ClearAbiGroupActionArguments> = async (
+  args,
+  hre,
+) => {
   const configForPath = hre.config.abiExporter.find(
     (config) => config.path === args.path,
   );
@@ -90,4 +91,4 @@ const readdirRecursive = (dirPath: string, output: string[] = []) => {
   return output;
 };
 
-export default clearAbiGroupAction;
+export default action;

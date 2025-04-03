@@ -5,7 +5,7 @@ import { exportAbiGroupTask, exportAbiTask } from './tasks/export_abi.js';
 import './type-extensions.js';
 import type { HardhatPlugin } from 'hardhat/types/plugins';
 
-const hardhatPlugin: HardhatPlugin = {
+const plugin: HardhatPlugin = {
   id: pkg.name,
   tasks: [
     clearAbiTask,
@@ -19,4 +19,4 @@ const hardhatPlugin: HardhatPlugin = {
   },
 };
 
-export default hardhatPlugin;
+export default plugin;

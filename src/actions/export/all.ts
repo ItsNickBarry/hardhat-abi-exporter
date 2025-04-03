@@ -4,7 +4,7 @@ interface ExportAbiActionArguments {
   noCompile: boolean;
 }
 
-const exportAbiAction: NewTaskActionFunction<ExportAbiActionArguments> = async (
+const action: NewTaskActionFunction<ExportAbiActionArguments> = async (
   args,
   hre,
 ) => {
@@ -23,4 +23,4 @@ const exportAbiAction: NewTaskActionFunction<ExportAbiActionArguments> = async (
   );
 };
 
-export default exportAbiAction;
+export default action;

@@ -11,9 +11,10 @@ interface ExportAbiGroupActionArguments {
   path: string;
 }
 
-const exportAbiGroupAction: NewTaskActionFunction<
-  ExportAbiGroupActionArguments
-> = async (args, hre) => {
+const action: NewTaskActionFunction<ExportAbiGroupActionArguments> = async (
+  args,
+  hre,
+) => {
   const config = hre.config.abiExporter.find(
     (entry) => entry.path === args.path,
   );
@@ -119,4 +120,4 @@ const exportAbiGroupAction: NewTaskActionFunction<
   );
 };
 
-export default exportAbiGroupAction;
+export default action;

@@ -2,7 +2,7 @@ import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 type ClearAbiActionArguments = Record<string, never>;
 
-const clearAbiAction: NewTaskActionFunction<ClearAbiActionArguments> = async (
+const action: NewTaskActionFunction<ClearAbiActionArguments> = async (
   _,
   hre,
 ) => {
@@ -17,4 +17,4 @@ const clearAbiAction: NewTaskActionFunction<ClearAbiActionArguments> = async (
   );
 };
 
-export default clearAbiAction;
+export default action;
