@@ -1,3 +1,4 @@
+import defaultConfig from '../config/default.js';
 import '../types.js';
 import type {
   AbiExporterConfigEntry,
@@ -14,21 +15,6 @@ import type {
   HardhatUserConfigValidationError,
 } from 'hardhat/types/hooks';
 import path from 'path';
-
-const DEFAULT_CONFIG: Omit<AbiExporterConfigEntry, 'format' | 'rename'> = {
-  path: './abi',
-  runOnCompile: false,
-  clear: false,
-  flat: false,
-  tsWrapper: false,
-  only: [],
-  except: [],
-  spacing: 2,
-  pretty: false,
-  filter: () => true,
-  // `rename` is not defaulted as it may depend on `flat` option
-  // `format` is not defaulted as it may depend on `pretty` option
-};
 
 function toArray(
   abiExporter:
@@ -95,7 +81,7 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
 
     const result: AbiExporterConfigEntry[] = [];
     for (let i = 0; i < abiExporter.length; i++) {
-      const conf = Object.assign({}, DEFAULT_CONFIG, abiExporter[i]);
+      const conf = Object.assign({}, defaultConfig, abiExporter[i]);
 
       result.push({
         ...conf,
