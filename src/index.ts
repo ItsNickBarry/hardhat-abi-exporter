@@ -2,58 +2,12 @@ import { name as pluginName } from '../package.json';
 import './tasks/clear_abi';
 import './tasks/compile';
 import './tasks/export_abi';
+import './type-extensions.js';
+import type { HardhatAbiExporterConfigEntry } from './types.js';
 import { extendConfig } from 'hardhat/config';
 import { HardhatPluginError } from 'hardhat/plugins';
 import 'hardhat/types/config';
 import path from 'path';
-
-interface AbiExporterUserConfigEntry {
-  path?: string;
-  runOnCompile?: boolean;
-  clear?: boolean;
-  flat?: boolean;
-  only?: string[];
-  except?: string[];
-  spacing?: number;
-  pretty?: boolean;
-  format?: string;
-  filter?: (
-    abiElement: any,
-    index: number,
-    abi: any,
-    fullyQualifiedName: string,
-  ) => boolean;
-  rename?: (sourceName: string, contractName: string) => string;
-}
-
-export interface AbiExporterConfigEntry {
-  path: string;
-  runOnCompile: boolean;
-  clear: boolean;
-  flat: boolean;
-  only: string[];
-  except: string[];
-  spacing: number;
-  pretty: boolean;
-  format: string;
-  filter: (
-    abiElement: any,
-    index: number,
-    abi: any,
-    fullyQualifiedName: string,
-  ) => boolean;
-  rename: (sourceName: string, contractName: string) => string;
-}
-
-declare module 'hardhat/types/config' {
-  interface HardhatUserConfig {
-    abiExporter?: AbiExporterUserConfigEntry | AbiExporterUserConfigEntry[];
-  }
-
-  interface HardhatConfig {
-    abiExporter: AbiExporterConfigEntry[];
-  }
-}
 
 const DEFAULT_CONFIG = {
   path: './abi',
@@ -100,6 +54,6 @@ extendConfig((config, userConfig) => {
       conf.format = conf.pretty ? 'minimal' : 'json';
     }
 
-    return conf as AbiExporterConfigEntry;
+    return conf as HardhatAbiExporterConfigEntry;
   });
 });
