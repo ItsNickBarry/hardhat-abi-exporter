@@ -1,5 +1,5 @@
 import '../type-extensions/config.js';
-import { overrideTask } from '@ignored/hardhat-vnext/config';
+import { overrideTask } from 'hardhat/config';
 
 export const postCompileTask = overrideTask('compile')
   .addFlag({

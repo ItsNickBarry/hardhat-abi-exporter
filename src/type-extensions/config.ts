@@ -1,4 +1,4 @@
-import '@ignored/hardhat-vnext/types/config';
+import 'hardhat/types/config';
 
 export interface AbiExporterUserConfigEntry {
   path?: string;
@@ -22,7 +22,7 @@ export interface AbiExporterUserConfigEntry {
 
 export type AbiExporterConfigEntry = Required<AbiExporterUserConfigEntry>;
 
-declare module '@ignored/hardhat-vnext/types/config' {
+declare module 'hardhat/types/config' {
   interface HardhatUserConfig {
     abiExporter?: AbiExporterUserConfigEntry | AbiExporterUserConfigEntry[];
   }

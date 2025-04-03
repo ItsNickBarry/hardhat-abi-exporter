@@ -1,6 +1,6 @@
 import '../type-extensions/config.js';
-import { task } from '@ignored/hardhat-vnext/config';
-import { ArgumentType } from '@ignored/hardhat-vnext/types/arguments';
+import { task } from 'hardhat/config';
+import { ArgumentType } from 'hardhat/types/arguments';
 
 export const clearAbiTask = task('clear-abi')
   .setAction(import.meta.resolve('../actions/clear/all.js'))

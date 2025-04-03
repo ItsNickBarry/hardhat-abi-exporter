@@ -1,11 +1,11 @@
+import pkg from '../../package.json' with { type: 'json' };
+import { FormatTypes, Interface } from '@ethersproject/abi';
+import { task } from 'hardhat/config';
+import { HardhatPluginError } from 'hardhat/plugins';
+import { ArgumentType } from 'hardhat/types/arguments';
+import type { Abi } from 'hardhat/types/artifacts';
 import fs from 'node:fs';
 import path from 'node:path';
-import { FormatTypes, Interface } from '@ethersproject/abi';
-import { task } from '@ignored/hardhat-vnext/config';
-import { HardhatPluginError } from '@ignored/hardhat-vnext/plugins';
-import { ArgumentType } from '@ignored/hardhat-vnext/types/arguments';
-import type { Abi } from '@ignored/hardhat-vnext/types/artifacts';
-import pkg from '../../package.json' with { type: 'json' };
 
 export const exportAbiTask = task('export-abi')
   .addFlag({

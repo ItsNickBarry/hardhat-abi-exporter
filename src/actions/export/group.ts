@@ -1,11 +1,11 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { FormatTypes, Interface } from '@ethersproject/abi';
-import { HardhatPluginError } from '@ignored/hardhat-vnext/plugins';
-import type { Abi } from '@ignored/hardhat-vnext/types/artifacts';
-import type { NewTaskActionFunction } from '@ignored/hardhat-vnext/types/tasks';
 import pkg from '../../../package.json' with { type: 'json' };
 import { abiToTs } from '../utils.js';
+import { FormatTypes, Interface } from '@ethersproject/abi';
+import { HardhatPluginError } from 'hardhat/plugins';
+import type { Abi } from 'hardhat/types/artifacts';
+import type { NewTaskActionFunction } from 'hardhat/types/tasks';
+import fs from 'node:fs';
+import path from 'node:path';
 
 interface ExportAbiGroupActionArguments {
   path: string;

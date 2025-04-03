@@ -1,4 +1,4 @@
-import type { TaskOverrideActionFunction } from '@ignored/hardhat-vnext/types/tasks';
+import type { TaskOverrideActionFunction } from 'hardhat/types/tasks';
 
 interface CompileActionArguments {
   noExportAbi: boolean;

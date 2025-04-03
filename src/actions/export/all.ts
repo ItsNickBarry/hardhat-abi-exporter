@@ -1,4 +1,4 @@
-import type { NewTaskActionFunction } from '@ignored/hardhat-vnext/types/tasks';
+import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 interface ExportAbiActionArguments {
   noCompile: boolean;

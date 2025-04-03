@@ -1,19 +1,19 @@
 import '../type-extensions/config.js';
-import path from 'node:path';
+import type {
+  AbiExporterConfigEntry,
+  AbiExporterUserConfigEntry,
+} from '../type-extensions/config.js';
 import type {
   ConfigurationVariable,
   HardhatConfig,
   HardhatUserConfig,
   ResolvedConfigurationVariable,
-} from '@ignored/hardhat-vnext/types/config';
+} from 'hardhat/types/config';
 import type {
   ConfigHooks,
   HardhatUserConfigValidationError,
-} from '@ignored/hardhat-vnext/types/hooks';
-import type {
-  AbiExporterConfigEntry,
-  AbiExporterUserConfigEntry,
-} from '../type-extensions/config.js';
+} from 'hardhat/types/hooks';
+import path from 'node:path';
 
 export default async (): Promise<Partial<ConfigHooks>> => ({
   extendUserConfig,
