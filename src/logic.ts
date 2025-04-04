@@ -135,7 +135,7 @@ export const exportAbiGroup = async (
     (acc: { [destination: string]: string }, { destination, contents }) => {
       const previousContents = acc[destination];
 
-      if (previousContents === contents) {
+      if (previousContents !== contents) {
         throw new HardhatPluginError(
           pkg.name,
           `multiple distinct contracts share same output destination: ${destination}`,
