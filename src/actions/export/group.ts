@@ -1,4 +1,5 @@
 import pkg from '../../../package.json';
+import { clearAbiGroup } from '../../logic.js';
 import { abiToTs } from '../utils.js';
 import { FormatTypes, Interface } from '@ethersproject/abi';
 import fs from 'fs';
@@ -98,9 +99,7 @@ const action: NewTaskActionFunction<ExportAbiGroupActionArguments> = async (
   );
 
   if (config.clear) {
-    await hre.tasks.getTask(['clear-abi', 'group']).run({
-      path: config.path,
-    });
+    await clearAbiGroup(outputDirectory);
   }
 
   await Promise.all(
