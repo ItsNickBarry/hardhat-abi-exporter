@@ -20,10 +20,6 @@ export async function clearAbiGroup(
   const outputDirectory = path.resolve(context.config.paths.root, config.path);
   const outputExtension = config.format === 'typescript' ? '.ts' : '.json';
 
-  if (!path.isAbsolute(outputDirectory)) {
-    throw new HardhatPluginError(pkg.name, 'directory path must be absolute');
-  }
-
   const files = (
     await fs.promises.readdir(outputDirectory, {
       recursive: true,
