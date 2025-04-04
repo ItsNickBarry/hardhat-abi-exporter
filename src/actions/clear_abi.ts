@@ -11,7 +11,7 @@ const action: NewTaskActionFunction<ClearAbiActionArguments> = async (
 
   await Promise.all(
     entries.map((entry) => {
-      clearAbiGroup(entry.path);
+      clearAbiGroup(hre, entry);
     }),
   );
 };

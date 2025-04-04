@@ -10,7 +10,7 @@ export interface AbiExporterUserConfigEntry {
   except?: string[];
   spacing?: number;
   pretty?: boolean;
-  format?: 'minimal' | 'fullName' | 'json';
+  format?: 'minimal' | 'fullName' | 'json' | 'typescript';
   filter?: (
     abiElement: any,
     index: number,

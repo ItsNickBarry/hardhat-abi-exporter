@@ -1,5 +1,5 @@
 import pkg from '../package.json';
-import { AbiExporterUserConfigEntry } from './types.js';
+import { AbiExporterConfigEntry } from './types.js';
 import { FormatTypes, Interface } from '@ethersproject/abi';
 import deleteEmpty from 'delete-empty';
 import fs from 'fs';
@@ -30,13 +30,19 @@ export function abiFromTs(ts: string): any {
   return parsed;
 }
 
-export async function clearAbiGroup(directory: string) {
-  if (!path.isAbsolute(directory)) {
+export async function clearAbiGroup(
+  context: HookContext,
+  config: Required<AbiExporterConfigEntry>,
+) {
+  const outputDirectory = path.resolve(context.config.paths.root, config.path);
+  const outputExtension = config.format === 'typescript' ? '.ts' : '.json';
+
+  if (!path.isAbsolute(outputDirectory)) {
     throw new HardhatPluginError(pkg.name, 'directory path must be absolute');
   }
 
   const files = (
-    await fs.promises.readdir(directory, {
+    await fs.promises.readdir(outputDirectory, {
       recursive: true,
       withFileTypes: true,
     })
@@ -44,10 +50,14 @@ export async function clearAbiGroup(directory: string) {
     .filter((dirent) => dirent.isFile())
     .map((dirent) => path.resolve(dirent.parentPath, dirent.name));
 
+  if (!fs.existsSync(outputDirectory)) {
+    return;
+  }
+
   await Promise.all(
     files.map(async (file) => {
-      if (path.extname(file) !== '.json') {
-        // ABIs must be stored as JSON
+      if (path.extname(file) !== outputExtension) {
+        // ABIs must be stored as JSON or TS
         return;
       }
 
@@ -91,12 +101,12 @@ export async function clearAbiGroup(directory: string) {
     }),
   );
 
-  await deleteEmpty(directory);
+  await deleteEmpty(outputDirectory);
 }
 
 export const exportAbiGroup = async (
   context: HookContext,
-  config: Required<AbiExporterUserConfigEntry>,
+  config: Required<AbiExporterConfigEntry>,
 ) => {
   const outputDirectory = path.resolve(context.config.paths.root, config.path);
 
@@ -107,10 +117,7 @@ export const exportAbiGroup = async (
     );
   }
 
-  const outputData: {
-    abi: string[] | readonly Abi[];
-    destination: string;
-  }[] = [];
+  const outputData: { destination: string; contents: string }[] = [];
 
   const fullNames = Array.from(
     await context.artifacts.getAllFullyQualifiedNames(),
@@ -118,15 +125,10 @@ export const exportAbiGroup = async (
 
   await Promise.all(
     fullNames.map(async (fullName) => {
-      if (config.only.length && !config.only.some((m) => fullName.match(m))) {
+      if (config.only.length && !config.only.some((m) => fullName.match(m)))
         return;
-      }
-      if (
-        config.except.length &&
-        config.except.some((m) => fullName.match(m))
-      ) {
+      if (config.except.length && config.except.some((m) => fullName.match(m)))
         return;
-      }
 
       let { abi, sourceName, contractName } =
         await context.artifacts.readArtifact(fullName);
@@ -137,63 +139,59 @@ export const exportAbiGroup = async (
         config.filter(element, index, array, fullName),
       );
 
-      if (config.format == 'minimal') {
+      let contents: string;
+
+      if (config.format === 'json') {
+        contents = JSON.stringify(abi, null, config.spacing);
+      } else if (config.format == 'minimal') {
         abi = [new Interface(abi).format(FormatTypes.minimal)].flat();
+        contents = JSON.stringify(abi, null, config.spacing);
       } else if (config.format == 'fullName') {
         abi = [new Interface(abi).format(FormatTypes.fullName)].flat();
-      } else if (config.format != 'json') {
+        contents = JSON.stringify(abi, null, config.spacing);
+      } else if (config.format === 'typescript') {
+        contents = abiToTs(JSON.stringify(abi, null, config.spacing));
+      } else {
         throw new HardhatPluginError(
           pkg.name,
           `Unknown format: ${config.format}`,
         );
       }
 
-      const destination = path.resolve(
-        outputDirectory,
-        config.rename(sourceName, contractName),
-      );
+      const extension = config.format === 'typescript' ? '.ts' : '.json';
+      const destination =
+        path.resolve(outputDirectory, config.rename(sourceName, contractName)) +
+        extension;
 
-      outputData.push({ abi, destination });
+      outputData.push({ destination, contents });
     }),
   );
 
   outputData.reduce(
-    (
-      acc: { [destination: string]: string[] | readonly Abi[] },
-      { abi, destination },
-    ) => {
-      const contents = acc[destination];
+    (acc: { [destination: string]: string }, { destination, contents }) => {
+      const previousContents = acc[destination];
 
-      if (contents && JSON.stringify(contents) !== JSON.stringify(abi)) {
+      if (previousContents === contents) {
         throw new HardhatPluginError(
           pkg.name,
           `multiple distinct contracts share same output destination: ${destination}`,
         );
       }
 
-      acc[destination] = abi;
+      acc[destination] = contents;
       return acc;
     },
     {},
   );
 
   if (config.clear) {
-    await clearAbiGroup(outputDirectory);
+    await clearAbiGroup(context, config);
   }
 
   await Promise.all(
-    outputData.map(async ({ abi, destination }) => {
+    outputData.map(async ({ destination, contents }) => {
       await fs.promises.mkdir(path.dirname(destination), { recursive: true });
-      const outputJson = JSON.stringify(abi, null, config.spacing);
-      await fs.promises.writeFile(`${destination}.json`, `${outputJson}\n`, {
-        flag: 'w',
-      });
-
-      if (config.tsWrapper) {
-        await fs.promises.writeFile(`${destination}.ts`, abiToTs(outputJson), {
-          flag: 'w',
-        });
-      }
+      await fs.promises.writeFile(destination, contents, { flag: 'w' });
     }),
   );
 };
