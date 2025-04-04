@@ -31,7 +31,9 @@ export function abiFromTs(ts: string): any {
 }
 
 export async function clearAbiGroup(directory: string) {
-  // TODO: enforce absolute path directory
+  if (!path.isAbsolute(directory)) {
+    throw new HardhatPluginError(pkg.name, 'directory path must be absolute');
+  }
 
   const files = (
     await fs.promises.readdir(directory, {
