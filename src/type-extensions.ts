@@ -9,3 +9,9 @@ declare module 'hardhat/types/config' {
     abiExporter?: AbiExporterUserConfigEntry | AbiExporterUserConfigEntry[];
   }
 }
+
+declare module 'hardhat/types/global-options' {
+  interface GlobalOptions {
+    noExportAbi: boolean;
+  }
+}
