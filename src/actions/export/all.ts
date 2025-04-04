@@ -1,3 +1,4 @@
+import { exportAbiGroup } from '../../logic.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 interface ExportAbiActionArguments {
@@ -13,13 +14,11 @@ const action: NewTaskActionFunction<ExportAbiActionArguments> = async (
     await hre.tasks.getTask('compile').run({ noExportAbi: true });
   }
 
-  const configs = hre.config.abiExporter;
+  const entries = hre.config.abiExporter;
 
   await Promise.all(
-    configs.map((abiGroupConfig) => {
-      return hre.tasks.getTask(['export-abi', 'group']).run({
-        path: abiGroupConfig.path,
-      });
+    entries.map((entry) => {
+      exportAbiGroup(hre, entry);
     }),
   );
 };

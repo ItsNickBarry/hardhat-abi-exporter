@@ -16,16 +16,6 @@ const plugin: HardhatPlugin = {
       .setAction(import.meta.resolve('./actions/export/all.js'))
       .build(),
 
-    task(['export-abi', 'group'])
-      .addPositionalArgument({
-        name: 'path',
-        description: 'path to look for ABIs',
-        type: ArgumentType.STRING,
-        defaultValue: undefined,
-      })
-      .setAction(import.meta.resolve('./actions/export/group.js'))
-      .build(),
-
     task('clear-abi')
       .setAction(import.meta.resolve('./actions/clear/all.js'))
       .build(),
