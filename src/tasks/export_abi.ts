@@ -44,7 +44,7 @@ subtask('export-abi-group')
       );
     }
 
-    const outputData: { abi: string[]; destination: string }[] = [];
+    const outputData: { destination: string; contents: string }[] = [];
 
     const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
 
@@ -67,11 +67,19 @@ subtask('export-abi-group')
           config.filter(element, index, array, fullName),
         );
 
-        if (config.format == 'minimal') {
+        let contents: string;
+
+        if (config.format === 'json') {
+          contents = JSON.stringify(abi, null, config.spacing);
+        } else if (config.format == 'minimal') {
           abi = [new Interface(abi).format(FormatTypes.minimal)].flat();
+          contents = JSON.stringify(abi, null, config.spacing);
         } else if (config.format == 'fullName') {
           abi = [new Interface(abi).format(FormatTypes.fullName)].flat();
-        } else if (config.format != 'json' && config.format !== 'typescript') {
+          contents = JSON.stringify(abi, null, config.spacing);
+        } else if (config.format === 'typescript') {
+          contents = `export default ${JSON.stringify(abi, null, config.spacing)} as const;`;
+        } else {
           throw new HardhatPluginError(
             pluginName,
             `Unknown format: ${config.format}`,
@@ -85,22 +93,22 @@ subtask('export-abi-group')
             config.rename(sourceName, contractName),
           ) + extension;
 
-        outputData.push({ abi, destination });
+        outputData.push({ destination, contents });
       }),
     );
 
     outputData.reduce(
-      (acc: { [destination: string]: string[] }, { abi, destination }) => {
-        const contents = acc[destination];
+      (acc: { [destination: string]: string }, { destination, contents }) => {
+        const previousContents = acc[destination];
 
-        if (contents && JSON.stringify(contents) !== JSON.stringify(abi)) {
+        if (previousContents === contents) {
           throw new HardhatPluginError(
             pluginName,
             `multiple distinct contracts share same output destination: ${destination}`,
           );
         }
 
-        acc[destination] = abi;
+        acc[destination] = contents;
         return acc;
       },
       {},
@@ -111,13 +119,9 @@ subtask('export-abi-group')
     }
 
     await Promise.all(
-      outputData.map(async ({ abi, destination }) => {
-        let output = JSON.stringify(abi, null, config.spacing);
-        if (config.format === 'typescript')
-          output = `export default ${output} as const;`;
-
+      outputData.map(async ({ destination, contents }) => {
         await fs.promises.mkdir(path.dirname(destination), { recursive: true });
-        await fs.promises.writeFile(destination, output, { flag: 'w' });
+        await fs.promises.writeFile(destination, contents, { flag: 'w' });
       }),
     );
   });
