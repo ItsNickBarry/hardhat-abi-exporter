@@ -7,7 +7,8 @@ import { ArgumentType } from 'hardhat/types/arguments';
 import type { HardhatPlugin } from 'hardhat/types/plugins';
 
 const plugin: HardhatPlugin = {
-  id: pkg.name,
+  id: pkg.name.split('/').pop()!,
+  npmPackage: pkg.name!,
   tasks: [clearAbiTask, clearAbiGroupTask, exportAbiTask, exportAbiGroupTask],
   hookHandlers: {
     config: import.meta.resolve('./hook_handlers/config.js'),
