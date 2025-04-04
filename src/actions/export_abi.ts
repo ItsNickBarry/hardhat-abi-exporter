@@ -11,7 +11,7 @@ const action: NewTaskActionFunction<ExportAbiActionArguments> = async (
 ) => {
   if (!args.noCompile) {
     hre.globalOptions.noExportAbi = true;
-    await hre.tasks.getTask('compile').run({ noExportAbi: true });
+    await hre.tasks.getTask('compile').run();
   }
 
   const entries = hre.config.abiExporter;
