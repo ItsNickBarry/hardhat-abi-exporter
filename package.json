@@ -24,8 +24,7 @@
   "scripts": {
     "build": "tsc --build",
     "prepare": "husky",
-    "prettier": "prettier --write .",
-    "test": "vitest test"
+    "prettier": "prettier --write ."
   },
   "files": [
     "dist/",
@@ -49,8 +48,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-solidity": "^1.4.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2",
-    "vitest": "^3.1.1"
+    "typescript": "^5.8.2"
   },
   "engines": {
     "node": ">=14.14.0"
