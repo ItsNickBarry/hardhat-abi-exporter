@@ -16,6 +16,10 @@ export async function clearAbiGroup(
   const outputDirectory = path.resolve(context.config.paths.root, config.path);
   const outputExtension = config.format === 'typescript' ? '.ts' : '.json';
 
+  if (!fs.existsSync(outputDirectory)) {
+    return;
+  }
+
   const files = (
     await fs.promises.readdir(outputDirectory, {
       recursive: true,
@@ -24,10 +28,6 @@ export async function clearAbiGroup(
   )
     .filter((dirent) => dirent.isFile())
     .map((dirent) => path.resolve(dirent.parentPath, dirent.name));
-
-  if (!fs.existsSync(outputDirectory)) {
-    return;
-  }
 
   await Promise.all(
     files.map(async (file) => {
