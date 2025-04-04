@@ -1,4 +1,4 @@
-import { exportAbiGroup } from '../../logic.js';
+import { exportAbiGroup } from '../logic.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 interface ExportAbiActionArguments {

@@ -13,11 +13,11 @@ const plugin: HardhatPlugin = {
         name: 'noCompile',
         description: "Don't compile before running this task",
       })
-      .setAction(import.meta.resolve('./actions/export/all.js'))
+      .setAction(import.meta.resolve('./actions/export_abi.js'))
       .build(),
 
     task('clear-abi')
-      .setAction(import.meta.resolve('./actions/clear/all.js'))
+      .setAction(import.meta.resolve('./actions/clear_abi.js'))
       .build(),
   ],
   hookHandlers: {

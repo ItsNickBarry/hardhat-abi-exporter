@@ -1,4 +1,4 @@
-import { clearAbiGroup } from '../../logic.js';
+import { clearAbiGroup } from '../logic.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 type ClearAbiActionArguments = Record<string, never>;
