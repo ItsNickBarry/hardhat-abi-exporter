@@ -1,3 +1,4 @@
+import { exportAbiGroup } from '../logic.js';
 import hre from 'hardhat';
 import type { SolidityHooks } from 'hardhat/types/hooks';
 
@@ -9,11 +10,7 @@ export default async (): Promise<Partial<SolidityHooks>> => ({
         (entry) => entry.runOnCompile,
       );
 
-      await Promise.all(
-        entries.map((entry) =>
-          hre.tasks.getTask(['export-abi', 'group']).run({ path: entry.path }),
-        ),
-      );
+      await Promise.all(entries.map((entry) => exportAbiGroup(context, entry)));
     }
 
     return next(context, artifactPaths);

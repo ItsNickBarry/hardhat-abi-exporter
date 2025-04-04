@@ -5,6 +5,7 @@ import deleteEmpty from 'delete-empty';
 import fs from 'fs';
 import { HardhatPluginError } from 'hardhat/plugins';
 import { Abi } from 'hardhat/types/artifacts';
+import { HookContext } from 'hardhat/types/hooks';
 import { HardhatRuntimeEnvironment } from 'hardhat/types/hre';
 import JSON5 from 'json5';
 import path from 'path';
@@ -93,12 +94,12 @@ export async function clearAbiGroup(directory: string) {
 }
 
 export const exportAbiGroup = async (
-  hre: HardhatRuntimeEnvironment,
+  context: HookContext,
   config: Required<AbiExporterUserConfigEntry>,
 ) => {
-  const outputDirectory = path.resolve(hre.config.paths.root, config.path);
+  const outputDirectory = path.resolve(context.config.paths.root, config.path);
 
-  if (outputDirectory === hre.config.paths.root) {
+  if (outputDirectory === context.config.paths.root) {
     throw new HardhatPluginError(
       pkg.name,
       'resolved path must not be root directory',
@@ -110,7 +111,9 @@ export const exportAbiGroup = async (
     destination: string;
   }[] = [];
 
-  const fullNames = Array.from(await hre.artifacts.getAllFullyQualifiedNames());
+  const fullNames = Array.from(
+    await context.artifacts.getAllFullyQualifiedNames(),
+  );
 
   await Promise.all(
     fullNames.map(async (fullName) => {
@@ -125,7 +128,7 @@ export const exportAbiGroup = async (
       }
 
       let { abi, sourceName, contractName } =
-        await hre.artifacts.readArtifact(fullName);
+        await context.artifacts.readArtifact(fullName);
 
       if (!abi.length) return;
 
