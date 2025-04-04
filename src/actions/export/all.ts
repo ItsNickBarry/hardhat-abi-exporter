@@ -9,6 +9,7 @@ const action: NewTaskActionFunction<ExportAbiActionArguments> = async (
   hre,
 ) => {
   if (!args.noCompile) {
+    hre.globalOptions.noExportAbi = true;
     await hre.tasks.getTask('compile').run({ noExportAbi: true });
   }
 
