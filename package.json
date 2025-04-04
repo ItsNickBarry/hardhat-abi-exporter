@@ -36,8 +36,7 @@
   },
   "dependencies": {
     "@ethersproject/abi": "^5.8.0",
-    "delete-empty": "^3.0.0",
-    "json5": "^2.2.3"
+    "delete-empty": "^3.0.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
