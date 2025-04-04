@@ -7,7 +7,14 @@ import path from 'path';
 export async function clearAbiGroup(directory: string) {
   // TODO: enforce absolute path directory
 
-  const files = readdirRecursive(directory);
+  const files = (
+    await fs.promises.readdir(directory, {
+      recursive: true,
+      withFileTypes: true,
+    })
+  )
+    .filter((dirent) => dirent.isFile())
+    .map((dirent) => path.resolve(dirent.parentPath, dirent.name));
 
   await Promise.all(
     files.map(async (file) => {
@@ -58,19 +65,3 @@ export async function clearAbiGroup(directory: string) {
 
   await deleteEmpty(directory);
 }
-
-const readdirRecursive = (dirPath: string, output: string[] = []) => {
-  const files = fs.readdirSync(dirPath);
-
-  files.forEach((file) => {
-    file = path.join(dirPath, file);
-
-    if (fs.statSync(file).isDirectory()) {
-      output = readdirRecursive(file, output);
-    } else {
-      output.push(file);
-    }
-  });
-
-  return output;
-};
