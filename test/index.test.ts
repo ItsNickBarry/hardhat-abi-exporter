@@ -1,4 +1,4 @@
-import { abiFromTs, abiToTs } from '../src/actions/utils.js';
+import { abiFromTs, abiToTs } from '../src/logic.js';
 import jsonAbi from './erc20.json';
 import { Interface } from '@ethersproject/abi';
 import fs from 'fs';
