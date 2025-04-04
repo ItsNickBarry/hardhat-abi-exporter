@@ -6,7 +6,6 @@ import fs from 'fs';
 import { HardhatPluginError } from 'hardhat/plugins';
 import { Abi } from 'hardhat/types/artifacts';
 import { HookContext } from 'hardhat/types/hooks';
-import { HardhatRuntimeEnvironment } from 'hardhat/types/hre';
 import JSON5 from 'json5';
 import path from 'path';
 
