@@ -1,5 +1,6 @@
 import { name as pluginName } from '../../package.json';
 import { AbiExporterConfigEntry } from '../index';
+import { abiToTs } from './utils';
 import { Interface, FormatTypes } from '@ethersproject/abi';
 import fs from 'fs';
 import { TASK_COMPILE } from 'hardhat/builtin-tasks/task-names';
@@ -78,7 +79,7 @@ subtask('export-abi-group')
           abi = [new Interface(abi).format(FormatTypes.fullName)].flat();
           contents = JSON.stringify(abi, null, config.spacing);
         } else if (config.format === 'typescript') {
-          contents = `export default ${JSON.stringify(abi, null, config.spacing)} as const;`;
+          contents = abiToTs(JSON.stringify(abi, null, config.spacing));
         } else {
           throw new HardhatPluginError(
             pluginName,
