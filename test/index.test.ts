@@ -1,7 +1,7 @@
-import { abiToTs, abiFromTs } from '../src/tasks/utils';
+import { abiFromTs, abiToTs } from '../src/logic.js';
 import jsonAbi from './erc20.json';
 import { Interface } from '@ethersproject/abi';
-import * as fs from 'fs';
+import fs from 'fs';
 import { expect, test } from 'vitest';
 
 const lintedTs = fs.readFileSync('./test/linted-erc20.ts', 'utf8');

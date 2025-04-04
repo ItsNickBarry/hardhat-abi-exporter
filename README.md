@@ -2,14 +2,16 @@
 
 Export Ethereum smart contract ABIs on compilation via Hardhat.
 
+> Versions of this plugin prior to `3.0.0` were released as `hardhat-abi-exporter`, outside of the `@solidstate` namespace.
+
 > Versions of this plugin prior to `2.0.0` were released as `buidler-abi-exporter`.
 
 ## Installation
 
 ```bash
-npm install --save-dev hardhat-abi-exporter
+npm install --save-dev @solidstate/hardhat-abi-exporter
 # or
-yarn add --dev hardhat-abi-exporter
+yarn add --dev @solidstate/hardhat-abi-exporter
 ```
 
 ## Usage
@@ -17,7 +19,16 @@ yarn add --dev hardhat-abi-exporter
 Load plugin in Hardhat config:
 
 ```javascript
-require('hardhat-abi-exporter');
+import HardhatAbiExporter from '@solidstate/hardhat-abi-exporter';
+
+const config: HardhatUserConfig = {
+  plugins: [
+    HardhatAbiExporter,
+  ],
+  abiExporter: {
+    ... // see table for configuration options
+  },
+};
 ```
 
 Add configuration under the `abiExporter` key:
