@@ -1,32 +1,16 @@
 import defaultConfig from '../config/default.js';
-import type {
-  AbiExporterConfigEntry,
-  AbiExporterUserConfigEntry,
-} from '../types.js';
+import type { AbiExporterConfigEntry } from '../types.js';
 import type {
   ConfigHooks,
   HardhatUserConfigValidationError,
 } from 'hardhat/types/hooks';
 import path from 'path';
 
-function toArray(
-  abiExporter:
-    | undefined
-    | AbiExporterUserConfigEntry
-    | AbiExporterUserConfigEntry[],
-) {
-  if (abiExporter == null) return [];
-  if (Array.isArray(abiExporter)) {
-    return abiExporter;
-  }
-  return [abiExporter];
-}
-
 export default async (): Promise<Partial<ConfigHooks>> => ({
   validateUserConfig: async (userConfig) => {
     const errors: HardhatUserConfigValidationError[] = [];
 
-    for (const entry of toArray(userConfig.abiExporter)) {
+    for (const entry of [userConfig.abiExporter ?? []].flat()) {
       if (entry.flat && entry.rename) {
         errors.push({
           path: ['abiExporter', 'flat'],
@@ -47,22 +31,25 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
 
   resolveUserConfig: async (userConfig, resolveConfigurationVariable, next) => {
     const resolvedConfig = await next(userConfig, resolveConfigurationVariable);
-    const abiExporter = toArray(userConfig.abiExporter);
 
     const result: AbiExporterConfigEntry[] = [];
 
-    for (let i = 0; i < abiExporter.length; i++) {
-      const entry = Object.assign({}, defaultConfig, abiExporter[i]);
+    for (const userConfigEntry of [userConfig.abiExporter ?? []].flat()) {
+      const entry = Object.assign({}, defaultConfig, userConfigEntry);
+
+      const rename =
+        entry.rename ??
+        (entry.flat
+          ? (sourceName, contractName) => contractName
+          : (entry.rename = (sourceName, contractName) =>
+              path.join(sourceName, contractName)));
+
+      const format = entry.format ?? (entry.pretty ? 'minimal' : 'json');
 
       result.push({
         ...entry,
-        format: (entry.format ?? entry.pretty) ? 'minimal' : 'json',
-        rename:
-          entry.rename ??
-          (entry.flat
-            ? (sourceName, contractName) => contractName
-            : (sourceName, contractName) =>
-                path.join(sourceName, contractName)),
+        format,
+        rename,
       });
     }
 
