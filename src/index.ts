@@ -9,6 +9,9 @@ const plugin: HardhatPlugin = {
   npmPackage: pkg.name!,
   tasks: [
     task('export-abi')
+      .setDescription(
+        'Extract ABIs from compilation artifacts and write to a directory',
+      )
       .addFlag({
         name: 'noCompile',
         description: "Don't compile before running this task",
@@ -17,6 +20,7 @@ const plugin: HardhatPlugin = {
       .build(),
 
     task('clear-abi')
+      .setDescription('Remove extracted ABIs')
       .setAction(import.meta.resolve('./actions/clear_abi.js'))
       .build(),
   ],
