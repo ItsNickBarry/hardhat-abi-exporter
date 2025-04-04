@@ -1,15 +1,45 @@
 import pkg from '../package.json';
-import { clearAbiGroupTask, clearAbiTask } from './tasks/clear_abi.js';
-import { exportAbiGroupTask, exportAbiTask } from './tasks/export_abi.js';
 import './type-extensions.js';
-import { globalOption } from 'hardhat/config';
+import { globalOption, task } from 'hardhat/config';
 import { ArgumentType } from 'hardhat/types/arguments';
 import type { HardhatPlugin } from 'hardhat/types/plugins';
 
 const plugin: HardhatPlugin = {
   id: pkg.name.split('/').pop()!,
   npmPackage: pkg.name!,
-  tasks: [clearAbiTask, clearAbiGroupTask, exportAbiTask, exportAbiGroupTask],
+  tasks: [
+    task('export-abi')
+      .addFlag({
+        name: 'noCompile',
+        description: "Don't compile before running this task",
+      })
+      .setAction(import.meta.resolve('./actions/export/all.js'))
+      .build(),
+
+    task(['export-abi', 'group'])
+      .addPositionalArgument({
+        name: 'path',
+        description: 'path to look for ABIs',
+        type: ArgumentType.STRING,
+        defaultValue: undefined,
+      })
+      .setAction(import.meta.resolve('./actions/export/group.js'))
+      .build(),
+
+    task('clear-abi')
+      .setAction(import.meta.resolve('./actions/clear/all.js'))
+      .build(),
+
+    task(['clear-abi', 'group'])
+      .addPositionalArgument({
+        name: 'path',
+        description: 'path to look for ABIs',
+        type: ArgumentType.STRING,
+        defaultValue: undefined,
+      })
+      .setAction(import.meta.resolve('./actions/clear/group.js'))
+      .build(),
+  ],
   hookHandlers: {
     config: import.meta.resolve('./hook_handlers/config.js'),
     solidity: import.meta.resolve('./hook_handlers/solidity.js'),
