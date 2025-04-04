@@ -29,16 +29,6 @@ const plugin: HardhatPlugin = {
     task('clear-abi')
       .setAction(import.meta.resolve('./actions/clear/all.js'))
       .build(),
-
-    task(['clear-abi', 'group'])
-      .addPositionalArgument({
-        name: 'path',
-        description: 'path to look for ABIs',
-        type: ArgumentType.STRING,
-        defaultValue: undefined,
-      })
-      .setAction(import.meta.resolve('./actions/clear/group.js'))
-      .build(),
   ],
   hookHandlers: {
     config: import.meta.resolve('./hook_handlers/config.js'),

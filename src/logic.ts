@@ -1,29 +1,13 @@
-import { abiFromTs } from '../utils.js';
+import { abiFromTs } from './actions/utils.js';
 import { Interface } from '@ethersproject/abi';
 import deleteEmpty from 'delete-empty';
 import fs from 'fs';
-import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 import path from 'path';
 
-interface ClearAbiGroupActionArguments {
-  path: string;
-}
+export async function clearAbiGroup(directory: string) {
+  // TODO: enforce absolute path directory
 
-const action: NewTaskActionFunction<ClearAbiGroupActionArguments> = async (
-  args,
-  hre,
-) => {
-  const configForPath = hre.config.abiExporter.find(
-    (config) => config.path === args.path,
-  );
-  if (configForPath == null) return;
-  const outputDirectory = path.resolve(hre.config.paths.root, args.path);
-
-  if (!fs.existsSync(outputDirectory)) {
-    return;
-  }
-
-  const files = readdirRecursive(outputDirectory);
+  const files = readdirRecursive(directory);
 
   await Promise.all(
     files.map(async (file) => {
@@ -72,8 +56,8 @@ const action: NewTaskActionFunction<ClearAbiGroupActionArguments> = async (
     }),
   );
 
-  await deleteEmpty(outputDirectory);
-};
+  await deleteEmpty(directory);
+}
 
 const readdirRecursive = (dirPath: string, output: string[] = []) => {
   const files = fs.readdirSync(dirPath);
@@ -90,5 +74,3 @@ const readdirRecursive = (dirPath: string, output: string[] = []) => {
 
   return output;
 };
-
-export default action;
