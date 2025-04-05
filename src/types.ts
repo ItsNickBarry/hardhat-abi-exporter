@@ -1,5 +1,3 @@
-import 'hardhat/types/config';
-
 export interface AbiExporterUserConfigEntry {
   path?: string;
   runOnCompile?: boolean;
