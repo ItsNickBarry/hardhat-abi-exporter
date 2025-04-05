@@ -92,19 +92,17 @@ export const exportAbiGroup = async (
         config.filter(element, index, array, fullName),
       );
 
-      let contents: string;
+      // format ABI using ethers presets
+      const formatType = FormatTypes[config.format] ?? 'json';
+      abi = [new Interface(abi).format(formatType)].flat();
 
-      if (config.format === 'json') {
-        contents = JSON.stringify(abi, null, config.spacing);
-      } else if (config.format == 'minimal') {
-        abi = [new Interface(abi).format(FormatTypes.minimal)].flat();
-        contents = JSON.stringify(abi, null, config.spacing);
-      } else if (config.format == 'fullName') {
-        abi = [new Interface(abi).format(FormatTypes.fullName)].flat();
-        contents = JSON.stringify(abi, null, config.spacing);
-      } else if (config.format === 'typescript') {
-        contents = `${TS_TAG}\nexport default ${JSON.stringify(abi, null, config.spacing)} as const;\n`;
-      } else {
+      let contents = JSON.stringify(abi, null, config.spacing);
+
+      if (config.format === 'typescript') {
+        contents = `${TS_TAG}\nexport default ${contents} as const;\n`;
+      }
+
+      if (!['json', 'minimal', 'full', 'typescript'].includes(config.format)) {
         throw new HardhatPluginError(
           pkg.name,
           `Unknown format: ${config.format}`,
