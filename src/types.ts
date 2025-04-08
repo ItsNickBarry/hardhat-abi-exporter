@@ -19,3 +19,9 @@ export interface AbiExporterUserConfigEntry {
 }
 
 export type AbiExporterConfigEntry = Required<AbiExporterUserConfigEntry>;
+
+export type AbiExporterUserConfig =
+  | AbiExporterUserConfigEntry
+  | AbiExporterUserConfigEntry[];
+
+export type AbiExporterConfig = AbiExporterConfigEntry[];
