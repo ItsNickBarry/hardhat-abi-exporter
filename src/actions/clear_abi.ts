@@ -1,4 +1,4 @@
-import { clearAbiGroup } from '../logic.js';
+import { clearAbi } from '../logic.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 type ClearAbiActionArguments = Record<string, never>;
@@ -7,13 +7,7 @@ const action: NewTaskActionFunction<ClearAbiActionArguments> = async (
   _,
   hre,
 ) => {
-  const entries = hre.config.abiExporter;
-
-  await Promise.all(
-    entries.map((entry) => {
-      clearAbiGroup(hre, entry);
-    }),
-  );
+  await clearAbi(hre, hre.config.abiExporter);
 };
 
 export default action;
