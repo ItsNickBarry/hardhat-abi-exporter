@@ -10,19 +10,41 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
   validateUserConfig: async (userConfig) => {
     const errors: HardhatUserConfigValidationError[] = [];
 
-    for (const entry of [userConfig.abiExporter ?? []].flat()) {
+    const configEntries = [userConfig.abiExporter ?? []].flat();
+
+    for (let i = 0; i < configEntries.length; i++) {
+      const entry = configEntries[i];
+
       if (entry.flat && entry.rename) {
         errors.push({
-          path: ['abiExporter', 'flat'],
+          path: ['abiExporter', i, 'flat'],
           message: '`flat` & `rename` config cannot be specified together',
         });
       }
 
       if (entry.pretty && entry.format) {
         errors.push({
-          path: ['abiExporter', 'pretty'],
+          path: ['abiExporter', i, 'pretty'],
           message: '`pretty` & `format` config cannot be specified together',
         });
+      }
+
+      if (
+        entry.format &&
+        !['json', 'minimal', 'full', 'typescript'].includes(entry.format)
+      ) {
+        errors.push({
+          path: ['abiExporter', i, 'format'],
+          message: `invalid format: ${entry.format}`,
+        });
+      }
+    }
+
+    // remove the config entry index if the user config is not an array
+
+    if (!Array.isArray(userConfig.abiExporter)) {
+      for (const error of errors) {
+        error.path.splice(1, 1);
       }
     }
 

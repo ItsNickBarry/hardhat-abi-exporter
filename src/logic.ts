@@ -138,13 +138,6 @@ const exportAbiGroup = async (
         contents = `${TS_TAG}\nexport default ${contents} as const;\n`;
       }
 
-      if (!['json', 'minimal', 'full', 'typescript'].includes(config.format)) {
-        throw new HardhatPluginError(
-          pkg.name,
-          `Unknown format: ${config.format}`,
-        );
-      }
-
       const extension = config.format === 'typescript' ? '.ts' : '.json';
       const destination =
         path.resolve(outputDirectory, config.rename(sourceName, contractName)) +
