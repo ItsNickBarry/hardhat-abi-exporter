@@ -39,6 +39,8 @@ const clearAbiGroup = async (
     return;
   }
 
+  // recursively get all files from directory
+
   const files = (
     await fs.promises.readdir(outputDirectory, {
       recursive: true,
@@ -47,6 +49,8 @@ const clearAbiGroup = async (
   )
     .filter((dirent) => dirent.isFile())
     .map((dirent) => path.resolve(dirent.parentPath, dirent.name));
+
+  // validate file contents and delete
 
   await Promise.all(
     files.map(async (file) => {
@@ -74,6 +78,8 @@ const clearAbiGroup = async (
     }),
   );
 
+  // delete the directory if it's empty
+
   await deleteEmpty(outputDirectory);
 };
 
@@ -83,6 +89,8 @@ const exportAbiGroup = async (
 ) => {
   const outputDirectory = path.resolve(context.config.paths.root, config.path);
 
+  // validate that the output directory is not the Hardhat root directory to prevent accidental file deletion
+
   if (outputDirectory === context.config.paths.root) {
     throw new HardhatPluginError(
       pkg.name,
@@ -90,26 +98,34 @@ const exportAbiGroup = async (
     );
   }
 
-  const outputData: { destination: string; contents: string }[] = [];
+  // get list of all contracts and filter according to configuraiton
 
   const fullNames = Array.from(
     await context.artifacts.getAllFullyQualifiedNames(),
+  ).filter((fullName) => {
+    if (config.only.length && !config.only.some((m) => fullName.match(m)))
+      return;
+    if (config.except.length && config.except.some((m) => fullName.match(m)))
+      return;
+    return true;
+  });
+
+  // get contract artifacts
+
+  const artifacts = await Promise.all(
+    fullNames.map((fullName) => context.artifacts.readArtifact(fullName)),
   );
 
-  await Promise.all(
-    fullNames.map(async (fullName) => {
-      if (config.only.length && !config.only.some((m) => fullName.match(m)))
-        return;
-      if (config.except.length && config.except.some((m) => fullName.match(m)))
-        return;
+  // filter out 0-length ABIs and generate export file contents
 
-      let { abi, sourceName, contractName } =
-        await context.artifacts.readArtifact(fullName);
-
-      if (!abi.length) return;
+  const outputData = artifacts
+    .filter(({ abi }) => abi.length)
+    .map((artifact) => {
+      const { sourceName, contractName } = artifact;
+      let { abi } = artifact;
 
       abi = abi.filter((element, index, array) =>
-        config.filter(element, index, array, fullName),
+        config.filter(element, index, array, sourceName, contractName),
       );
 
       // format ABI using ethers presets
@@ -134,9 +150,10 @@ const exportAbiGroup = async (
         path.resolve(outputDirectory, config.rename(sourceName, contractName)) +
         extension;
 
-      outputData.push({ destination, contents });
-    }),
-  );
+      return { destination, contents };
+    });
+
+  // check for filename clashes among exported files
 
   outputData.reduce(
     (acc: { [destination: string]: string }, { destination, contents }) => {
@@ -154,6 +171,8 @@ const exportAbiGroup = async (
     },
     {},
   );
+
+  // write export files to disk
 
   await Promise.all(
     outputData.map(async ({ destination, contents }) => {

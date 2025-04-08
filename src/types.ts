@@ -13,7 +13,8 @@ export interface AbiExporterUserConfigEntry {
     abiElement: any,
     index: number,
     abi: any,
-    fullyQualifiedName: string,
+    sourceName: string,
+    contractName: string,
   ) => boolean;
   rename?: (sourceName: string, contractName: string) => string;
 }
