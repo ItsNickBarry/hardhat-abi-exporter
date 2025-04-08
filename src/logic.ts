@@ -77,7 +77,7 @@ const clearAbiGroup = async (
   await deleteEmpty(outputDirectory);
 };
 
-export const exportAbiGroup = async (
+const exportAbiGroup = async (
   context: HookContext,
   config: AbiExporterConfigEntry,
 ) => {
