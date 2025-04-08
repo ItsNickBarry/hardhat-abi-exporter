@@ -1,8 +1,10 @@
 import pkg from '../package.json';
 import './type-extensions.js';
-import { globalOption, task } from 'hardhat/config';
+import { globalOption, task, overrideTask } from 'hardhat/config';
 import { ArgumentType } from 'hardhat/types/arguments';
 import type { HardhatPlugin } from 'hardhat/types/plugins';
+
+// TODO: clean hook
 
 const plugin: HardhatPlugin = {
   id: pkg.name.split('/').pop()!,
@@ -22,6 +24,10 @@ const plugin: HardhatPlugin = {
     task('clear-abi')
       .setDescription('Remove extracted ABIs')
       .setAction(import.meta.resolve('./actions/clear_abi.js'))
+      .build(),
+
+    overrideTask('clean')
+      .setAction(import.meta.resolve('./actions/clean.js'))
       .build(),
   ],
   hookHandlers: {
