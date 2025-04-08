@@ -22,6 +22,8 @@ export const exportAbi = async (
   context: HookContext,
   configEntries: AbiExporterConfigEntry[],
 ) => {
+  await clearAbi(context, configEntries);
+
   await Promise.all(
     configEntries.map((entry) => exportAbiGroup(context, entry)),
   );
@@ -152,10 +154,6 @@ export const exportAbiGroup = async (
     },
     {},
   );
-
-  if (config.clear) {
-    await clearAbiGroup(context, config);
-  }
 
   await Promise.all(
     outputData.map(async ({ destination, contents }) => {
