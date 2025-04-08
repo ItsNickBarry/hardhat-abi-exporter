@@ -1,4 +1,5 @@
 import { name as pluginName } from '../package.json';
+import './tasks/clean';
 import './tasks/clear_abi';
 import './tasks/compile';
 import './tasks/export_abi';
