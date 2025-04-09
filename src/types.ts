@@ -1,4 +1,4 @@
-export interface AbiExporterConfigEntry {
+export type AbiExporterConfigEntry = {
   path: string;
   runOnCompile: boolean;
   clear: boolean;
@@ -17,7 +17,7 @@ export interface AbiExporterConfigEntry {
     contractName: string,
   ) => boolean;
   rename: (sourceName: string, contractName: string) => string;
-}
+};
 
 export type AbiExporterUserConfigEntry = Partial<AbiExporterConfigEntry>;
 
