@@ -10,7 +10,6 @@ const DEFAULT_CONFIG: Omit<AbiExporterConfigEntry, 'format' | 'rename'> = {
   runOnCompile: false,
   clear: false,
   flat: false,
-  tsWrapper: false,
   only: [],
   except: [],
   spacing: 2,

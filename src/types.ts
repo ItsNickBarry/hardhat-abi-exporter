@@ -3,7 +3,6 @@ export type AbiExporterConfigEntry = {
   runOnCompile: boolean;
   clear: boolean;
   flat: boolean;
-  tsWrapper: boolean;
   only: string[];
   except: string[];
   spacing: number;
