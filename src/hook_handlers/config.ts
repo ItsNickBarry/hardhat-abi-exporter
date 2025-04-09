@@ -66,12 +66,13 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
   },
 
   resolveUserConfig: async (userConfig, resolveConfigurationVariable, next) => {
-    const resolvedConfig = await next(userConfig, resolveConfigurationVariable);
-
-    const result: AbiExporterConfigEntry[] = [];
+    const abiExporter: AbiExporterConfigEntry[] = [];
 
     for (const userConfigEntry of [userConfig.abiExporter ?? []].flat()) {
-      const entry = Object.assign({}, DEFAULT_CONFIG, userConfigEntry);
+      const entry = {
+        ...DEFAULT_CONFIG,
+        ...userConfigEntry,
+      };
 
       const rename =
         entry.rename ??
@@ -82,7 +83,7 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
 
       const format = entry.format ?? (entry.pretty ? 'minimal' : 'json');
 
-      result.push({
+      abiExporter.push({
         ...entry,
         format,
         rename,
@@ -90,8 +91,8 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
     }
 
     return {
-      ...resolvedConfig,
-      abiExporter: result,
+      ...(await next(userConfig, resolveConfigurationVariable)),
+      abiExporter,
     };
   },
 });
