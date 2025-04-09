@@ -1,10 +1,24 @@
-import defaultConfig from '../config/default.js';
 import type { AbiExporterConfigEntry } from '../types.js';
 import type {
   ConfigHooks,
   HardhatUserConfigValidationError,
 } from 'hardhat/types/hooks';
 import path from 'path';
+
+const DEFAULT_CONFIG: Omit<AbiExporterConfigEntry, 'format' | 'rename'> = {
+  path: './abi',
+  runOnCompile: false,
+  clear: false,
+  flat: false,
+  tsWrapper: false,
+  only: [],
+  except: [],
+  spacing: 2,
+  pretty: false,
+  filter: () => true,
+  // `rename` is not defaulted as it may depend on `flat` option
+  // `format` is not defaulted as it may depend on `pretty` option
+};
 
 export default async (): Promise<Partial<ConfigHooks>> => ({
   validateUserConfig: async (userConfig) => {
@@ -57,7 +71,7 @@ export default async (): Promise<Partial<ConfigHooks>> => ({
     const result: AbiExporterConfigEntry[] = [];
 
     for (const userConfigEntry of [userConfig.abiExporter ?? []].flat()) {
-      const entry = Object.assign({}, defaultConfig, userConfigEntry);
+      const entry = Object.assign({}, DEFAULT_CONFIG, userConfigEntry);
 
       const rename =
         entry.rename ??
