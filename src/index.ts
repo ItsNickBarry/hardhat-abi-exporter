@@ -31,8 +31,8 @@ const plugin: HardhatPlugin = {
       .build(),
   ],
   hookHandlers: {
-    config: import.meta.resolve('./hook_handlers/config.js'),
-    solidity: import.meta.resolve('./hook_handlers/solidity.js'),
+    config: import.meta.resolve('./hooks/config.js'),
+    solidity: import.meta.resolve('./hooks/solidity.js'),
   },
   globalOptions: [
     globalOption({
