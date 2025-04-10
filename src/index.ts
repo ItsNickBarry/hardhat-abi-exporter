@@ -2,7 +2,7 @@ import pkg from '../package.json';
 import cleanTask from './tasks/clean.js';
 import clearAbiTask from './tasks/clear_abi.js';
 import exportAbiTask from './tasks/export_abi.js';
-import './type-extensions.js';
+import './type_extensions.js';
 import { globalOption } from 'hardhat/config';
 import { ArgumentType } from 'hardhat/types/arguments';
 import type { HardhatPlugin } from 'hardhat/types/plugins';
