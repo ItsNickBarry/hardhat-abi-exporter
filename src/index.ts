@@ -1,6 +1,9 @@
 import pkg from '../package.json';
+import cleanTask from './tasks/clean.js';
+import clearAbiTask from './tasks/clear_abi.js';
+import exportAbiTask from './tasks/export_abi.js';
 import './type-extensions.js';
-import { globalOption, task, overrideTask } from 'hardhat/config';
+import { globalOption } from 'hardhat/config';
 import { ArgumentType } from 'hardhat/types/arguments';
 import type { HardhatPlugin } from 'hardhat/types/plugins';
 
@@ -9,27 +12,7 @@ import type { HardhatPlugin } from 'hardhat/types/plugins';
 const plugin: HardhatPlugin = {
   id: pkg.name.split('/').pop()!,
   npmPackage: pkg.name!,
-  tasks: [
-    task('export-abi')
-      .setDescription(
-        'Extract ABIs from compilation artifacts and write to a directory',
-      )
-      .addFlag({
-        name: 'noCompile',
-        description: "Don't compile before running this task",
-      })
-      .setAction(import.meta.resolve('./actions/export_abi.js'))
-      .build(),
-
-    task('clear-abi')
-      .setDescription('Remove extracted ABIs')
-      .setAction(import.meta.resolve('./actions/clear_abi.js'))
-      .build(),
-
-    overrideTask('clean')
-      .setAction(import.meta.resolve('./actions/clean.js'))
-      .build(),
-  ],
+  tasks: [exportAbiTask, clearAbiTask, cleanTask],
   hookHandlers: {
     config: import.meta.resolve('./hooks/config.js'),
     solidity: import.meta.resolve('./hooks/solidity.js'),
