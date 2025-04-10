@@ -1,4 +1,4 @@
-import { exportAbi } from '../logic.js';
+import { exportAbi } from '../lib/export_abi.js';
 import type { SolidityHooks } from 'hardhat/types/hooks';
 
 export default async (): Promise<Partial<SolidityHooks>> => ({

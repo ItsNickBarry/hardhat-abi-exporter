@@ -1,4 +1,4 @@
-import { clearAbi } from '../logic.js';
+import { clearAbi } from '../lib/clear_abi.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 const action: NewTaskActionFunction = async (_, hre) => {
