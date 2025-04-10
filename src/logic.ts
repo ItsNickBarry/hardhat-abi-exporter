@@ -104,9 +104,9 @@ const exportAbiGroup = async (
     await context.artifacts.getAllFullyQualifiedNames(),
   ).filter((fullName) => {
     if (config.only.length && !config.only.some((m) => fullName.match(m)))
-      return;
+      return false;
     if (config.except.length && config.except.some((m) => fullName.match(m)))
-      return;
+      return false;
     return true;
   });
 
