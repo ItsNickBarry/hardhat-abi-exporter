@@ -95,19 +95,19 @@ abiExporter: [
 The included Hardhat tasks may be run manually:
 
 ```bash
-npx hardhat export-abi
-npx hardhat clear-abi
+npx hardhat abi export
+npx hardhat abi clear
 # or
-pnpm hardhat export-abi
-pnpm hardhat clear-abi
+pnpm hardhat abi export
+pnpm hardhat abi clear
 ```
 
 By default, the hardhat `compile` task is run before exporting ABIs. This behavior can be disabled with the `--no-compile` flag:
 
 ```bash
-npx hardhat export-abi --no-compile
+npx hardhat abi export --no-compile
 # or
-pnpm hardhat export-abi --no-compile
+pnpm hardhat abi export --no-compile
 ```
 
 The `path` directory will be created if it does not exist.
