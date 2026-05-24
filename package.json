@@ -55,7 +55,7 @@
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
-    "@nomicfoundation/hardhat-utils": "^3.0.0",
+    "@nomicfoundation/hardhat-utils": "^4.0.0",
     "hardhat": "^3.0.0"
   },
   "publishConfig": {
