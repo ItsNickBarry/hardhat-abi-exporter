@@ -5,7 +5,8 @@
     "resolveJsonModule": true,
     "rootDir": "src",
     "outDir": "dist",
-    "tsBuildInfoFile": ".tsbuildinfo"
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "types": ["node"]
   },
   "include": ["src"]
 }
