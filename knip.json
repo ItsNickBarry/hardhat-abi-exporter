@@ -1,3 +1,6 @@
 {
-  "ignoreDependencies": ["@solidstate/contracts"]
+  "ignoreDependencies": [
+    "@solidstate/contracts",
+    "release-it"
+  ]
 }

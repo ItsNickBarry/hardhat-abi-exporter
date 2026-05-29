@@ -1,0 +1,13 @@
+{
+  "git": {
+    "commitMessage": "v${version}",
+    "tagName": "v${version}",
+    "requireBranch": "master",
+    "requireCommits": true
+  },
+  "hooks": {
+    "before:init": [
+      "pnpm build"
+    ]
+  }
+}
