@@ -1,6 +1,6 @@
 {
   "name": "@solidstate/hardhat-abi-exporter",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Export Ethereum smart contract ABIs on compilation",
   "keywords": [
     "hardhat",
