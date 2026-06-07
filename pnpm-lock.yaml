@@ -12,8 +12,8 @@ importers:
         specifier: ^5.8.0
         version: 5.8.0
       '@solidstate/hardhat-solidstate-utils':
-        specifier: ^1.0.1
-        version: 1.0.1(@nomicfoundation/hardhat-utils@4.1.3)(hardhat@3.7.0)
+        specifier: ^1.0.2
+        version: 1.0.2(@nomicfoundation/hardhat-utils@4.1.3)(hardhat@3.8.0)
     devDependencies:
       '@nomicfoundation/hardhat-utils':
         specifier: ^4.1.3
@@ -28,20 +28,20 @@ importers:
         specifier: ^22.0.5
         version: 22.0.5
       '@types/node':
-        specifier: ^25.9.1
-        version: 25.9.1
+        specifier: ^25.9.2
+        version: 25.9.2
       exec-staged:
         specifier: ^0.2.3
         version: 0.2.3(typescript@6.0.3)
       hardhat:
-        specifier: ^3.7.0
-        version: 3.7.0
+        specifier: ^3.8.0
+        version: 3.8.0
       husky:
         specifier: ^9.1.7
         version: 9.1.7
       knip-exec-staged:
         specifier: ^5.63.1
-        version: 5.63.1(@types/node@25.9.1)(typescript@6.0.3)
+        version: 5.63.1(@types/node@25.9.2)(typescript@6.0.3)
       prettier:
         specifier: ^3.8.3
         version: 3.8.3
@@ -52,8 +52,8 @@ importers:
         specifier: ^2.3.1
         version: 2.3.1(prettier@3.8.3)
       release-it:
-        specifier: ^20.0.0
-        version: 20.0.1(@types/node@25.9.1)
+        specifier: ^20.2.0
+        version: 20.2.0(@types/node@25.9.2)
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
@@ -494,40 +494,40 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@nomicfoundation/edr-darwin-arm64@0.12.0-next.33':
-    resolution: {integrity: sha512-CEaDltNmTRLyJPMwSVHNtYuXthJ3vm44SkRAQLiDYuhLbbzxAWmkCdnvKyo5QPmaRKxBGFwtahCJz2biBM43Ig==}
+  '@nomicfoundation/edr-darwin-arm64@0.12.0':
+    resolution: {integrity: sha512-z/8jU2dgZjhY2iLtJ1DGi3t/N2xbmjgok9K3R0f7+UZxSSJ5LbXCFn5So33fVh47RzGzOqEB+Yk4SdyUq2odqw==}
     engines: {node: '>= 20'}
 
-  '@nomicfoundation/edr-darwin-x64@0.12.0-next.33':
-    resolution: {integrity: sha512-3V5XgzKLXFO+Cw0sWoO3ug2hHYL3VThskA1Iu98EPO44P4w0S6tW3bdsIH2OJPD+zi5RIHjg8H6HDZ+xeipXAA==}
+  '@nomicfoundation/edr-darwin-x64@0.12.0':
+    resolution: {integrity: sha512-F9RrA60mEtxfKFiGB7QsydoUwzz4ckoustVMFegcIKmjRxRVb1qrRYiAc9oQiKMdJWIZKDYsOpHABJ9Um4U/+g==}
     engines: {node: '>= 20'}
 
-  '@nomicfoundation/edr-linux-arm64-gnu@0.12.0-next.33':
-    resolution: {integrity: sha512-5+1wkqlUEem9yhKX2AwSINlaiNk6NYfm4WbvaeEAmDZivLEDhW56BNe5+fuue1B4Fa50OONaimw9wEe3d1xYNA==}
+  '@nomicfoundation/edr-linux-arm64-gnu@0.12.0':
+    resolution: {integrity: sha512-EtGRZbh1d4BF/1SIG5rVrKQ9R0nuNvPgCYiU5fCmY3bojAFOUf4m7I2ezIhim1vb1QBlXmFaoFNPZFIdMltBGA==}
     engines: {node: '>= 20'}
 
-  '@nomicfoundation/edr-linux-arm64-musl@0.12.0-next.33':
-    resolution: {integrity: sha512-/Zr+9HxJfOSjtSTr3PkErSrGkP40j5op2koY1vVwsC1CqRiNnxKfXpwa6WH8zEUzIkEAGLq5ZwjD251irrf1uA==}
+  '@nomicfoundation/edr-linux-arm64-musl@0.12.0':
+    resolution: {integrity: sha512-5gWtmKuVfftcO1OUbF/3KTPVSR6klC7RI9Z96G5lDO325jQhYqOG+hkvDPKtM+nbYf+A0veOndghqbUgAX+E4A==}
     engines: {node: '>= 20'}
 
-  '@nomicfoundation/edr-linux-x64-gnu@0.12.0-next.33':
-    resolution: {integrity: sha512-KrK/eUlVJo6FdHOBx9kXnzq8g+j8A2218ZVoVI/TJYgZFRXkhUI0tBeDmmdmfcRtk8J4Hw5QGRJVIXA2TAWUZQ==}
+  '@nomicfoundation/edr-linux-x64-gnu@0.12.0':
+    resolution: {integrity: sha512-0Ty0fov3/NFL0dIshNTGCi06sjVzsgB7k+n9LAoj+57OsqP9X4e3P5XwjlTSNuyYshv8JdYMHqY+1ZIZ8SHsyQ==}
     engines: {node: '>= 20'}
 
-  '@nomicfoundation/edr-linux-x64-musl@0.12.0-next.33':
-    resolution: {integrity: sha512-o6Kmj4YKdRNZ6U4wn2hd0wyh3r2Pu0/RjBBiqs+zeeRopI/san7H4n6kIxe+8PbqlAcC48MI+oWLSNwnkqONwg==}
+  '@nomicfoundation/edr-linux-x64-musl@0.12.0':
+    resolution: {integrity: sha512-e5du3t17vdB3tAY0kl3Ip1cu8CcwiaeJeUC4mMPmL91HDM//AQehqpyIP8upam4AeIl1H6FA3xIUIDA6VOZSxg==}
     engines: {node: '>= 20'}
 
-  '@nomicfoundation/edr-win32-x64-msvc@0.12.0-next.33':
-    resolution: {integrity: sha512-PPiOTOIShzhK7+i+QMDz6/0m2JcEHBMqCthLj8dru2RFhXT1Jory35u12awaVS2fU91flBg7zz7Qju4v8hrnLw==}
+  '@nomicfoundation/edr-win32-x64-msvc@0.12.0':
+    resolution: {integrity: sha512-wD8YxhFdlY2IXb7uVrSF7VHartFKXEYeiE6ISJOV10Y7YOUE1IzfwB0QOdKtLUepwB+HXis+KRy4h22dWEbT0A==}
     engines: {node: '>= 20'}
 
-  '@nomicfoundation/edr@0.12.0-next.33':
-    resolution: {integrity: sha512-+jwZcGgUKVUykqP+hbVEXClpqZbIdo/MztP/6Xp8DDmB8c+WxJvwCDmPrnfkV+s3NNj2lSDCyOZoPw9/UNcmXw==}
+  '@nomicfoundation/edr@0.12.0':
+    resolution: {integrity: sha512-dVfrB70L//W05s+s+/c6n52Fct+kVKoXYT+/CKL9ZsNdq/yLr5LaPNsvpVkQHP1JdAiOrubUzA/MwZIk4gRxAQ==}
     engines: {node: '>= 20'}
 
-  '@nomicfoundation/hardhat-errors@3.0.14':
-    resolution: {integrity: sha512-IlBQlJZmKLaGjhr8NX8wI1vjhOaquTxj+Boq0oOMGAVVkpvtaDtLsFu2tBTIjnP8TgazwR4uNFHsNlsDvsd76A==}
+  '@nomicfoundation/hardhat-errors@3.0.15':
+    resolution: {integrity: sha512-h3r32RzpmWEcB2bz6aqZKlKOP8tzyvHLkPFleFFqwVvjO5AUfSoMUxm8OjaTuNgPF35mXPYRISh+kNCwmsKVOA==}
 
   '@nomicfoundation/hardhat-utils@4.1.3':
     resolution: {integrity: sha512-SYDKX6SCdzs/5mC/S1D+AjNSQJrhxevHTI24TIouIjO0Xs0dB0+S4cYCqHWOgvnHLshrcrJ7XGUjS7+apWa1Tw==}
@@ -755,11 +755,11 @@ packages:
   '@solidstate/contracts@0.0.61':
     resolution: {integrity: sha512-kQaDcEPOFbUfr7zubrwsk+DB/otV+45MXig2K312+WdUyspH2frMphGSrdlvhnpAmh/WFv/JlQW8fcWFGCNu0w==}
 
-  '@solidstate/hardhat-solidstate-utils@1.0.1':
-    resolution: {integrity: sha512-qY+m9muEwaBzlq2jd5aALXMLHR079LnATqBDE7q31qGu5Mu2J6bH3G1MHfBREf9EjWd+N9v9nH1ZVbqwJS1p+A==}
+  '@solidstate/hardhat-solidstate-utils@1.0.2':
+    resolution: {integrity: sha512-ss9l3Wfu6i9Le0pknfotlC284VV2+FYHT90wEIIgqE4/8U/vXJCtCrYFS0v2jC1xH8voK5OORA8hnhjrk5F0GA==}
     peerDependencies:
       '@nomicfoundation/hardhat-utils': ^4.0.0
-      hardhat: ^3.0.0
+      hardhat: ^3.7.0
 
   '@streamparser/json-node@0.0.22':
     resolution: {integrity: sha512-sJT2ptNRwqB1lIsQrQlCoWk5rF4tif9wDh+7yluAGijJamAhrHGYpFB/Zg3hJeceoZypi74ftXk8DHzwYpbZSg==}
@@ -792,8 +792,8 @@ packages:
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
 
-  '@types/node@25.9.1':
-    resolution: {integrity: sha512-xfrlY7UD5rMJk3ZVJP8BNzS28J36YJg+xp+LPXV1TdWxr8uMH5A860QNxYDGQe/ylDSgjxE52Q9VnO7p75tJxg==}
+  '@types/node@25.9.2':
+    resolution: {integrity: sha512-G05zqtJhcDLb8uslf5EjCxXg9G1KQxiV8OS0R26IC//Eoyitzqe8z37I7cqvnZlrlSfgocQRfSn/AHBZJJFyGw==}
 
   '@types/parse-path@7.1.0':
     resolution: {integrity: sha512-EULJ8LApcVEPbrfND0cRQqutIOdiIgJ1Mgrhpy755r14xMohPTEpkV/k28SJvuOs9bHRFW8x+KeDAEPiGQPB9Q==}
@@ -1229,8 +1229,8 @@ packages:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
     engines: {node: '>= 0.4'}
 
-  hardhat@3.7.0:
-    resolution: {integrity: sha512-dbz5wbN7sTkTjUicCX1qSAwrBQBklEl+j5gjiykzQa9JZx/RZ9OtlY9SvOOEV/2IrlgKhUqy30nGCU9MtOObSw==}
+  hardhat@3.8.0:
+    resolution: {integrity: sha512-luWXeLA4dcEoj3QrJhmnf+kRyGn9SrrUN9zf2KlrysXt9U3VIhLYZ8vNIA8HP4fZuvrlKMXHRdLDu0+9Gnmrkg==}
     hasBin: true
 
   has-symbols@1.1.0:
@@ -1687,8 +1687,8 @@ packages:
     resolution: {integrity: sha512-9u/XQ1pvrQtYyMpZe7DXKv2p5CNvyVwzUB6uhLAnQwHMSgKMBR62lc7AHljaeteeHXn11XTAaLLUVZYVZyuRBQ==}
     engines: {node: '>= 20.19.0'}
 
-  release-it@20.0.1:
-    resolution: {integrity: sha512-3ob1P1aV+3+ZOoR7qgobfYyMlQbpitzOK09iKTtQ145vFi4rWxlRTgHwtVl8kokCvqiF/cJPxRlfcmZmF5aDJA==}
+  release-it@20.2.0:
+    resolution: {integrity: sha512-9ZTk9ripgctC6VTqH+P54KuboK29A5mG/I3tFfS5hnoAnkwtFFAMHRidYz93ylrW995vF50Ny1aOGJiyRmEN7w==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.0.0}
     hasBin: true
 
@@ -2188,122 +2188,122 @@ snapshots:
 
   '@inquirer/ansi@2.0.6': {}
 
-  '@inquirer/checkbox@5.2.0(@types/node@25.9.1)':
+  '@inquirer/checkbox@5.2.0(@types/node@25.9.2)':
     dependencies:
       '@inquirer/ansi': 2.0.6
-      '@inquirer/core': 11.2.0(@types/node@25.9.1)
+      '@inquirer/core': 11.2.0(@types/node@25.9.2)
       '@inquirer/figures': 2.0.6
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
     optionalDependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
 
-  '@inquirer/confirm@6.1.0(@types/node@25.9.1)':
+  '@inquirer/confirm@6.1.0(@types/node@25.9.2)':
     dependencies:
-      '@inquirer/core': 11.2.0(@types/node@25.9.1)
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
+      '@inquirer/core': 11.2.0(@types/node@25.9.2)
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
     optionalDependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
 
-  '@inquirer/core@11.2.0(@types/node@25.9.1)':
+  '@inquirer/core@11.2.0(@types/node@25.9.2)':
     dependencies:
       '@inquirer/ansi': 2.0.6
       '@inquirer/figures': 2.0.6
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
       cli-width: 4.1.0
       fast-wrap-ansi: 0.2.2
       mute-stream: 4.0.0
       signal-exit: 4.1.0
     optionalDependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
 
-  '@inquirer/editor@5.2.0(@types/node@25.9.1)':
+  '@inquirer/editor@5.2.0(@types/node@25.9.2)':
     dependencies:
-      '@inquirer/core': 11.2.0(@types/node@25.9.1)
-      '@inquirer/external-editor': 3.0.1(@types/node@25.9.1)
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
+      '@inquirer/core': 11.2.0(@types/node@25.9.2)
+      '@inquirer/external-editor': 3.0.1(@types/node@25.9.2)
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
     optionalDependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
 
-  '@inquirer/expand@5.1.0(@types/node@25.9.1)':
+  '@inquirer/expand@5.1.0(@types/node@25.9.2)':
     dependencies:
-      '@inquirer/core': 11.2.0(@types/node@25.9.1)
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
+      '@inquirer/core': 11.2.0(@types/node@25.9.2)
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
     optionalDependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
 
-  '@inquirer/external-editor@3.0.1(@types/node@25.9.1)':
+  '@inquirer/external-editor@3.0.1(@types/node@25.9.2)':
     dependencies:
       chardet: 2.1.1
       iconv-lite: 0.7.2
     optionalDependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
 
   '@inquirer/figures@2.0.6': {}
 
-  '@inquirer/input@5.1.0(@types/node@25.9.1)':
+  '@inquirer/input@5.1.0(@types/node@25.9.2)':
     dependencies:
-      '@inquirer/core': 11.2.0(@types/node@25.9.1)
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
+      '@inquirer/core': 11.2.0(@types/node@25.9.2)
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
     optionalDependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
 
-  '@inquirer/number@4.1.0(@types/node@25.9.1)':
+  '@inquirer/number@4.1.0(@types/node@25.9.2)':
     dependencies:
-      '@inquirer/core': 11.2.0(@types/node@25.9.1)
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
+      '@inquirer/core': 11.2.0(@types/node@25.9.2)
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
     optionalDependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
 
-  '@inquirer/password@5.1.0(@types/node@25.9.1)':
-    dependencies:
-      '@inquirer/ansi': 2.0.6
-      '@inquirer/core': 11.2.0(@types/node@25.9.1)
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
-    optionalDependencies:
-      '@types/node': 25.9.1
-
-  '@inquirer/prompts@8.4.2(@types/node@25.9.1)':
-    dependencies:
-      '@inquirer/checkbox': 5.2.0(@types/node@25.9.1)
-      '@inquirer/confirm': 6.1.0(@types/node@25.9.1)
-      '@inquirer/editor': 5.2.0(@types/node@25.9.1)
-      '@inquirer/expand': 5.1.0(@types/node@25.9.1)
-      '@inquirer/input': 5.1.0(@types/node@25.9.1)
-      '@inquirer/number': 4.1.0(@types/node@25.9.1)
-      '@inquirer/password': 5.1.0(@types/node@25.9.1)
-      '@inquirer/rawlist': 5.3.0(@types/node@25.9.1)
-      '@inquirer/search': 4.2.0(@types/node@25.9.1)
-      '@inquirer/select': 5.2.0(@types/node@25.9.1)
-    optionalDependencies:
-      '@types/node': 25.9.1
-
-  '@inquirer/rawlist@5.3.0(@types/node@25.9.1)':
-    dependencies:
-      '@inquirer/core': 11.2.0(@types/node@25.9.1)
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
-    optionalDependencies:
-      '@types/node': 25.9.1
-
-  '@inquirer/search@4.2.0(@types/node@25.9.1)':
-    dependencies:
-      '@inquirer/core': 11.2.0(@types/node@25.9.1)
-      '@inquirer/figures': 2.0.6
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
-    optionalDependencies:
-      '@types/node': 25.9.1
-
-  '@inquirer/select@5.2.0(@types/node@25.9.1)':
+  '@inquirer/password@5.1.0(@types/node@25.9.2)':
     dependencies:
       '@inquirer/ansi': 2.0.6
-      '@inquirer/core': 11.2.0(@types/node@25.9.1)
-      '@inquirer/figures': 2.0.6
-      '@inquirer/type': 4.0.6(@types/node@25.9.1)
+      '@inquirer/core': 11.2.0(@types/node@25.9.2)
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
     optionalDependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
 
-  '@inquirer/type@4.0.6(@types/node@25.9.1)':
+  '@inquirer/prompts@8.4.2(@types/node@25.9.2)':
+    dependencies:
+      '@inquirer/checkbox': 5.2.0(@types/node@25.9.2)
+      '@inquirer/confirm': 6.1.0(@types/node@25.9.2)
+      '@inquirer/editor': 5.2.0(@types/node@25.9.2)
+      '@inquirer/expand': 5.1.0(@types/node@25.9.2)
+      '@inquirer/input': 5.1.0(@types/node@25.9.2)
+      '@inquirer/number': 4.1.0(@types/node@25.9.2)
+      '@inquirer/password': 5.1.0(@types/node@25.9.2)
+      '@inquirer/rawlist': 5.3.0(@types/node@25.9.2)
+      '@inquirer/search': 4.2.0(@types/node@25.9.2)
+      '@inquirer/select': 5.2.0(@types/node@25.9.2)
     optionalDependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
+
+  '@inquirer/rawlist@5.3.0(@types/node@25.9.2)':
+    dependencies:
+      '@inquirer/core': 11.2.0(@types/node@25.9.2)
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
+    optionalDependencies:
+      '@types/node': 25.9.2
+
+  '@inquirer/search@4.2.0(@types/node@25.9.2)':
+    dependencies:
+      '@inquirer/core': 11.2.0(@types/node@25.9.2)
+      '@inquirer/figures': 2.0.6
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
+    optionalDependencies:
+      '@types/node': 25.9.2
+
+  '@inquirer/select@5.2.0(@types/node@25.9.2)':
+    dependencies:
+      '@inquirer/ansi': 2.0.6
+      '@inquirer/core': 11.2.0(@types/node@25.9.2)
+      '@inquirer/figures': 2.0.6
+      '@inquirer/type': 4.0.6(@types/node@25.9.2)
+    optionalDependencies:
+      '@types/node': 25.9.2
+
+  '@inquirer/type@4.0.6(@types/node@25.9.2)':
+    optionalDependencies:
+      '@types/node': 25.9.2
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -2350,31 +2350,31 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@nomicfoundation/edr-darwin-arm64@0.12.0-next.33': {}
+  '@nomicfoundation/edr-darwin-arm64@0.12.0': {}
 
-  '@nomicfoundation/edr-darwin-x64@0.12.0-next.33': {}
+  '@nomicfoundation/edr-darwin-x64@0.12.0': {}
 
-  '@nomicfoundation/edr-linux-arm64-gnu@0.12.0-next.33': {}
+  '@nomicfoundation/edr-linux-arm64-gnu@0.12.0': {}
 
-  '@nomicfoundation/edr-linux-arm64-musl@0.12.0-next.33': {}
+  '@nomicfoundation/edr-linux-arm64-musl@0.12.0': {}
 
-  '@nomicfoundation/edr-linux-x64-gnu@0.12.0-next.33': {}
+  '@nomicfoundation/edr-linux-x64-gnu@0.12.0': {}
 
-  '@nomicfoundation/edr-linux-x64-musl@0.12.0-next.33': {}
+  '@nomicfoundation/edr-linux-x64-musl@0.12.0': {}
 
-  '@nomicfoundation/edr-win32-x64-msvc@0.12.0-next.33': {}
+  '@nomicfoundation/edr-win32-x64-msvc@0.12.0': {}
 
-  '@nomicfoundation/edr@0.12.0-next.33':
+  '@nomicfoundation/edr@0.12.0':
     dependencies:
-      '@nomicfoundation/edr-darwin-arm64': 0.12.0-next.33
-      '@nomicfoundation/edr-darwin-x64': 0.12.0-next.33
-      '@nomicfoundation/edr-linux-arm64-gnu': 0.12.0-next.33
-      '@nomicfoundation/edr-linux-arm64-musl': 0.12.0-next.33
-      '@nomicfoundation/edr-linux-x64-gnu': 0.12.0-next.33
-      '@nomicfoundation/edr-linux-x64-musl': 0.12.0-next.33
-      '@nomicfoundation/edr-win32-x64-msvc': 0.12.0-next.33
+      '@nomicfoundation/edr-darwin-arm64': 0.12.0
+      '@nomicfoundation/edr-darwin-x64': 0.12.0
+      '@nomicfoundation/edr-linux-arm64-gnu': 0.12.0
+      '@nomicfoundation/edr-linux-arm64-musl': 0.12.0
+      '@nomicfoundation/edr-linux-x64-gnu': 0.12.0
+      '@nomicfoundation/edr-linux-x64-musl': 0.12.0
+      '@nomicfoundation/edr-win32-x64-msvc': 0.12.0
 
-  '@nomicfoundation/hardhat-errors@3.0.14':
+  '@nomicfoundation/hardhat-errors@3.0.15':
     dependencies:
       '@nomicfoundation/hardhat-utils': 4.1.3
 
@@ -2392,7 +2392,7 @@ snapshots:
 
   '@nomicfoundation/hardhat-zod-utils@3.0.5(zod@3.25.7)':
     dependencies:
-      '@nomicfoundation/hardhat-errors': 3.0.14
+      '@nomicfoundation/hardhat-errors': 3.0.15
       '@nomicfoundation/hardhat-utils': 4.1.3
       zod: 3.25.7
 
@@ -2580,14 +2580,14 @@ snapshots:
 
   '@solidstate/contracts@0.0.61': {}
 
-  '@solidstate/hardhat-solidstate-utils@1.0.1(@nomicfoundation/hardhat-utils@4.1.3)(hardhat@3.7.0)':
+  '@solidstate/hardhat-solidstate-utils@1.0.2(@nomicfoundation/hardhat-utils@4.1.3)(hardhat@3.8.0)':
     dependencies:
       '@nomicfoundation/hardhat-utils': 4.1.3
       axios: 1.16.1
       chalk: 5.6.2
       cli-table3: 0.6.5
       env-paths: 4.0.0
-      hardhat: 3.7.0
+      hardhat: 3.8.0
       semver: 7.8.1
     transitivePeerDependencies:
       - debug
@@ -2622,7 +2622,7 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@types/node@25.9.1':
+  '@types/node@25.9.2':
     dependencies:
       undici-types: 7.24.6
 
@@ -3105,10 +3105,10 @@ snapshots:
 
   gopd@1.2.0: {}
 
-  hardhat@3.7.0:
+  hardhat@3.8.0:
     dependencies:
-      '@nomicfoundation/edr': 0.12.0-next.33
-      '@nomicfoundation/hardhat-errors': 3.0.14
+      '@nomicfoundation/edr': 0.12.0
+      '@nomicfoundation/hardhat-errors': 3.0.15
       '@nomicfoundation/hardhat-utils': 4.1.3
       '@nomicfoundation/hardhat-vendored': 3.0.4
       '@nomicfoundation/hardhat-zod-utils': 3.0.5(zod@3.25.7)
@@ -3258,10 +3258,10 @@ snapshots:
 
   json-with-bigint@3.5.8: {}
 
-  knip-exec-staged@5.63.1(@types/node@25.9.1)(typescript@6.0.3):
+  knip-exec-staged@5.63.1(@types/node@25.9.2)(typescript@6.0.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
       fast-glob: 3.3.3
       formatly: 0.3.0
       jiti: 2.5.1
@@ -3567,9 +3567,9 @@ snapshots:
 
   readdirp@5.0.0: {}
 
-  release-it@20.0.1(@types/node@25.9.1):
+  release-it@20.2.0(@types/node@25.9.2):
     dependencies:
-      '@inquirer/prompts': 8.4.2(@types/node@25.9.1)
+      '@inquirer/prompts': 8.4.2(@types/node@25.9.2)
       '@octokit/rest': 22.0.1
       '@phun-ky/typeof': 2.0.3
       async-retry: 1.3.3
