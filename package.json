@@ -57,7 +57,7 @@
   },
   "peerDependencies": {
     "@nomicfoundation/hardhat-utils": "^4.0.0",
-    "hardhat": "^3.7.0"
+    "hardhat": "^3.8.0"
   },
   "publishConfig": {
     "access": "public"
