@@ -1,4 +1,4 @@
-import { AbiExporterConfig, AbiExporterUserConfig } from './types.js';
+import type { AbiExporterConfig, AbiExporterUserConfig } from './types.js';
 
 declare module 'hardhat/types/config' {
   interface HardhatConfig {
